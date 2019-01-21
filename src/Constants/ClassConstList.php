@@ -1,0 +1,158 @@
+<?php declare(strict_types=1);
+
+namespace Stellar\Constants;
+
+use Stellar\Common\Contracts\ArrayableInterface;
+use Stellar\Exceptions\Common\InvalidClass;
+use Stellar\Exceptions\Common\UndeclaredClass;
+use Stellar\Exceptions\Severity;
+
+/**
+ * @see \UnitTests\Constants\ClassConstListTests
+ */
+class ClassConstList implements ArrayableInterface, \Countable
+{
+    /**
+     * Name of the class who's constants are listed.
+     *
+     * @var string
+     */
+    protected $_class;
+
+    /**
+     * An array with the names of the constants and their associated values.
+     *
+     * [ CONST_NAME => value ]
+     *
+     * @var array
+     */
+    protected $_list = [];
+
+    /**
+     * @var string[]
+     */
+    protected $_consts;
+
+    /**
+     * @throws UndeclaredClass
+     */
+    public function __construct(string $class)
+    {
+        try {
+            $this->_class = $class;
+            $this->_list = (new \ReflectionClass($class))->getConstants();
+            $this->_consts = \array_keys($this->_list);
+
+            foreach ($this->_consts as $i => $const) {
+                $this->_consts[ $i ] = $class . '::' . $const;
+            }
+        }
+        catch (\ReflectionException $previous) {
+            throw UndeclaredClass::factory($class)
+                ->withPrevious($previous)
+                ->withSeverity(Severity::WARNING())
+                ->create();
+        }
+    }
+
+    /**
+     * Get the FQCN of the owner class.
+     */
+    public function getOwnerClass() : string
+    {
+        return $this->_class;
+    }
+
+    /**
+     * Get an array with constant names and their associated (custom) values.
+     */
+    public function getList() : array
+    {
+        return $this->_list;
+    }
+
+    /**
+     * Determines if the argument is either a valid name or valid value of one of the constants.
+     *
+     * @param mixed $nameOrValue
+     */
+    public function has($nameOrValue) : bool
+    {
+        return $this->hasName((string) $nameOrValue) || $this->hasValue($nameOrValue);
+    }
+
+    /**
+     * Determines if the argument is the name of one of the constants.
+     */
+    public function hasName(?string $name) : bool
+    {
+        return ($name && \array_key_exists($name, $this->_list))
+               || \in_array((string) $name, $this->_consts, true);
+    }
+
+    /**
+     * Determines if the argument is the exact value of one of the constants.
+     *
+     * @param mixed $value
+     */
+    public function hasValue($value) : bool
+    {
+        return \in_array($value, $this->_list, true);
+    }
+
+    /**
+     * Get the name of the const that's associated with the given value.
+     *
+     * @param mixed $value
+     */
+    public function nameOf($value) : ?string
+    {
+        return \array_search($value, $this->_list, true) ?: null;
+    }
+
+    /**
+     * Gets the constant name (including FQCN) if the value is defined.
+     *
+     * @param mixed $value
+     */
+    public function constOf($value) : ?string
+    {
+        $name = $this->nameOf($value);
+
+        return $name ? $this->_class . '::' . $name : null;
+    }
+
+    /**
+     * @param mixed $var
+     * @return mixed|null
+     * @throws InvalidClass
+     */
+    public function valueOf($var)
+    {
+        $result = null;
+        if (\is_string($var)) {
+            [ $class, $var ] = ClassConst::split($var) ?? [ null, null ];
+            if ($class !== $this->_class) {
+                throw InvalidClass::factory($this->_class, $class ?? $var)->create();
+            }
+        }
+
+        return $var ? ($this->_list[ $var ] ?? null) : null;
+    }
+
+    /**
+     * Returns the number of defined constants within the owner class.
+     */
+    public function count() : int
+    {
+        return \count($this->_list);
+    }
+
+    /**
+     * Get the defined constants (including FQCN) and their associated values of the owner class.
+     */
+    public function toArray() : array
+    {
+        return \array_combine($this->_consts, $this->_list);
+    }
+}

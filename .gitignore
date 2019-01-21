@@ -1,0 +1,6 @@
+/.idea
+/libraries/*/src/*
+/libraries/*/tests/*
+/results
+/vendor
+*.log

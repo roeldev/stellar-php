@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="tests/autoload.php"
+         printerClass="Codedungeon\PHPUnitPrettyResultPrinter\Printer"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false">
+  <testsuites>
+    <testsuite name="Unit">
+      <directory suffix="Tests.php">./tests/unit/</directory>
+      <directory suffix="Tests.php">./tests/unit/Common/</directory>
+      <directory suffix="Tests.php">./tests/unit/Constants/</directory>
+      <directory suffix="Tests.php">./tests/unit/Container/</directory>
+      <directory suffix="Tests.php">./tests/unit/Encoding/</directory>
+      <directory suffix="Tests.php">./tests/unit/Enum/</directory>
+      <directory suffix="Tests.php">./tests/unit/Exceptions/</directory>
+      <directory suffix="Tests.php">./tests/unit/Limitations/</directory>
+      <directory suffix="Tests.php">./tests/unit/Support/</directory>
+      <directory suffix="PrototypingTests.php">./tests/unit/</directory>
+    </testsuite>
+  </testsuites>
+
+  <filter>
+    <whitelist processUncoveredFilesFromWhitelist="true">
+      <directory suffix=".php">./src</directory>
+    </whitelist>
+  </filter>
+
+  <listeners>
+    <listener class="NunoMaduro\Collision\Adapters\Phpunit\Listener"/>
+  </listeners>
+
+  <!--<logging>-->
+    <!--<log type="coverage-html"-->
+         <!--target="./results/coverage/html"-->
+         <!--charset="UTF-8"-->
+         <!--highlight="true"-->
+         <!--lowUpperBound="60"-->
+         <!--highLowerBound="90"/>-->
+  <!--</logging>-->
+</phpunit>

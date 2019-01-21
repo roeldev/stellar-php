@@ -1,0 +1,2 @@
+#!/bin/sh
+cmd.exe /c "%cd%\bin\pre-commit.bat"

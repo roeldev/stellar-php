@@ -1,0 +1,41 @@
+version: '3.4'
+
+services:
+  php7.1:
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile
+      args:
+        PHP_VERSION: 7.1.27
+        COMPOSER_JSON: composer-php7.1.json
+    image: stellar/php:7.1.27
+    container_name: stellar-php7.1
+    volumes:
+      - ./docker/.composer/7.1/:/root/.composer/
+      - ./:/project
+
+  php7.2:
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile
+      args:
+        PHP_VERSION: 7.2.16
+        COMPOSER_JSON: composer-php7.2.json
+    image: stellar/php:7.2.16
+    container_name: stellar-php7.2
+    volumes:
+      - ./docker/.composer/7.2/:/root/.composer/
+      - ./:/project
+
+  php7.3:
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile
+      args:
+        PHP_VERSION: 7.3.3
+        COMPOSER_JSON: composer-php7.3.json
+    image: stellar/php:7.3.3
+    container_name: stellar-php7.3
+    volumes:
+      - ./docker/.composer/7.3/:/root/.composer/
+      - ./:/project

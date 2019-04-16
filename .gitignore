@@ -1,3 +1,4 @@
+/.composer-cache
 /.idea
 /libraries/*/src/*
 /libraries/*/tests/*

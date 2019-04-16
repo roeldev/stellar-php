@@ -1,0 +1,49 @@
+{
+  "name": "stellar/stellar",
+  "type": "library",
+  "description": "Stellar PHP library",
+  "license": "GPL-2.0+",
+  "homepage": "https://github.com/stellar-php/stellar",
+  "authors": [
+    {
+      "name": "Roel Schut",
+      "homepage": "https://roelschut.nl"
+    }
+  ],
+  "keywords": [
+    "stellar",
+    "library"
+  ],
+  "require": {
+    "php": ">=7.1.0",
+    "ext-curl": "*",
+    "psr/container": "^1.0",
+    "psr/http-message": "^1.0",
+    "psr/log": "^1.0",
+    "psr/http-factory": "^1.0"
+  },
+  "require-dev": {
+    "codedungeon/phpunit-result-printer": "^0.19",
+    "fzaninotto/faker": "^1.8",
+    "monolog/monolog": "^1.23",
+    "nunomaduro/collision": "^2",
+    "phpunit/phpunit": "^7.3",
+    "roeldev/phpcs-ruleset": "^1.0.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Stellar\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "UnitTests\\": "tests/unit/"
+    }
+  },
+  "scripts": {
+    "test": "php ./vendor/bin/phpunit --bootstrap ./tests/autoload.php",
+    "analyse": "phpstan analyse --level=7 --no-progress ./src/ ./tests/",
+    "check-style": "phpcs -s --standard=./vendor/roeldev/phpcs-ruleset/phpcs-ruleset.xml --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 ./src/",
+    "fix-style": "phpcbf --standard=./vendor/roeldev/phpcs-ruleset/phpcs-ruleset.xml --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 ./src/ ./tests/"
+  }
+}

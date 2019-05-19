@@ -1,7 +1,7 @@
 {
   "name": "stellar-php/lib-{{LIBRARY}}",
   "type": "library",
-  "description": "",
+  "description": "{{package.description}}",
   "license": "GPL-2.0+",
   "homepage": "https://github.com/stellar-php/lib-{{LIBRARY}}",
   "authors": [

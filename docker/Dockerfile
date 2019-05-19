@@ -23,6 +23,12 @@ RUN set -x && \
 FROM php:${PHP_VERSION}-cli-alpine
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV ENV="/etc/motd"
+
+COPY docker/motd /etc/motd.d/
+COPY docker/motd.sh /etc/motd
+COPY docker/php/php.ini /usr/local/etc/php/php.ini
+COPY docker/php/conf.d/*.ini /usr/local/etc/php/conf.d/
 COPY --from=composer-installer /tmp/composer-installer.php /tmp/composer-installer.php
 
 RUN set -x && \

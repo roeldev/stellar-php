@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Stellar\Common\Dummy;
 use Stellar\Events\EventDispatcher;
 use Stellar\Exceptions\Common\InvalidType;
-use Stellar\Support\Identify;
+use Stellar\Common\Identify;
 
 /**
  * @coversDefaultClass \Stellar\Events\EventDispatcher

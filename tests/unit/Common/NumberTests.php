@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace UnitTests\Support;
+namespace UnitTests\Common;
 
 use PHPUnit\Framework\TestCase;
-use Stellar\Support\Num;
+use Stellar\Common\Num;
 
 /**
- * @coversDefaultClass \Stellar\Support\Num
+ * @coversDefaultClass \Stellar\Common\Num
  */
 class NumberTests extends TestCase
 {

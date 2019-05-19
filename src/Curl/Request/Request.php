@@ -15,8 +15,8 @@ use Stellar\Exceptions\Common\InvalidClass;
 use Stellar\Exceptions\Common\InvalidType;
 use Stellar\Factory\Factory;
 use Stellar\Http\Headers\HeaderLines;
-use Stellar\Support\Arr;
-use Stellar\Support\Type;
+use Stellar\Common\Arr;
+use Stellar\Common\Type;
 
 class Request implements CurlResourceInterface, OptionableInterface, StringableInterface
 {

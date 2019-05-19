@@ -4,7 +4,7 @@ namespace Stellar\Factory;
 
 use Stellar\Common\Types\StaticClass;
 use Stellar\Factory\Exceptions\ConstructionFailure;
-use Stellar\Support\Cls;
+use Stellar\Common\Cls;
 
 /**
  * @see \UnitTests\Factory\FactoryTests

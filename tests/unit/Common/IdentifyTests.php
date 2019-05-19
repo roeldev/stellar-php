@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace UnitTests\Support;
+namespace UnitTests\Common;
 
 use PHPUnit\Framework\TestCase;
 use Stellar\Common\Dummy;
-use Stellar\Support\Identify;
+use Stellar\Common\Identify;
 
 /**
- * @coversDefaultClass \Stellar\Support\CallableFn
+ * @coversDefaultClass \Stellar\Common\CallableFn
  */
 class IdentifyTests extends TestCase
 {

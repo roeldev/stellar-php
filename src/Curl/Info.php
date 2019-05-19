@@ -4,7 +4,7 @@ namespace Stellar\Curl;
 
 use Stellar\Common\Contracts\ArrayableInterface;
 use Stellar\Exceptions\Common\InvalidType;
-use Stellar\Support\Type;
+use Stellar\Common\Type;
 
 class Info implements ArrayableInterface
 {

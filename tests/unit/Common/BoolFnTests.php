@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace UnitTests\Support;
+namespace UnitTests\Common;
 
 use PHPUnit\Framework\TestCase;
-use Stellar\Support\Bln;
+use Stellar\Common\Bln;
 
 /**
- * @coversDefaultClass \Stellar\Support\Bln
+ * @coversDefaultClass \Stellar\Common\Bln
  */
 class BoolFnTests extends TestCase
 {

@@ -7,7 +7,7 @@ use Stellar\Curl\Events\MultiStatusEvent;
 use Stellar\Events\EventDispatchable;
 use Stellar\Events\EventDispatchableInterface;
 use Stellar\Events\EventDispatcher;
-use Stellar\Support\Identify;
+use Stellar\Common\Identify;
 
 class Multi implements CurlResourceInterface, EventDispatchableInterface
 {

@@ -4,7 +4,7 @@ namespace Stellar\Curl\Response;
 
 use Stellar\Exceptions\Common\InvalidType;
 use Stellar\Http\Headers\HeaderLines;
-use Stellar\Support\Type;
+use Stellar\Common\Type;
 
 class Response
 {

@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Stellar\Support;
+namespace Stellar\Common;
 
 use Stellar\Common\Types\StaticClass;
 
 /**
- * @see \UnitTests\Support\ArrayFnTests
+ * @see \UnitTests\Common\ArrayFnTests
  */
 final class Arr extends StaticClass
 {

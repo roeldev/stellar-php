@@ -2,7 +2,7 @@
 
 namespace Stellar\Constants;
 
-use Stellar\Support\Str;
+use Stellar\Common\Str;
 
 final class ClassConst extends AbstractClassConst
 {

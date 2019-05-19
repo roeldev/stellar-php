@@ -4,7 +4,7 @@ namespace Stellar\Curl\Support;
 
 use Stellar\Common\Types\StaticClass;
 use Stellar\Curl\Curl;
-use Stellar\Support\Arr;
+use Stellar\Common\Arr;
 
 final class Utils extends StaticClass
 {

@@ -4,7 +4,7 @@ namespace Stellar\Exceptions\Common;
 
 use Stellar\Exceptions\ExceptionFactory;
 use Stellar\Exceptions\Logic\InvalidArgumentException;
-use Stellar\Support\Str;
+use Stellar\Common\Str;
 
 /**
  * Use when an unexpected variable type is encountered.

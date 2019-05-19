@@ -7,7 +7,7 @@ use Stellar\Container\Exceptions\SingletonAlreadyExists;
 use Stellar\Exceptions\Common\InvalidClass;
 use Stellar\Exceptions\Common\InvalidType;
 use Stellar\Limitations\ProhibitCloning;
-use Stellar\Support\Type;
+use Stellar\Common\Type;
 
 /**
  * immutable = eigenschap van container, items kunnen niet worden toegevoegd, gewijzigd of worden verwijdert

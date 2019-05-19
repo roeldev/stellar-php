@@ -2,7 +2,7 @@
 
 namespace Stellar\Exceptions\Support;
 
-use Stellar\Support\Arr;
+use Stellar\Common\Arr;
 use Stellar\Common\Traits\ToString;
 use Stellar\Exceptions\Severity;
 

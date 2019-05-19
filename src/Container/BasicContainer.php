@@ -5,7 +5,7 @@ namespace Stellar\Container;
 use Psr\Container\ContainerInterface;
 use Stellar\Container\Exceptions\NotFound;
 use Stellar\Exceptions\Common\InvalidType;
-use Stellar\Support\Type;
+use Stellar\Common\Type;
 
 /**
  * @see \UnitTests\Container\BasicContainerTests

@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Stellar\Support;
+namespace Stellar\Common;
 
 use Stellar\Common\Types\StaticClass;
 
 /**
- * @see \UnitTests\Support\IdentifyTests
+ * @see \UnitTests\Common\IdentifyTests
  */
 final class Identify extends StaticClass
 {

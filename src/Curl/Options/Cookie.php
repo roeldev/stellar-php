@@ -2,7 +2,7 @@
 
 namespace Stellar\Curl\Options;
 
-use Stellar\Support\Arr;
+use Stellar\Common\Arr;
 
 class Cookie extends AbstractOptions
 {

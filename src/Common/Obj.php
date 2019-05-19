@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Stellar\Support;
+namespace Stellar\Common;
 
 use Stellar\Common\Contracts\ArrayableInterface;
 use Stellar\Common\Contracts\InvokableInterface;
@@ -8,7 +8,7 @@ use Stellar\Common\Contracts\StringableInterface;
 use Stellar\Common\Types\StaticClass;
 
 /**
- * @see \UnitTests\Support\ObjectFnTests
+ * @see \UnitTests\Common\ObjectFnTests
  */
 final class Obj extends StaticClass
 {

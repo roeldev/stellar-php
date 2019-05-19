@@ -3,9 +3,9 @@
 namespace Stellar\Events;
 
 use Stellar\Exceptions\Common\InvalidType;
-use Stellar\Support\Identify;
-use Stellar\Support\Str;
-use Stellar\Support\Type;
+use Stellar\Common\Identify;
+use Stellar\Common\Str;
+use Stellar\Common\Type;
 
 /**
  * @see \UnitTests\Events\EventDispatcherTests

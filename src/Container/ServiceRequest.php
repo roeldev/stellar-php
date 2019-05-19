@@ -5,7 +5,7 @@ namespace Stellar\Container;
 use Stellar\Exceptions\Common\InvalidArgument;
 use Stellar\Exceptions\Common\InvalidType;
 use Stellar\Factory\Factory;
-use Stellar\Support\Type;
+use Stellar\Common\Type;
 
 /**
  * @see \UnitTests\Container\ServiceRequestTests

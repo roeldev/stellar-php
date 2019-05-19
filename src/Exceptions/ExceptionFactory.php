@@ -3,8 +3,8 @@
 namespace Stellar\Exceptions;
 
 use Stellar\Exceptions\Common\InvalidClass;
-use Stellar\Support\Str;
-use Stellar\Support\Type;
+use Stellar\Common\Str;
+use Stellar\Common\Type;
 
 /**
  * @see \UnitTests\Exceptions\ExceptionFactoryTests

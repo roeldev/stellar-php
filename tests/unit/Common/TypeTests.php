@@ -1,20 +1,20 @@
 <?php declare(strict_types=1);
 
-namespace UnitTests\Support;
+namespace UnitTests\Common;
 
 use PHPUnit\Framework\TestCase;
 use Stellar\Common\Contracts\ArrayableInterface;
 use Stellar\Common\Dummy;
-use Stellar\Support\Type;
+use Stellar\Common\Type;
 
 /**
- * @coversDefaultClass \Stellar\Support\Type
+ * @coversDefaultClass \Stellar\Common\Type
  */
 class TypeTests extends TestCase
 {
     /**
      * @covers ::get()
-     * @dataProvider \UnitTests\Support\TypeTestsData::simpleTypes()
+     * @dataProvider \UnitTests\Common\TypeTestsData::simpleTypes()
      */
     public function test_get(string $type, ... $params)
     {
@@ -23,7 +23,7 @@ class TypeTests extends TestCase
 
     /**
      * @covers ::getDetailed()
-     * @dataProvider \UnitTests\Support\TypeTestsData::detailedTypes()
+     * @dataProvider \UnitTests\Common\TypeTestsData::detailedTypes()
      */
     public function test_get_detailed(string $type, ... $params)
     {

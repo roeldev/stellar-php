@@ -9,7 +9,7 @@ use Stellar\Curl\Request\Request;
 use Stellar\Curl\Response\Response;
 use Stellar\Exceptions\Common\InvalidClass;
 use Stellar\Exceptions\Common\InvalidType;
-use Stellar\Support\Type;
+use Stellar\Common\Type;
 
 /**
  * todo: make psr7 + psr17 compatible

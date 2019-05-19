@@ -3,7 +3,7 @@
 namespace Stellar\Encoding;
 
 use Stellar\Common\Types\StaticClass;
-use Stellar\Support\Str;
+use Stellar\Common\Str;
 use Stellar\Encoding\Base32\Base32Variant;
 use Stellar\Encoding\Exceptions\IllegalCharacter;
 

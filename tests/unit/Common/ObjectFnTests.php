@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace UnitTests\Support;
+namespace UnitTests\Common;
 
 use PHPUnit\Framework\TestCase;
 use Stellar\Common\Contracts\ArrayableInterface;
 use Stellar\Common\Dummy;
-use Stellar\Support\Obj;
+use Stellar\Common\Obj;
 
 /**
- * @coversDefaultClass \Stellar\Support\Obj
+ * @coversDefaultClass \Stellar\Common\Obj
  */
 class ObjectFnTests extends TestCase
 {

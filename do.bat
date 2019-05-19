@@ -1,14 +1,26 @@
 @echo off
 set PROJECT_DIR="%~dp0"
-set DOCKER_DIR="%PROJECT_DIR%\docker"
-set DOCKER_SERVICE="php%1"
-set COMPOSER_FILE="%DOCKER_DIR%\composer-php%1.json"
-set COMPOSER_DIR="%PROJECT_DIR%\.composer-cache\%1"
+set version=%1
+set action=%2
 
-if not exist %COMPOSER_FILE% goto :invalid
-if not exist %COMPOSER_DIR% mkdir %COMPOSER_DIR%
+if "%1" == "" goto help
+if "%1" == "help" (
+    set action=%1
+    set version=%2
+)
+if "%1" == "build" (
+    set action=%1
+    set version=%2
+)
 
-if "%2" == "build" goto build
+set dockerService="php%version%"
+set composerFile="%PROJECT_DIR%\docker\composer-php%version%.json"
+set composerDir="%PROJECT_DIR%\.composer-cache\%version"
+
+if not exist %composerFile% goto :invalid
+if not exist %composerDir% mkdir %composerDir%
+
+if "%action%" == "build" goto build
 if "%2" == "--" goto exec
 goto help
 
@@ -17,19 +29,19 @@ echo PHP version `%1` is not available.
 exit /b 1
 
 :build
-docker-compose build %DOCKER_SERVICE%
+docker-compose build %dockerService%
 goto:eof
 
 :exec
 set ARGS=%*
 set ARGS=%ARGS:~7%
-docker-compose run --rm %DOCKER_SERVICE% %ARGS%
+docker-compose run --rm %dockerService% %ARGS%
 goto:eof
 
 :help
 echo Usage:
-echo   do [version] [action]
-echo   do [version] -- [command]
+echo   do PHP_VERSION ACTION
+echo   do PHP_VERSION -- COMMAND
 echo.
 echo Actions:
 echo   build    Build Docker image

@@ -1,9 +1,7 @@
-/.composer-cache
-/.idea
-/.release
-/.vscode
-/results
-/vendor
+.composer-cache/
+.idea/
+results/
+vendor/
 *.log
 .DS_Store
 Thumbs.db

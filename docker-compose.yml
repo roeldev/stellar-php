@@ -11,8 +11,8 @@ services:
     image: stellar/php:7.1
     container_name: stellar-php7.1
     volumes:
-      - ./docker/.composer/7.1/:/root/.composer/
-      - ./:/project
+      - ./.composer-cache/7.1/:/root/.composer/
+      - ./:/stellar
 
   php7.2:
     build:
@@ -24,8 +24,8 @@ services:
     image: stellar/php:7.2
     container_name: stellar-php7.2
     volumes:
-      - ./docker/.composer/7.2/:/root/.composer/
-      - ./:/project
+      - ./.composer-cache/7.2/:/root/.composer/
+      - ./:/stellar
 
   php7.3:
     build:
@@ -37,5 +37,5 @@ services:
     image: stellar/php:7.3
     container_name: stellar-php7.3
     volumes:
-      - ./docker/.composer/7.3/:/root/.composer/
-      - ./:/project
+      - ./.composer-cache/7.3/:/root/.composer/
+      - ./:/stellar

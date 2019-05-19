@@ -2,7 +2,7 @@
 
 namespace Stellar\Curl;
 
-use Stellar\Common\StaticClass;
+use Stellar\Common\Types\StaticClass;
 use Stellar\Constants\ConstList;
 use Stellar\Curl\Options\Options;
 use Stellar\Curl\Request\Multi;

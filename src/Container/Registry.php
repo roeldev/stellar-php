@@ -3,7 +3,7 @@
 namespace Stellar\Container;
 
 use Stellar\Common\Contracts\SingletonInterface;
-use Stellar\Common\StaticClass;
+use Stellar\Common\Types\StaticClass;
 
 /**
  * @see \UnitTests\Container\RegistryTests

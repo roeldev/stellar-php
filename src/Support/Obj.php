@@ -5,7 +5,7 @@ namespace Stellar\Support;
 use Stellar\Common\Contracts\ArrayableInterface;
 use Stellar\Common\Contracts\InvokableInterface;
 use Stellar\Common\Contracts\StringableInterface;
-use Stellar\Common\StaticClass;
+use Stellar\Common\Types\StaticClass;
 
 /**
  * @see \UnitTests\Support\ObjectFnTests

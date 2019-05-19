@@ -3,7 +3,7 @@
 namespace Stellar\Common\Testing\Constraints;
 
 use PHPUnit\Framework\Constraint\IsInstanceOf;
-use Stellar\Common\StaticClass;
+use Stellar\Common\Types\StaticClass;
 
 class IsStaticClass extends IsInstanceOf
 {

@@ -2,7 +2,7 @@
 
 namespace Stellar\Support;
 
-use Stellar\Common\StaticClass;
+use Stellar\Common\Types\StaticClass;
 
 /**
  * @see \UnitTests\Support\ClassFnTests

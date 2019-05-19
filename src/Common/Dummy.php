@@ -2,6 +2,8 @@
 
 namespace Stellar\Common;
 
+use Stellar\Common\Types\StaticClass;
+
 /**
  * Simple helper class which returns some empty dummy types. Useful for unit tests or when needing
  * (empty) default values.

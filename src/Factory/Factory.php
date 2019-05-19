@@ -2,7 +2,7 @@
 
 namespace Stellar\Factory;
 
-use Stellar\Common\StaticClass;
+use Stellar\Common\Types\StaticClass;
 use Stellar\Factory\Exceptions\ConstructionFailure;
 use Stellar\Support\Cls;
 

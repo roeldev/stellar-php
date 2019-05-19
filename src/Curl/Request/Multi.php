@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Stellar\Curl;
+namespace Stellar\Curl\Request;
 
 use Stellar\Curl\Contracts\CurlResourceInterface;
 use Stellar\Curl\Events\MultiStatusEvent;

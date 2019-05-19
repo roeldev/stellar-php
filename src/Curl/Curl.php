@@ -5,6 +5,8 @@ namespace Stellar\Curl;
 use Stellar\Common\StaticClass;
 use Stellar\Constants\ConstList;
 use Stellar\Curl\Options\Options;
+use Stellar\Curl\Request\Multi;
+use Stellar\Curl\Request\Request;
 
 /**
  * @see https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods

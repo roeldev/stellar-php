@@ -1,16 +1,19 @@
 <?php declare(strict_types=1);
 
-namespace Stellar\Curl;
+namespace Stellar\Curl\Request;
 
 use Stellar\Common\Contracts\StringableInterface;
 use Stellar\Common\Traits\ToString;
 use Stellar\Curl\Contracts\CurlResourceInterface;
 use Stellar\Curl\Contracts\OptionableInterface;
 use Stellar\Curl\Contracts\OptionsInterface;
+use Stellar\Curl\Curl;
 use Stellar\Curl\Exceptions\RequestFailure;
 use Stellar\Curl\Response\Response;
 use Stellar\Curl\Support\Utils;
+use Stellar\Exceptions\Common\InvalidClass;
 use Stellar\Exceptions\Common\InvalidType;
+use Stellar\Factory\Factory;
 use Stellar\Http\Headers\HeaderLines;
 use Stellar\Support\Arr;
 use Stellar\Support\Type;
@@ -53,6 +56,9 @@ class Request implements CurlResourceInterface, OptionableInterface, StringableI
 
     /** @var ?Response */
     protected $_response;
+
+    /** @var string */
+    protected $_responseClass = Response::class;
 
     protected function _parseOption(int $option, $value)
     {
@@ -289,6 +295,16 @@ class Request implements CurlResourceInterface, OptionableInterface, StringableI
         return $this;
     }
 
+    /**
+     * @return static
+     */
+    public function withResponseAs(string $responseClass) : self
+    {
+        $this->_responseClass = $responseClass;
+
+        return $this;
+    }
+
     public function allowRedirect(bool $allowRedirect = true) : self
     {
         $this->_options[ \CURLOPT_FOLLOWLOCATION ] = $allowRedirect;
@@ -447,15 +463,25 @@ class Request implements CurlResourceInterface, OptionableInterface, StringableI
         return $this;
     }
 
-    /** {@inheritdoc} */
-    public function response() : Response
+    /**
+     * {@inheritdoc}
+     * @throws InvalidClass
+     */
+    public function response(?string $responseClass = null) : Response
     {
         if (null === $this->_rawResponse) {
             $this->execute();
         }
 
         if (null === $this->_response) {
-            $this->_response = new Response($this->_resource, $this->_options, $this->_rawResponse);
+            $responseClass = $responseClass ?? $this->_responseClass;
+            if (!\is_a($responseClass, Response::class, true)) {
+                throw InvalidClass::factory(Response::class, $responseClass)->create();
+            }
+
+            $this->_response = Factory::construct($responseClass, [
+                $this->_resource, $this->_options, $this->_rawResponse,
+            ]);
         }
 
         return $this->_response;

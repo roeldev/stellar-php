@@ -5,6 +5,8 @@ namespace Stellar\Curl;
 use Psr\Http\Message\UriInterface;
 use Stellar\Common\Contracts\SingletonInterface;
 use Stellar\Container\Registry;
+use Stellar\Curl\Request\Request;
+use Stellar\Curl\Response\Response;
 use Stellar\Exceptions\Common\InvalidClass;
 use Stellar\Exceptions\Common\InvalidType;
 use Stellar\Support\Type;

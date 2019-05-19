@@ -1,7 +1,9 @@
 /.composer-cache
 /.idea
-/libraries/*/src/*
-/libraries/*/tests/*
+/.release
+/.vscode
 /results
 /vendor
 *.log
+.DS_Store
+Thumbs.db

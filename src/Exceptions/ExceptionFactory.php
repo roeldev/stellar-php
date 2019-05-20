@@ -3,7 +3,7 @@
 namespace Stellar\Exceptions;
 
 use Stellar\Exceptions\Common\InvalidClass;
-use Stellar\Common\Str;
+use Stellar\Common\StringUtil;
 use Stellar\Common\Type;
 
 /**
@@ -71,7 +71,7 @@ final class ExceptionFactory
             $this->_message = [];
         }
 
-        $this->_message[] = Str::unSuffix($message, '.');
+        $this->_message[] = StringUtil::unSuffix($message, '.');
 
         return $this;
     }
@@ -121,7 +121,7 @@ final class ExceptionFactory
             $arguments = $this->_arguments;
             foreach ($arguments as $i => $value) {
                 if (!\is_string($value)) {
-                    $arguments[ $i ] = Type::getDetailed($value);
+                    $arguments[ $i ] = Type::details($value);
                 }
             }
 
@@ -132,7 +132,7 @@ final class ExceptionFactory
             ]);
 
             $message = implode('. ', $this->_message);
-            $result = Str::replaceVars($message, $arguments);
+            $result = StringUtil::replaceVars($message, $arguments);
         }
 
         return $result;
@@ -163,6 +163,6 @@ final class ExceptionFactory
             $upgradeToError = ($severity->getValue() > Severity::WARNING);
         }
 
-        return ($upgradeToError ? new Error($exception) : $exception);
+        return $upgradeToError ? new Error($exception) : $exception;
     }
 }

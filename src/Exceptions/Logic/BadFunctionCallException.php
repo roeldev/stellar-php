@@ -3,7 +3,7 @@
 namespace Stellar\Exceptions\Logic;
 
 use Stellar\Exceptions\ExceptionInterface;
-use Stellar\Exceptions\Support\ExceptionFeatures;
+use Stellar\Exceptions\Traits\ExceptionFeatures;
 
 /**
  * Exception thrown if a callback refers to an undefined function or if some arguments are missing.

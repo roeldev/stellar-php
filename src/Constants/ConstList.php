@@ -2,7 +2,7 @@
 
 namespace Stellar\Constants;
 
-use Stellar\Common\Types\StaticClass;
+use Stellar\Common\StaticClass;
 
 /**
  * @see \UnitTests\Constants\ConstListTests

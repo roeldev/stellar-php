@@ -2,30 +2,13 @@
 
 namespace Stellar\Common;
 
-use Stellar\Common\Types\StaticClass;
+use Stellar\Common\StaticClass;
 
 /**
  * @see \UnitTests\Common\StringFnTests
  */
-final class Str extends StaticClass
+final class StringUtil extends StaticClass
 {
-    /**
-     * Determine whether a variable is an empty string. Unlike PHP's `empty()` function, this method
-     * does not evaluate `'0'` (a zero character) as empty.
-     */
-    public static function isEmpty(?string ...$var) : bool
-    {
-        $result = true;
-        foreach ($var as $arg) {
-            if ('' !== $arg && null !== $arg) {
-                $result = false;
-                break;
-            }
-        }
-
-        return $result;
-    }
-
     public static function replaceVars(string $subject, array $vars) : string
     {
         $search = [];
@@ -66,7 +49,7 @@ final class Str extends StaticClass
             return false;
         }
 
-        return $str === $prefix || \strpos($str, $prefix) === 0;
+        return $str === $prefix || 0 === \strpos($str, $prefix);
     }
 
     /**
@@ -79,7 +62,7 @@ final class Str extends StaticClass
             return false;
         }
 
-        return $str === $suffix || \substr($str, -\strlen($suffix)) === $suffix;
+        return $str === $suffix || $suffix === \substr($str, -\strlen($suffix));
     }
 
     /**
@@ -93,9 +76,9 @@ final class Str extends StaticClass
     /**
      * Remove the prefix at the beginning of the string when it's there.
      */
-    public static function unPrefix(string $str, string $prefix) : string
+    public static function unprefix(string $str, string $prefix) : string
     {
-        if ('' !== $str && '' !== $prefix && \strpos($str, $prefix) === 0) {
+        if ('' !== $str && '' !== $prefix && 0 === \strpos($str, $prefix)) {
             $str = (string) \substr($str, \strlen($prefix));
         }
 
@@ -113,11 +96,11 @@ final class Str extends StaticClass
     /**
      * Remove the suffix at the end of the string when it's there.
      */
-    public static function unSuffix(string $str, string $suffix) : string
+    public static function unsuffix(string $str, string $suffix) : string
     {
         if ('' !== $str && '' !== $suffix) {
             $strlen = \strlen($suffix);
-            if (\substr($str, -$strlen) === $suffix) {
+            if ($suffix === \substr($str, -$strlen)) {
                 $str = (string) \substr($str, 0, -\strlen($suffix));
             }
         }

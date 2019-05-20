@@ -4,7 +4,7 @@ namespace Stellar\Events;
 
 use Stellar\Exceptions\Common\InvalidType;
 use Stellar\Common\Identify;
-use Stellar\Common\Str;
+use Stellar\Common\StringUtil;
 use Stellar\Common\Type;
 
 /**
@@ -44,7 +44,7 @@ final class EventDispatcher
         }
 
         $this->_owner = $owner;
-        $this->_namespace = Str::unSuffix($namespace, '.');
+        $this->_namespace = StringUtil::unsuffix($namespace, '.');
     }
 
     /**
@@ -126,7 +126,7 @@ final class EventDispatcher
 
         foreach ($events as $type => $params) {
             // skip event types that are not within the dispatcher's namespace
-            if (!Str::startsWith($type, $this->_namespace)) {
+            if (!StringUtil::startsWith($type, $this->_namespace)) {
                 continue;
             }
 

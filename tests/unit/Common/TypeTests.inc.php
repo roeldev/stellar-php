@@ -4,9 +4,9 @@ namespace UnitTests\Common;
 
 use Stellar\Common\Dummy;
 
-class TypeTestsData
+trait TypeTestsDataProvider
 {
-    public function simpleTypes() : array
+    public function provideSimpleTypes() : array
     {
         $resource = xml_parser_create();
         xml_parser_free($resource);
@@ -25,7 +25,7 @@ class TypeTestsData
         ];
     }
 
-    public function detailedTypes() : array
+    public function provideDetailedTypes() : array
     {
         $resource = xml_parser_create();
         xml_parser_free($resource);

@@ -3,7 +3,7 @@
 namespace Stellar\Container;
 
 use Stellar\Common\Contracts\SingletonInterface;
-use Stellar\Common\Types\StaticClass;
+use Stellar\Common\StaticClass;
 
 /**
  * @see \UnitTests\Container\RegistryTests
@@ -32,8 +32,11 @@ final class Registry extends StaticClass implements SingletonInterface
      */
     public static function container(string $class) : Container
     {
-        return self::instance()
-            ->request($class . '__container', [ ServiceRequest::class, 'with' ], Container::class);
+        return self::instance()->request(
+            $class . '__container',
+            [ ServiceRequest::class, 'with' ],
+            Container::class
+        );
     }
 
     /**
@@ -42,8 +45,9 @@ final class Registry extends StaticClass implements SingletonInterface
      */
     public static function singleton(string $class, array $params = [])
     {
-        return self::instance()->request($class, function () use ($class, $params) {
-            return ServiceRequest::with($class, $params)->asSingleton();
-        });
+        return self::instance()
+            ->request($class, function () use ($class, $params) {
+                return ServiceRequest::with($class, $params)->asSingleton();
+            });
     }
 }

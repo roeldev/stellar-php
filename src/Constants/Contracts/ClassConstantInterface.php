@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Stellar\Constants;
+namespace Stellar\Constants\Contracts;
 
 interface ClassConstantInterface
 {

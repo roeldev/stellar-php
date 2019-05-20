@@ -3,7 +3,7 @@
 namespace Stellar\Exceptions\Runtime;
 
 use Stellar\Exceptions\ExceptionInterface;
-use Stellar\Exceptions\Support\ExceptionFeatures;
+use Stellar\Exceptions\Traits\ExceptionFeatures;
 
 /**
  * Exception thrown if an error which can only be found on runtime occurs.

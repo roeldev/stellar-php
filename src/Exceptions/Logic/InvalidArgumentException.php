@@ -3,7 +3,7 @@
 namespace Stellar\Exceptions\Logic;
 
 use Stellar\Exceptions\ExceptionInterface;
-use Stellar\Exceptions\Support\ExceptionFeatures;
+use Stellar\Exceptions\Traits\ExceptionFeatures;
 
 /**
  * Exception thrown if an argument is not of the expected type.

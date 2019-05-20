@@ -2,18 +2,20 @@
 
 namespace Stellar\Exceptions\Common;
 
+use Stellar\Common\Stringify;
 use Stellar\Exceptions\ExceptionFactory;
 use Stellar\Exceptions\Logic\InvalidArgumentException;
-use Stellar\Exceptions\Support\ClassNameArgument;
 
 class InvalidClass extends InvalidArgumentException
 {
-    use ClassNameArgument;
-
+    /**
+     * @param object|string $expectedClass
+     * @param object|string $actualClass
+     */
     public static function factory($expectedClass, $actualClass, ?string $argument = null) : ExceptionFactory
     {
-        $expectedClass = self::_classNameArgument($expectedClass);
-        $actualClass = self::_classNameArgument($actualClass);
+        $expectedClass = Stringify::objectClass($expectedClass);
+        $actualClass = Stringify::objectClass($actualClass);
 
         return ExceptionFactory::init(self::class)
             ->withMessage(\implode([

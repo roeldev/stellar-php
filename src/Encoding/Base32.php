@@ -2,8 +2,8 @@
 
 namespace Stellar\Encoding;
 
-use Stellar\Common\Types\StaticClass;
-use Stellar\Common\Str;
+use Stellar\Common\Assert;
+use Stellar\Common\StaticClass;
 use Stellar\Encoding\Base32\Base32Variant;
 use Stellar\Encoding\Exceptions\IllegalCharacter;
 
@@ -14,7 +14,7 @@ class Base32 extends StaticClass
 {
     public static function encode(string $data, ?Base32Variant $variant = null, ?bool $padding = null) : string
     {
-        if (Str::isEmpty($data)) {
+        if (Assert::isEmptyString($data)) {
             return '';
         }
 
@@ -47,7 +47,7 @@ class Base32 extends StaticClass
      */
     public static function decode(string $data, Base32Variant $variant = null) : string
     {
-        if (Str::isEmpty($data)) {
+        if (Assert::isEmptyString($data)) {
             return '';
         }
 

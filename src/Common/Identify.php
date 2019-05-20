@@ -2,18 +2,33 @@
 
 namespace Stellar\Common;
 
-use Stellar\Common\Types\StaticClass;
-
 /**
+ * Create id's for the given types.
+ *
  * @see \UnitTests\Common\IdentifyTests
  */
 final class Identify extends StaticClass
 {
-    public static function object($obj) : string
+    public static function any($var) : ?string {
+        if (\is_callable($var)) {
+            return self::callable($var);
+        }
+
+        return self::object($var) ?? self::resource($var);
+    }
+
+    /**
+     * @param object $obj
+     */
+    public static function object($obj) : ?string
     {
+        if (!\is_object($obj)) {
+            return null;
+        }
+
         $class = \get_class($obj);
 
-        return Cls::isAnonymous($class)
+        return Assert::isAnonymous($class)
             ? $class
             : $class . '_' . \md5(\spl_object_hash($obj));
     }
@@ -40,7 +55,7 @@ final class Identify extends StaticClass
                 $result = $callable;
                 break;
 
-            case Obj::isInvokable($callable) :
+            case Assert::isInvokable($callable):
                 $result = self::object($callable);
                 break;
         }
@@ -48,6 +63,9 @@ final class Identify extends StaticClass
         return $result;
     }
 
+    /**
+     * @param resource $resource
+     */
     public static function resource($resource) : ?string
     {
         return \is_resource($resource) ? (string) $resource : null;

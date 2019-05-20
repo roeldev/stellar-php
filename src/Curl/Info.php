@@ -36,7 +36,7 @@ class Info implements ArrayableInterface
     public function __construct($resource, ...$options)
     {
         if (!\is_resource($resource)) {
-            throw InvalidType::factory('resource (curl)', Type::getDetailed($resource))
+            throw InvalidType::factory('resource (curl)', Type::details($resource))
                 ->create();
         }
 

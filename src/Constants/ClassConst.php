@@ -2,7 +2,7 @@
 
 namespace Stellar\Constants;
 
-use Stellar\Common\Str;
+use Stellar\Common\StringUtil;
 
 final class ClassConst extends AbstractClassConst
 {
@@ -10,7 +10,7 @@ final class ClassConst extends AbstractClassConst
     {
         $result = null;
         if ($classConst) {
-            $classConst = Str::unPrefix($classConst, '\\');
+            $classConst = StringUtil::unprefix($classConst, '\\');
             if (\strlen($classConst) >= 4 && false !== \strpos($classConst, '::', 1)) {
                 $result = \explode('::', $classConst, 2);
             }
@@ -36,7 +36,7 @@ final class ClassConst extends AbstractClassConst
      */
     public static function instance(... $input) : ?self
     {
-        if (\count($input) === 1 && \count($input[0]) === 1) {
+        if (1 === \count($input) && 1 === \count($input[0])) {
             return self::instance($input[0]);
         }
 
@@ -49,7 +49,7 @@ final class ClassConst extends AbstractClassConst
 
             $result = new self($class, $name);
         }
-        elseif ($count === 1) {
+        elseif (1 === $count) {
             $split = self::split(\array_pop($input));
             if ($split) {
                 $result = new self($split[0], $split[1]);

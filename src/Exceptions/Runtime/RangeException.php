@@ -3,7 +3,7 @@
 namespace Stellar\Exceptions\Runtime;
 
 use Stellar\Exceptions\ExceptionInterface;
-use Stellar\Exceptions\Support\ExceptionFeatures;
+use Stellar\Exceptions\Traits\ExceptionFeatures;
 
 /**
  * Exception thrown to indicate range errors during program execution. Normally this means there was an arithmetic

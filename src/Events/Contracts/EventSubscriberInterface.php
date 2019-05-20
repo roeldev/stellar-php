@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Stellar\Events;
+namespace Stellar\Events\Contracts;
 
 interface EventSubscriberInterface
 {

@@ -3,7 +3,7 @@
 namespace Stellar\Exceptions\Logic;
 
 use Stellar\Exceptions\ExceptionInterface;
-use Stellar\Exceptions\Support\ExceptionFeatures;
+use Stellar\Exceptions\Traits\ExceptionFeatures;
 
 /**
  * Exception thrown when an illegal index was requested. This represents errors that should be detected at compile time.

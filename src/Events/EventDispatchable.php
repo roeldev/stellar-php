@@ -24,7 +24,8 @@ trait EventDispatchable
      */
     final public function once(string $type, callable $listener) : self
     {
-        $this->eventDispatcher()->addListener($type, $listener, EventDispatcher::OPTION_ONCE);
+        $this->eventDispatcher()
+            ->addListener($type, $listener, EventDispatcher::OPTION_ONCE);
 
         return $this;
     }

@@ -2,10 +2,10 @@
 
 namespace Stellar\Container;
 
+use Stellar\Common\Type;
 use Stellar\Exceptions\Common\InvalidArgument;
 use Stellar\Exceptions\Common\InvalidType;
 use Stellar\Factory\Factory;
-use Stellar\Common\Type;
 
 /**
  * @see \UnitTests\Container\ServiceRequestTests

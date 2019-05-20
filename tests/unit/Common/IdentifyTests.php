@@ -7,7 +7,7 @@ use Stellar\Common\Dummy;
 use Stellar\Common\Identify;
 
 /**
- * @coversDefaultClass \Stellar\Common\CallableFn
+ * @coversDefaultClass \Stellar\Common\Identiy
  */
 class IdentifyTests extends TestCase
 {

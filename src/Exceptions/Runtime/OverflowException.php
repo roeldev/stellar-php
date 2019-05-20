@@ -3,7 +3,7 @@
 namespace Stellar\Exceptions\Runtime;
 
 use Stellar\Exceptions\ExceptionInterface;
-use Stellar\Exceptions\Support\ExceptionFeatures;
+use Stellar\Exceptions\Traits\ExceptionFeatures;
 
 /**
  * Exception thrown when adding an element to a full container.

@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Stellar\Exceptions\Support;
+namespace Stellar\Exceptions\Traits;
 
-use Stellar\Common\Arr;
+use Stellar\Common\ArrayUtil;
 use Stellar\Common\Traits\ToString;
 use Stellar\Exceptions\Severity;
 
@@ -70,7 +70,7 @@ trait ExceptionFeatures
         ];
 
         if ($this instanceof ErrorInterface) {
-            $result['severity'] = Arr::withKeys($this->getSeverity()->toArray(), 'name', 'value');
+            $result['severity'] = ArrayUtil::withKeys($this->getSeverity()->toArray(), 'name', 'value');
             $result['arguments'] = $this->getArguments();
         }
 

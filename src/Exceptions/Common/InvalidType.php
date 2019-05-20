@@ -2,9 +2,9 @@
 
 namespace Stellar\Exceptions\Common;
 
+use Stellar\Common\StringUtil;
 use Stellar\Exceptions\ExceptionFactory;
 use Stellar\Exceptions\Logic\InvalidArgumentException;
-use Stellar\Common\Str;
 
 /**
  * Use when an unexpected variable type is encountered.
@@ -16,8 +16,8 @@ class InvalidType extends InvalidArgumentException
         string $actualType,
         ?string $argument = null) : ExceptionFactory
     {
-        $expectedType = Str::unPrefix($expectedType, '`');
-        $expectedType = Str::unSuffix($expectedType, '`');
+        $expectedType = StringUtil::unPrefix($expectedType, '`');
+        $expectedType = StringUtil::unSuffix($expectedType, '`');
 
         return ExceptionFactory::init(self::class)
             ->withMessage(\implode([

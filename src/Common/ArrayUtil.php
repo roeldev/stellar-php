@@ -2,17 +2,15 @@
 
 namespace Stellar\Common;
 
-use Stellar\Common\Types\StaticClass;
-
 /**
- * @see \UnitTests\Common\ArrayFnTests
+ * @see \UnitTests\Common\ArrayUtilTests
  */
-final class Arr extends StaticClass
+final class ArrayUtil extends StaticClass
 {
     public static function merge(iterable ...$arrays) : array
     {
-        if (\count($arrays) === 1) {
-            return Type::toArray($arrays[0]);
+        if (1 === \count($arrays)) {
+            return Arrayify::any($arrays[0]);
         }
 
         $result = [];
@@ -36,8 +34,8 @@ final class Arr extends StaticClass
     {
         $result = [];
         foreach ($iterator as $key => $value) {
-            $value = Type::toString($value);
-            if (!Str::isEmpty((string) $key, $value)) {
+            $value = Stringify::any($value);
+            if (!Assert::isEmptyString((string) $key, $value)) {
                 $result[ $key ] = $key . $glue . $value;
             }
             elseif (!$exclEmpty) {
@@ -62,21 +60,21 @@ final class Arr extends StaticClass
         $formatHasValue = (false !== \strpos($format, '%v'));
 
         if (!$formatHasKey && !$formatHasIndex && !$formatHasValue) {
-            return Type::toArray($iterator);
+            return Arrayify::iterable($iterator);
         }
 
         $search = [ '%k', '%i', '%v' ];
         $indexes = [];
 
         if ($formatHasIndex) {
-            $indexes = \array_keys(Type::toArray($iterator));
+            $indexes = \array_keys(Arrayify::any($iterator));
             $indexes = \array_flip($indexes);
         }
 
         $result = [];
         foreach ($iterator as $key => $value) {
-            $value = Type::toString($value);
-            if (!Str::isEmpty((string) $key, $value)) {
+            $value = Stringify::any($value);
+            if (!Assert::isEmptyString((string) $key, $value)) {
                 $replace = [ $key, $indexes[ $key ] ?? '', $value ];
                 $result[ $key ] = \str_replace($search, $replace, $format);
             }
@@ -116,7 +114,7 @@ final class Arr extends StaticClass
 
     public static function flattenKeys(array $array, string $glue = '.', ?int $depth = null, string $prefix = '')
     {
-        if ('' !== $prefix && !Str::endsWith($prefix, $glue)) {
+        if ('' !== $prefix && !StringUtil::endsWith($prefix, $glue)) {
             $prefix .= $glue;
         }
 
@@ -171,10 +169,11 @@ final class Arr extends StaticClass
         return $result;
     }
 
-    public static function limitDepth(array $array, int $depth) : array
-    {
-        return $array;
-    }
+    // todo: WIP
+    // public static function limitDepth(array $array, int $depth) : array
+    // {
+    //     return $array;
+    // }
 
     /**
      * Wrap a non-array variable in an array.

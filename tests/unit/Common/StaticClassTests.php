@@ -1,12 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace UnitTests\Common\Types;
+namespace UnitTests\Common;
 
 use PHPUnit\Framework\TestCase;
 use Stellar\Common\Testing\AssertStaticClass;
 
+require_once 'StaticClassTests.inc.php';
+
 /**
- * @coversDefaultClass \Stellar\Common\Types\StaticClass
+ * @coversDefaultClass \Stellar\Common\StaticClass
  */
 class StaticClassTests extends TestCase
 {

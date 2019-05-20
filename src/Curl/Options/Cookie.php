@@ -2,7 +2,7 @@
 
 namespace Stellar\Curl\Options;
 
-use Stellar\Common\Arr;
+use Stellar\Common\ArrayUtil;
 
 class Cookie extends AbstractOptions
 {
@@ -11,7 +11,7 @@ class Cookie extends AbstractOptions
      */
     public function withCookies(array $cookies) : self
     {
-        $this->_options[ \CURLOPT_COOKIE ] = \implode('; ', Arr::join('= ', $cookies));
+        $this->_options[ \CURLOPT_COOKIE ] = \implode('; ', ArrayUtil::join('= ', $cookies));
 
         return $this;
     }

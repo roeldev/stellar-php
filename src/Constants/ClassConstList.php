@@ -24,7 +24,7 @@ class ClassConstList implements ArrayableInterface, \Countable
      *
      * [ CONST_NAME => value ]
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $_list = [];
 

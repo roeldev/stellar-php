@@ -5,6 +5,7 @@ namespace Stellar\Constants;
 use Stellar\Common\Contracts\ArrayableInterface;
 use Stellar\Common\Contracts\StringableInterface;
 use Stellar\Common\Traits\ToString;
+use Stellar\Constants\Contracts\ClassConstantInterface;
 
 abstract class AbstractClassConst implements ClassConstantInterface, ArrayableInterface, StringableInterface
 {
@@ -31,21 +32,25 @@ abstract class AbstractClassConst implements ClassConstantInterface, ArrayableIn
      */
     protected $_value;
 
+    /** {@inheritdoc} */
     public function getClass() : string
     {
         return $this->_class;
     }
 
+    /** {@inheritdoc} */
     public function getName() : string
     {
         return $this->_name;
     }
 
+    /** {@inheritdoc} */
     public function getConst() : string
     {
         return $this->_class . '::' . $this->_name;
     }
 
+    /** {@inheritdoc} */
     public function getValue()
     {
         if (null === $this->_value) {

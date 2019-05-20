@@ -4,7 +4,7 @@ namespace Stellar\Exceptions;
 
 use Stellar\Exceptions\Common\InvalidClass;
 use Stellar\Exceptions\Common\UnknownStaticMethod;
-use Stellar\Exceptions\Support\ExceptionFeatures;
+use Stellar\Exceptions\Traits\ExceptionFeatures;
 
 // Voor algemene fouten, een exception throwen vanuit de Common map.
 // Voor module/class specifieke fouten, een eigen exception throwen.

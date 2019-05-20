@@ -2,12 +2,12 @@
 
 namespace Stellar\Container;
 
+use Stellar\Common\Type;
 use Stellar\Container\Exceptions\BuildFailure;
 use Stellar\Container\Exceptions\SingletonAlreadyExists;
 use Stellar\Exceptions\Common\InvalidClass;
 use Stellar\Exceptions\Common\InvalidType;
 use Stellar\Limitations\ProhibitCloning;
-use Stellar\Common\Type;
 
 /**
  * immutable = eigenschap van container, items kunnen niet worden toegevoegd, gewijzigd of worden verwijdert
@@ -96,10 +96,8 @@ class Container extends BasicContainer
             $createdService = $callback(...$params);
 
             if (!($createdService instanceof ServiceRequest)) {
-                throw InvalidClass::factory(
-                    ServiceRequest::class,
-                    Type::getDetailed($createdService)
-                )->create();
+                throw InvalidClass::factory(ServiceRequest::class, Type::details($createdService))
+                    ->create();
             }
 
             $this->_services[ $alias ] = $createdService->getService();

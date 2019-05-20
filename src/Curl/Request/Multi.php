@@ -2,12 +2,12 @@
 
 namespace Stellar\Curl\Request;
 
+use Stellar\Common\Identify;
 use Stellar\Curl\Contracts\CurlResourceInterface;
 use Stellar\Curl\Events\MultiStatusEvent;
 use Stellar\Events\EventDispatchable;
 use Stellar\Events\EventDispatchableInterface;
 use Stellar\Events\EventDispatcher;
-use Stellar\Common\Identify;
 
 class Multi implements CurlResourceInterface, EventDispatchableInterface
 {

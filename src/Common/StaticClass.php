@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Stellar\Common\Types;
+namespace Stellar\Common;
 
 /**
  * Basic pattern that forces the class to be only used in a static way as the constructor is private and cannot be

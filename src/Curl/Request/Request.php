@@ -4,6 +4,8 @@ namespace Stellar\Curl\Request;
 
 use Stellar\Common\Contracts\StringableInterface;
 use Stellar\Common\Traits\ToString;
+use Stellar\Common\ArrayUtil;
+use Stellar\Common\Type;
 use Stellar\Curl\Contracts\CurlResourceInterface;
 use Stellar\Curl\Contracts\OptionableInterface;
 use Stellar\Curl\Contracts\OptionsInterface;
@@ -15,8 +17,7 @@ use Stellar\Exceptions\Common\InvalidClass;
 use Stellar\Exceptions\Common\InvalidType;
 use Stellar\Factory\Factory;
 use Stellar\Http\Headers\HeaderLines;
-use Stellar\Common\Arr;
-use Stellar\Common\Type;
+
 
 class Request implements CurlResourceInterface, OptionableInterface, StringableInterface
 {
@@ -98,7 +99,7 @@ class Request implements CurlResourceInterface, OptionableInterface, StringableI
                 : $this->_url;
 
             if (!empty($this->_headers)) {
-                $this->_options[ \CURLOPT_HTTPHEADER ] = Arr::join(': ', $this->_headers);
+                $this->_options[ \CURLOPT_HTTPHEADER ] = ArrayUtil::join(': ', $this->_headers);
             }
         }
 
@@ -449,7 +450,7 @@ class Request implements CurlResourceInterface, OptionableInterface, StringableI
     public function processMultiResponse($multiResource, int $errorCode = 0) : self
     {
         if (!\is_resource($multiResource)) {
-            throw InvalidType::factory('resource', Type::getDetailed($multiResource))
+            throw InvalidType::factory('resource', Type::details($multiResource))
                 ->create();
         }
 

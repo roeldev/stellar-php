@@ -20,7 +20,7 @@ class Response
     public function __construct($requestResource, array $usedOptions, string $response)
     {
         if (!\is_resource($requestResource)) {
-            throw InvalidType::factory('resource (curl)', Type::getDetailed($requestResource))
+            throw InvalidType::factory('resource (curl)', Type::details($requestResource))
                 ->create();
         }
 

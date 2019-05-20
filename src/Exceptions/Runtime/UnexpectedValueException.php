@@ -3,7 +3,7 @@
 namespace Stellar\Exceptions\Runtime;
 
 use Stellar\Exceptions\ExceptionInterface;
-use Stellar\Exceptions\Support\ExceptionFeatures;
+use Stellar\Exceptions\Traits\ExceptionFeatures;
 
 /**
  * Exception thrown if a value does not match with a set of values. Typically this happens when a function calls

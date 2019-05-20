@@ -3,23 +3,23 @@
 namespace UnitTests\Common;
 
 use PHPUnit\Framework\TestCase;
-use Stellar\Common\Arr;
+use Stellar\Common\ArrayUtil;
 
 /**
- * @coversDefaultClass \Stellar\Common\Arr
+ * @coversDefaultClass \Stellar\Common\ArrayUtil
  */
-class ArrayFnTests extends TestCase
+class ArrayUtilTests extends TestCase
 {
-    use ArrayFnTestsProvider;
+    use ArrayUtilTestsProvider;
 
     /**
      * @covers ::merge()
      */
     public function test_merge_empty_arrays()
     {
-        $this->assertSame([], Arr::merge([]));
-        $this->assertSame([], Arr::merge([], []));
-        $this->assertSame([], Arr::merge([], [], []));
+        $this->assertSame([], ArrayUtil::merge([]));
+        $this->assertSame([], ArrayUtil::merge([], []));
+        $this->assertSame([], ArrayUtil::merge([], [], []));
     }
 
     /**
@@ -27,14 +27,14 @@ class ArrayFnTests extends TestCase
      */
     public function test_merge_arrays_with_indexes()
     {
-        $this->assertSame([ 1, 2 ], Arr::merge([ 0, 1 ], [ 1, 2 ]));
-        $this->assertSame([ 2, 3, 4 ], Arr::merge([ 0, 1, 4 ], [ 2, 3 ]));
+        $this->assertSame([ 1, 2 ], ArrayUtil::merge([ 0, 1 ], [ 1, 2 ]));
+        $this->assertSame([ 2, 3, 4 ], ArrayUtil::merge([ 0, 1, 4 ], [ 2, 3 ]));
     }
 
     public function test_merge()
     {
-        $this->assertSame([ 'a' ], Arr::merge([ 'a' ]));
-        $this->assertSame([ 'a' => 1 ], Arr::merge([ 'a' => 1 ]));
+        $this->assertSame([ 'a' ], ArrayUtil::merge([ 'a' ]));
+        $this->assertSame([ 'a' => 1 ], ArrayUtil::merge([ 'a' => 1 ]));
     }
 
     /**
@@ -42,8 +42,8 @@ class ArrayFnTests extends TestCase
      */
     public function test_merge_with_empty_arrays()
     {
-        $this->assertSame([ 'a' => 1 ], Arr::merge([], [ 'a' => 1 ]));
-        $this->assertSame([ 'a' => 1, 0 => 'b' ], Arr::merge([ 'a' => 1 ], [], [ 'b' ]));
+        $this->assertSame([ 'a' => 1 ], ArrayUtil::merge([], [ 'a' => 1 ]));
+        $this->assertSame([ 'a' => 1, 0 => 'b' ], ArrayUtil::merge([ 'a' => 1 ], [], [ 'b' ]));
     }
 
     /**
@@ -51,7 +51,7 @@ class ArrayFnTests extends TestCase
      */
     public function test_merge_with_duplicate_keys()
     {
-        $this->assertSame([ 'a' => 1, 'b' => 3, 'c' => 2 ], Arr::merge(
+        $this->assertSame([ 'a' => 1, 'b' => 3, 'c' => 2 ], ArrayUtil::merge(
             [ 'a' => 1 ],
             [ 'b' => 2 ],
             [ 'c' => 2, 'b' => 3 ]
@@ -63,8 +63,8 @@ class ArrayFnTests extends TestCase
      */
     public function test_join_empty_key()
     {
-        $this->assertSame([ '' => '=baz' ], Arr::join('=', [ '' => 'baz' ]));
-        $this->assertSame([ '' => 'baz' ], Arr::join('', [ '' => 'baz' ]));
+        $this->assertSame([ '' => '=baz' ], ArrayUtil::join('=', [ '' => 'baz' ]));
+        $this->assertSame([ '' => 'baz' ], ArrayUtil::join('', [ '' => 'baz' ]));
     }
 
     /**
@@ -72,8 +72,8 @@ class ArrayFnTests extends TestCase
      */
     public function test_join_empty_value()
     {
-        $this->assertSame([ 'bar' => 'bar' ], Arr::join('', [ 'bar' => '' ]));
-        $this->assertSame([ 'bar' => 'bar;' ], Arr::join(';', [ 'bar' => '' ]));
+        $this->assertSame([ 'bar' => 'bar' ], ArrayUtil::join('', [ 'bar' => '' ]));
+        $this->assertSame([ 'bar' => 'bar;' ], ArrayUtil::join(';', [ 'bar' => '' ]));
     }
 
     /**
@@ -81,8 +81,8 @@ class ArrayFnTests extends TestCase
      */
     public function test_join_empty_key_and_value()
     {
-        $this->assertSame([], Arr::join('??', [ '' => '' ]));
-        $this->assertSame([ '' => '' ], Arr::join('??', [ '' => '' ], false));
+        $this->assertSame([], ArrayUtil::join('??', [ '' => '' ]));
+        $this->assertSame([ '' => '' ], ArrayUtil::join('??', [ '' => '' ], false));
     }
 
     /**
@@ -90,8 +90,8 @@ class ArrayFnTests extends TestCase
      */
     public function test_join_key_and_value()
     {
-        $this->assertSame([ 'foo' => 'foo=bar' ], Arr::join('=', [ 'foo' => 'bar' ]));
-        $this->assertSame([ 'foo' => 'foobar' ], Arr::join('', [ 'foo' => 'bar' ]));
+        $this->assertSame([ 'foo' => 'foo=bar' ], ArrayUtil::join('=', [ 'foo' => 'bar' ]));
+        $this->assertSame([ 'foo' => 'foobar' ], ArrayUtil::join('', [ 'foo' => 'bar' ]));
     }
 
     /**
@@ -100,7 +100,7 @@ class ArrayFnTests extends TestCase
     public function test_joinFormat_without_format_vars()
     {
         $input = [ 'test' => 'value' ];
-        $this->assertSame($input, Arr::joinFormat('the format does not have any vars', $input));
+        $this->assertSame($input, ArrayUtil::joinFormat('the format does not have any vars', $input));
     }
 
     /**
@@ -108,9 +108,9 @@ class ArrayFnTests extends TestCase
      */
     public function test_joinFormat_with_empty_values()
     {
-        $this->assertSame([], Arr::joinFormat('%k%v', []));
-        $this->assertSame([], Arr::joinFormat('%k%v', [ '' => '' ]));
-        $this->assertSame([ '' => '' ], Arr::joinFormat('%k%v', [ '' => '' ], false));
+        $this->assertSame([], ArrayUtil::joinFormat('%k%v', []));
+        $this->assertSame([], ArrayUtil::joinFormat('%k%v', [ '' => '' ]));
+        $this->assertSame([ '' => '' ], ArrayUtil::joinFormat('%k%v', [ '' => '' ], false));
     }
 
     /**
@@ -118,11 +118,11 @@ class ArrayFnTests extends TestCase
      */
     public function test_joinFormat_with_single_entry()
     {
-        $this->assertSame([ 'foo' => '0' ], Arr::joinFormat('%i', [ 'foo' => 'bar' ]));
-        $this->assertSame([ 'foo' => 'foo' ], Arr::joinFormat('%k', [ 'foo' => 'bar' ]));
-        $this->assertSame([ 'foo' => 'bar' ], Arr::joinFormat('%v', [ 'foo' => 'bar' ]));
-        $this->assertSame([ 'foo' => 'foobar' ], Arr::joinFormat('%k%v', [ 'foo' => 'bar' ]));
-        $this->assertSame([ 'foo' => '#0: foobar' ], Arr::joinFormat('#%i: %k%v', [ 'foo' => 'bar' ]));
+        $this->assertSame([ 'foo' => '0' ], ArrayUtil::joinFormat('%i', [ 'foo' => 'bar' ]));
+        $this->assertSame([ 'foo' => 'foo' ], ArrayUtil::joinFormat('%k', [ 'foo' => 'bar' ]));
+        $this->assertSame([ 'foo' => 'bar' ], ArrayUtil::joinFormat('%v', [ 'foo' => 'bar' ]));
+        $this->assertSame([ 'foo' => 'foobar' ], ArrayUtil::joinFormat('%k%v', [ 'foo' => 'bar' ]));
+        $this->assertSame([ 'foo' => '#0: foobar' ], ArrayUtil::joinFormat('#%i: %k%v', [ 'foo' => 'bar' ]));
     }
 
     /**
@@ -136,7 +136,7 @@ class ArrayFnTests extends TestCase
                 2   => '#1 2: bar',
                 '3' => '#2 3: baz',
             ],
-            Arr::joinFormat('#%i %k: %v', [
+            ArrayUtil::joinFormat('#%i %k: %v', [
                 0   => 'foo',
                 2   => 'bar',
                 '3' => 'baz',
@@ -157,7 +157,7 @@ class ArrayFnTests extends TestCase
             ],
         ];
 
-        $this->assertSame([ 1, 2, 'a', 'b', 'foo' ], Arr::flatten($array));
+        $this->assertSame([ 1, 2, 'a', 'b', 'foo' ], ArrayUtil::flatten($array));
     }
 
     /**
@@ -173,7 +173,7 @@ class ArrayFnTests extends TestCase
             ],
         ];
 
-        $this->assertSame([ 1, 2, 'a', 'b', [ [ 'foo' ] ] ], Arr::flatten($array, 1));
+        $this->assertSame([ 1, 2, 'a', 'b', [ [ 'foo' ] ] ], ArrayUtil::flatten($array, 1));
     }
 
     /**
@@ -189,7 +189,7 @@ class ArrayFnTests extends TestCase
             ],
         ];
 
-        $this->assertSame([ 1, 2, 'a', 'b', [ 'foo' ] ], Arr::flatten($array, 2));
+        $this->assertSame([ 1, 2, 'a', 'b', [ 'foo' ] ], ArrayUtil::flatten($array, 2));
     }
 
     /**
@@ -198,7 +198,7 @@ class ArrayFnTests extends TestCase
      */
     public function test_flattenKeys(array $expected, ... $args)
     {
-        $this->assertSame($expected, Arr::flattenKeys(... $args));
+        $this->assertSame($expected, ArrayUtil::flattenKeys(... $args));
     }
 
     /**
@@ -211,14 +211,14 @@ class ArrayFnTests extends TestCase
             'bar' => 'bar value',
         ];
 
-        $this->assertSame($array, Arr::withKeys($array, 'bar', 'foo'));
-        $this->assertSame([ 'foo' => 'foo value' ], Arr::withKeys($array, 'foo'));
-        $this->assertSame([ 'foo' => 'foo value' ], Arr::withKeys($array, 'foo', 'baz'));
-        $this->assertSame([], Arr::withKeys($array));
+        $this->assertSame($array, ArrayUtil::withKeys($array, 'bar', 'foo'));
+        $this->assertSame([ 'foo' => 'foo value' ], ArrayUtil::withKeys($array, 'foo'));
+        $this->assertSame([ 'foo' => 'foo value' ], ArrayUtil::withKeys($array, 'foo', 'baz'));
+        $this->assertSame([], ArrayUtil::withKeys($array));
     }
 
     public function test_withKeys_with_empty_array() {
-        $this->assertSame([], Arr::withKeys([], 'foo', 'bar'));
+        $this->assertSame([], ArrayUtil::withKeys([], 'foo', 'bar'));
     }
 
     /**
@@ -231,11 +231,11 @@ class ArrayFnTests extends TestCase
             'bar' => 'bar value',
         ];
 
-        $this->assertSame($array, Arr::withoutKeys($array));
-        $this->assertSame($array, Arr::withoutKeys($array, 'baz'));
-        $this->assertSame([ 'bar' => 'bar value' ], Arr::withoutKeys($array, 'foo'));
-        $this->assertSame([ 'foo' => 'foo value' ], Arr::withoutKeys($array, 'bar', 'baz'));
-        $this->assertSame([], Arr::withoutKeys($array, 'bar', 'foo'));
+        $this->assertSame($array, ArrayUtil::withoutKeys($array));
+        $this->assertSame($array, ArrayUtil::withoutKeys($array, 'baz'));
+        $this->assertSame([ 'bar' => 'bar value' ], ArrayUtil::withoutKeys($array, 'foo'));
+        $this->assertSame([ 'foo' => 'foo value' ], ArrayUtil::withoutKeys($array, 'bar', 'baz'));
+        $this->assertSame([], ArrayUtil::withoutKeys($array, 'bar', 'foo'));
     }
 
     /**
@@ -244,11 +244,11 @@ class ArrayFnTests extends TestCase
     public function test_wrap()
     {
         $expected = [ 'foo', 'bar' ];
-        $this->assertSame($expected, Arr::wrap($expected));
-        $this->assertSame([ $expected ], Arr::wrap([ $expected ]));
-        $this->assertSame([], Arr::wrap([]));
-        $this->assertSame([ 'baz' ], Arr::wrap('baz'));
-        $this->assertSame([ true ], Arr::wrap(true));
+        $this->assertSame($expected, ArrayUtil::wrap($expected));
+        $this->assertSame([ $expected ], ArrayUtil::wrap([ $expected ]));
+        $this->assertSame([], ArrayUtil::wrap([]));
+        $this->assertSame([ 'baz' ], ArrayUtil::wrap('baz'));
+        $this->assertSame([ true ], ArrayUtil::wrap(true));
     }
 
     /**
@@ -257,16 +257,16 @@ class ArrayFnTests extends TestCase
     public function test_unwrap()
     {
         $expected = [ 'foo', 'bar' ];
-        $this->assertSame($expected, Arr::unwrap($expected));
-        $this->assertSame([ $expected ], Arr::unwrap([ [ $expected ] ]));
-        $this->assertSame([], Arr::unwrap([]));
-        $this->assertSame('baz', Arr::unwrap([ 'baz' ]));
-        $this->assertTrue(Arr::unwrap([ true ]));
-        $this->assertNull(Arr::unwrap([ null ]));
+        $this->assertSame($expected, ArrayUtil::unwrap($expected));
+        $this->assertSame([ $expected ], ArrayUtil::unwrap([ [ $expected ] ]));
+        $this->assertSame([], ArrayUtil::unwrap([]));
+        $this->assertSame('baz', ArrayUtil::unwrap([ 'baz' ]));
+        $this->assertTrue(ArrayUtil::unwrap([ true ]));
+        $this->assertNull(ArrayUtil::unwrap([ null ]));
     }
 }
 
-trait ArrayFnTestsProvider
+trait ArrayUtilTestsProvider
 {
     public static function flattenKeysDataProvider() : array
     {

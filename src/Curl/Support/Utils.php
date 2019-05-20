@@ -2,7 +2,7 @@
 
 namespace Stellar\Curl\Support;
 
-use Stellar\Common\Types\StaticClass;
+use Stellar\Common\StaticClass;
 use Stellar\Curl\Curl;
 use Stellar\Common\Arr;
 

@@ -29,6 +29,7 @@ class Proxy extends AbstractOptions
 
     public function withType($type) : self
     {
+        // ConstList::proxyTypes()
         if (!\in_array($type, Curl::proxyTypeConstants(), true)) {
             // todo: throw exception
         }

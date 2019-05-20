@@ -104,6 +104,6 @@ abstract class Enum extends AbstractClassConst implements EnumInterface
     /** @inheritdoc */
     public function sameType(string $type) : bool
     {
-        return ($type === $this->getConst());
+        return $type === $this->getConst();
     }
 }

@@ -3,7 +3,7 @@
 namespace Stellar\Exceptions\Runtime;
 
 use Stellar\Exceptions\ExceptionInterface;
-use Stellar\Exceptions\Support\ExceptionFeatures;
+use Stellar\Exceptions\Traits\ExceptionFeatures;
 
 /**
  * Exception thrown if a value is not a valid key. This represents errors that cannot be detected at compile time.

@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace UnitTests\Common\Types;
+namespace UnitTests\Common;
 
-use Stellar\Common\Types\StaticClass;
+use Stellar\Common\StaticClass;
 
 final class StaticClassFixture extends StaticClass
 {

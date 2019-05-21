@@ -20,7 +20,7 @@ class StaticClassTests extends TestCase
 
     public function test_the_static_method_is_callable()
     {
-        $this->assertIsCallable([ StaticClassFixture::class, 'staticMethod' ]);
+        $this->assertTrue(\is_callable([ StaticClassFixture::class, 'staticMethod' ]));
     }
 }
 

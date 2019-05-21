@@ -39,7 +39,7 @@ class ArrayifyTests extends TestCase
      */
     public function test_iterable($expected, $var)
     {
-        $this->assertIsIterable($var);
+        $this->assertTrue(\is_iterable($var));
         $this->assertSame($expected, Arrayify::iterable($var));
     }
 }

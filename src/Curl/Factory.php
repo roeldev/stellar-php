@@ -6,7 +6,6 @@ use Psr\Http\Message\UriInterface;
 use Stellar\Common\Contracts\SingletonInterface;
 use Stellar\Container\Registry;
 use Stellar\Curl\Request\Request;
-use Stellar\Curl\Response\Response;
 use Stellar\Exceptions\Common\InvalidClass;
 use Stellar\Exceptions\Common\InvalidType;
 use Stellar\Common\Type;
@@ -37,14 +36,14 @@ class Factory implements SingletonInterface
         }
 
         $options = [
-            \CURLOPT_URL            => null,
+            \CURLOPT_URL => null,
             \CURLOPT_FOLLOWLOCATION => false,
-            \CURLOPT_TIMEOUT        => 30,
-            \CURLOPT_HEADER         => false,
+            \CURLOPT_TIMEOUT => 30,
+            \CURLOPT_HEADER => false,
 
             // default options that should not be changed
             \CURLOPT_RETURNTRANSFER => true,
-            \CURLOPT_FAILONERROR    => false,
+            \CURLOPT_FAILONERROR => false,
         ];
 
         $request = new Request($options);

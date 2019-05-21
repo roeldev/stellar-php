@@ -4,21 +4,10 @@ namespace Stellar\Curl\Request;
 
 use Stellar\Common\Identify;
 use Stellar\Curl\Contracts\CurlResourceInterface;
-use Stellar\Curl\Events\MultiStatusEvent;
-use Stellar\Events\EventDispatchable;
-use Stellar\Events\EventDispatchableInterface;
-use Stellar\Events\EventDispatcher;
 
-class Multi implements CurlResourceInterface, EventDispatchableInterface
+class Multi implements CurlResourceInterface
 {
     use EventDispatchable;
-
-    public const EVENT_START  = 'curl_multi.start';
-
-    public const EVENT_RESULT = 'curl_multi.result';
-
-    /** @var EventDispatcher */
-    private $_eventDispatcher;
 
     /** @var resource */
     protected $_resource;
@@ -72,11 +61,6 @@ class Multi implements CurlResourceInterface, EventDispatchableInterface
         // process the received response
         $request->processMultiResponse($this->_resource, $error);
         \curl_multi_remove_handle($this->_resource, $request->getResource());
-
-        $this->_eventDispatcher->dispatch(
-            self::EVENT_RESULT,
-            new MultiStatusEvent($this->_queueTotal, $this->_queueLeft, $this->_passes, $status, $error)
-        );
     }
 
     /** {@inheritdoc} */
@@ -90,16 +74,9 @@ class Multi implements CurlResourceInterface, EventDispatchableInterface
      */
     public function __construct(array $requests = [])
     {
-        $this->_eventDispatcher = new EventDispatcher($this, 'curl_multi');
-
         if (!empty($requests)) {
             $this->_requests = $requests;
         }
-    }
-
-    final public function eventDispatcher() : EventDispatcher
-    {
-        return $this->_eventDispatcher;
     }
 
     /**
@@ -218,14 +195,8 @@ class Multi implements CurlResourceInterface, EventDispatchableInterface
     public function execute() : self
     {
         $this->init();
-        $this->_eventDispatcher->dispatch('curl_multi.before_execute');
         $this->_queueTotal = \count($this->_queue);
         $this->_queueLeft = $previouslyLeft = $this->_queueTotal;
-
-        $this->_eventDispatcher->dispatch(
-            self::EVENT_START,
-            new MultiStatusEvent($this->_queueTotal, $this->_queueLeft)
-        );
 
         while ($this->_queueLeft > 0) {
             $this->_passes++;
@@ -244,7 +215,6 @@ class Multi implements CurlResourceInterface, EventDispatchableInterface
         }
 
         $this->_executed = true;
-        $this->_eventDispatcher->dispatch('curl_multi.after_execute');
 
         return $this;
     }

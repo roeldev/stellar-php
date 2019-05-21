@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Stellar\Curl\Response;
 
@@ -14,10 +14,11 @@ class JsonResponse extends Response implements ArrayableInterface
         return $this->_data[ $name ] ?? null;
     }
 
-    public function __construct($requestResource,
-                                array $usedOptions,
-                                string $response)
-    {
+    public function __construct(
+        $requestResource,
+        array $usedOptions,
+        string $response
+    ) {
         parent::__construct($requestResource, $usedOptions, $response);
         $this->_data = \json_decode($this->_body, true);
     }

@@ -18,7 +18,6 @@ use Stellar\Exceptions\Common\InvalidType;
 use Stellar\Factory\Factory;
 use Stellar\Http\Headers\HeaderLines;
 
-
 class Request implements CurlResourceInterface, OptionableInterface, StringableInterface
 {
     use ToString;

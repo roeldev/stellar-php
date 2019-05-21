@@ -2,6 +2,7 @@
 
 namespace Stellar\Curl\Support;
 
+use Stellar\Common\ArrayUtil;
 use Stellar\Common\StaticClass;
 use Stellar\Curl\Curl;
 use Stellar\Common\Arr;
@@ -62,12 +63,12 @@ final class Utils extends StaticClass
     {
         foreach (self::MERGE_JOIN_OPTIONS as $option) {
             if (isset($merge[ $option ])) {
-                $target[ $option ] = Arr::merge($target[ $option ] ?? [], $merge[ $option ]);
+                $target[ $option ] = ArrayUtil::merge($target[ $option ] ?? [], $merge[ $option ]);
                 unset($merge[ $option ]);
             }
         }
 
-        return Arr::merge($target, $merge);
+        return ArrayUtil::merge($target, $merge);
     }
 
     public static function parseUrl(string $option) : array

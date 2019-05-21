@@ -3,8 +3,7 @@
 namespace Stellar\Curl;
 
 use Psr\Http\Message\UriInterface;
-use Stellar\Common\Contracts\SingletonInterface;
-use Stellar\Container\Registry;
+use Stellar\Container\AbstractFactory;
 use Stellar\Curl\Request\Request;
 use Stellar\Exceptions\Common\InvalidClass;
 use Stellar\Exceptions\Common\InvalidType;
@@ -13,13 +12,8 @@ use Stellar\Common\Type;
 /**
  * todo: make psr7 + psr17 compatible
  */
-class Factory implements SingletonInterface
+final class Factory extends AbstractFactory
 {
-    public static function instance() : self
-    {
-        return Registry::singleton(static::class);
-    }
-
     /**
      * {@inheritdoc}
      *

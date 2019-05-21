@@ -2,10 +2,13 @@
 
 namespace Stellar\Enum;
 
+use Stellar\Common\Contracts\StringableInterface;
+use Stellar\Constants\Contracts\ClassConstantInterface;
+
 /**
  * Definition of the static methods an Enumerable class should have.
  */
-interface EnumInterface
+interface EnumInterface extends ClassConstantInterface, StringableInterface
 {
     public static function enum() : EnumerablesList;
 

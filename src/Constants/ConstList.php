@@ -9,27 +9,11 @@ use Stellar\Common\StaticClass;
  */
 class ConstList extends StaticClass
 {
-    public static function fromCategory(string $category) : array
-    {
-        $definedConstants = \get_defined_constants(true);
-        $result = $definedConstants[ $category ] ?? null;
-
-        if (null === $result) {
-            $category = \strtolower($category);
-
-            $result = $definedConstants[ $category ] ??
-                      $definedConstants[ \ucfirst($category) ] ??
-                      [];
-        }
-
-        return $result ?? [];
-    }
-
     public static function startingWith(string $prefix, ?string $category = null) : array
     {
-        $definedConstants = null === $category ?
-            \get_defined_constants() :
-            self::fromCategory($category);
+        $definedConstants = (null === $category)
+            ? \get_defined_constants()
+            : ConstUtil::getList($category);
 
         $result = [];
         foreach ($definedConstants as $name => $value) {

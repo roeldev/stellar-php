@@ -2,9 +2,7 @@
 
 namespace Stellar\Enum;
 
-use Stellar\Constants\AbstractClassConst;
-use Stellar\Container\ServiceRequest;
-use Stellar\Container\Registry;
+use Stellar\Common\Traits\ToString;
 use Stellar\Enum\Exceptions\ConstructionFailure;
 use Stellar\Enum\Traits\EnumFeatures;
 use Stellar\Exceptions\Common\UndefinedClassConstant;
@@ -23,20 +21,10 @@ use Stellar\Exceptions\Common\UnknownStaticMethod;
 /**
  * @see \UnitTests\Enum\EnumTests
  */
-abstract class Enum extends AbstractClassConst implements EnumInterface
+abstract class Enum implements EnumInterface
 {
     use EnumFeatures;
-
-    private static function _instance(string $class, string $name)
-    {
-        // get a container instance for the enum class and request an instance for the enum const
-        // the instance has to be created inside Enum because it's constructor is protected
-        return Registry::container($class)->request($name, function () use ($class, $name) {
-            $service = new $class($class, $name);
-
-            return (new ServiceRequest($service))->asSingleton();
-        });
-    }
+    use ToString;
 
     /**
      * @param string $name
@@ -103,9 +91,64 @@ abstract class Enum extends AbstractClassConst implements EnumInterface
         $this->_value = \call_user_func($class . '::valueOf', \constant($this->getConst()));
     }
 
+    /**
+     * Full name of the class of which the const belongs to.
+     *
+     * @var string
+     */
+    protected $_class;
+
+    /**
+     * Name of the const.
+     *
+     * @var string
+     */
+    protected $_name;
+
+    /**
+     * Value of the const.
+     *
+     * @var mixed
+     */
+    protected $_value;
+
+    /** {@inheritdoc} */
+    public function getClass() : string
+    {
+        return $this->_class;
+    }
+
+    /** {@inheritdoc} */
+    public function getName() : string
+    {
+        return $this->_name;
+    }
+
+    /** {@inheritdoc} */
+    public function getConst() : string
+    {
+        return $this->_class . '::' . $this->_name;
+    }
+
+    /** {@inheritdoc} */
+    public function getValue()
+    {
+        if (null === $this->_value) {
+            $this->_value = \constant($this->getConst());
+        }
+
+        return $this->_value;
+    }
+
     /** @inheritdoc */
     public function sameType(string $type) : bool
     {
         return $type === $this->getConst();
+    }
+
+    /** {@inheritdoc} */
+    public function __toString()
+    {
+        return $this->getConst();
     }
 }

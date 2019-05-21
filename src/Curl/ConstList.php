@@ -3,7 +3,7 @@
 namespace Stellar\Curl;
 
 use Stellar\Common\StaticClass;
-use Stellar\Constants\ConstList;
+use Stellar\Constants\ConstList as CL;
 
 class ConstList extends StaticClass
 {
@@ -13,7 +13,7 @@ class ConstList extends StaticClass
     private static function _constList(string $prefix, array $add = []) : array
     {
         if (!\array_key_exists($prefix, self::$_constList)) {
-            $list = ConstList::startingWith($prefix, 'curl');
+            $list = CL::startingWith($prefix, 'curl');
             foreach ($add as $constant) {
                 $list[ $constant ] = \constant($constant);
             }

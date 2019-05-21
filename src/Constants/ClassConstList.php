@@ -31,7 +31,7 @@ class ClassConstList implements ArrayableInterface, \Countable
     /**
      * @var string[]
      */
-    protected $_consts;
+    protected $_names;
 
     /**
      * @throws UndeclaredClass
@@ -41,10 +41,10 @@ class ClassConstList implements ArrayableInterface, \Countable
         try {
             $this->_class = $class;
             $this->_list = (new \ReflectionClass($class))->getConstants();
-            $this->_consts = \array_keys($this->_list);
+            $this->_names = \array_keys($this->_list);
 
-            foreach ($this->_consts as $i => $const) {
-                $this->_consts[ $i ] = $class . '::' . $const;
+            foreach ($this->_names as $i => $const) {
+                $this->_names[ $i ] = $class . '::' . $const;
             }
         }
         catch (\ReflectionException $previous) {
@@ -87,7 +87,7 @@ class ClassConstList implements ArrayableInterface, \Countable
     public function hasName(?string $name) : bool
     {
         return ($name && \array_key_exists($name, $this->_list))
-               || \in_array((string) $name, $this->_consts, true);
+               || \in_array((string) $name, $this->_names, true);
     }
 
     /**
@@ -131,7 +131,7 @@ class ClassConstList implements ArrayableInterface, \Countable
     {
         $result = null;
         if (\is_string($var)) {
-            [ $class, $var ] = ClassConst::split($var) ?? [ null, null ];
+            [ $class, $var ] = ConstUtil::split($var) ?? [ null, null ];
             if ($class !== $this->_class) {
                 throw InvalidClass::factory($this->_class, $class ?? $var)->create();
             }
@@ -153,6 +153,6 @@ class ClassConstList implements ArrayableInterface, \Countable
      */
     public function toArray() : array
     {
-        return \array_combine($this->_consts, $this->_list);
+        return \array_combine($this->_names, $this->_list);
     }
 }

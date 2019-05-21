@@ -52,7 +52,7 @@ abstract class Enum extends AbstractClassConst implements EnumInterface
         // on the Enum class, and when $name is all uppercase characters
         if (__CLASS__ !== static::class && \strtoupper($name) === $name) {
             if (static::enum()->hasName($name)) {
-                return self::_instance(static::class, $name);
+                return Factory::instance()->createEnum(static::class, $name);
             }
 
             throw UndefinedClassConstant::factory(static::class, $name)->create();
@@ -67,12 +67,14 @@ abstract class Enum extends AbstractClassConst implements EnumInterface
     // SomeEnum::instance(SomeEnum::TYPE); -> new SomeEnum('SomeEnum', 'TYPE);
     final public static function instance($type)
     {
+        $factory = Factory::instance();
+
         if (__CLASS__ === static::class) {
             // only allow Enum to construct enum instances from enum subclasses
             if (\is_string($type) && false !== \strpos($type, '::')) {
                 [ $class, $name ] = \explode('::', $type, 2);
                 if (\class_exists($class) && \is_a($class, __CLASS__, true)) {
-                    return self::_instance((string) $class, $name);
+                    return $factory->createEnum((string) $class, $name);
                 }
             }
 
@@ -83,12 +85,12 @@ abstract class Enum extends AbstractClassConst implements EnumInterface
 
         // $type is the name of a constant within this enum subclass
         if ($enumerablesList->hasName($type)) {
-            return self::_instance(static::class, $type);
+            return $factory->createEnum(static::class, $type);
         }
         // $type is the value of a constant within this enum subclass
         $name = $enumerablesList->nameOf($type);
         if (null !== $name) {
-            return self::_instance(static::class, $name);
+            return $factory->createEnum(static::class, $name);
         }
 
         throw UndefinedClassConstant::factory(static::class, $type)->create();

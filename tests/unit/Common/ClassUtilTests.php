@@ -34,9 +34,9 @@ class ClassUtilTests extends TestCase
     public function test_get_used_traits()
     {
         $this->assertSame([
-            ClassFixture::class          => [ DependentTraitFixture::class ],
+            ClassFixture::class => [ DependentTraitFixture::class ],
             DependentTraitFixture::class => [ TraitFixture::class ],
-            TraitFixture::class          => [],
+            TraitFixture::class => [],
         ], ClassUtil::getUsedTraits(ClassFixture::class));
     }
 
@@ -56,18 +56,24 @@ class ClassUtilTests extends TestCase
     }
 }
 
-// -----------------------------------------------------------------------------
-
+/**
+ * @internal
+ */
 trait TraitFixture
 {
 }
 
-
+/**
+ * @internal
+ */
 trait DependentTraitFixture
 {
     use TraitFixture;
 }
 
+/**
+ * @internal
+ */
 class ClassFixture
 {
     use DependentTraitFixture;

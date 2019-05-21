@@ -3,9 +3,8 @@
 namespace UnitTests\Common;
 
 use PHPUnit\Framework\TestCase;
+use Stellar\Common\StaticClass;
 use Stellar\Common\Testing\AssertStaticClass;
-
-require_once 'StaticClassTests.inc.php';
 
 /**
  * @coversDefaultClass \Stellar\Common\StaticClass
@@ -21,6 +20,16 @@ class StaticClassTests extends TestCase
 
     public function test_the_static_method_is_callable()
     {
-        $this->assertTrue(\is_callable([ StaticClassFixture::class, 'staticMethod' ]));
+        $this->assertIsCallable([ StaticClassFixture::class, 'staticMethod' ]);
+    }
+}
+
+/**
+ * @internal
+ */
+final class StaticClassFixture extends StaticClass
+{
+    public static function staticMethod() : void
+    {
     }
 }

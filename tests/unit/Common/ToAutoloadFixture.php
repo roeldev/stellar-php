@@ -2,6 +2,9 @@
 
 namespace UnitTests\Common;
 
+/**
+ * @internal
+ */
 class ToAutoloadFixture
 {
 }

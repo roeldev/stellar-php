@@ -10,7 +10,7 @@ use Stellar\Common\ArrayUtil;
  */
 class ArrayUtilTests extends TestCase
 {
-    use ArrayUtilTestsProvider;
+    use ArrayUtilTestsDataProvider;
 
     /**
      * @covers ::merge()
@@ -194,7 +194,7 @@ class ArrayUtilTests extends TestCase
 
     /**
      * @covers ::flattenKeys()
-     * @dataProvider flattenKeysDataProvider()
+     * @dataProvider flattenKeysProvider()
      */
     public function test_flattenKeys(array $expected, ... $args)
     {
@@ -266,9 +266,12 @@ class ArrayUtilTests extends TestCase
     }
 }
 
-trait ArrayUtilTestsProvider
+/**
+ * @internal
+ */
+trait ArrayUtilTestsDataProvider
 {
-    public static function flattenKeysDataProvider() : array
+    public static function flattenKeysProvider() : array
     {
         return [
             [

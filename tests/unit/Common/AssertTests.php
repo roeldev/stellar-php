@@ -4,10 +4,11 @@ namespace UnitTests\Common;
 
 use PHPUnit\Framework\TestCase;
 use Stellar\Common\Contracts\ArrayableInterface;
+use Stellar\Common\Contracts\InvokableInterface;
+use Stellar\Common\Contracts\StringableInterface;
 use Stellar\Common\Assert;
 use Stellar\Common\Dummy;
-
-require_once 'AssertTests.inc.php';
+use Stellar\Common\Traits\ToString;
 
 /**
  * @coversDefaultClass \Stellar\Common\Assert
@@ -38,7 +39,7 @@ class AssertTests extends TestCase
 
     /**
      * @covers ::isTruthy()
-     * @dataProvider provideTruthy()
+     * @dataProvider truthyProvider()
      */
     public function test_isTruthy($var)
     {
@@ -47,7 +48,7 @@ class AssertTests extends TestCase
 
     /**
      * @covers ::isTruthy()
-     * @dataProvider provideFalsey()
+     * @dataProvider falseyProvider()
      */
     public function test_not_isTruthy($var)
     {
@@ -56,7 +57,7 @@ class AssertTests extends TestCase
 
     /**
      * @covers ::isFalsy()
-     * @dataProvider provideFalsey()
+     * @dataProvider falseyProvider()
      */
     public function test_isFalsey($var)
     {
@@ -65,7 +66,7 @@ class AssertTests extends TestCase
 
     /**
      * @covers ::isFalsy()
-     * @dataProvider provideTruthy()
+     * @dataProvider truthyProvider()
      */
     public function test_not_isFalsey($var)
     {
@@ -244,5 +245,67 @@ class AssertTests extends TestCase
         $this->assertFalse(Assert::isStringable([]));
         $this->assertFalse(Assert::isStringable(new \ArrayObject()));
         $this->assertFalse(Assert::isStringable(Dummy::anonymousObject()));
+    }
+}
+
+/**
+ * @internal
+ */
+trait AssertTestsDataProvider
+{
+    public static function truthyProvider() : array
+    {
+        return [
+            [ true ],
+            [ 1 ],
+            [ '1' ],
+            [ 'true' ],
+            [ 'TRUE' ],
+            [ 'on' ],
+            [ 'On' ],
+            [ 'y' ],
+            [ 'yes' ],
+        ];
+    }
+
+    public static function falseyProvider() : array
+    {
+        return [
+            [ false ],
+            [ null ],
+            [ [] ],
+            [ '' ],
+            [ 0 ],
+            [ '0' ],
+            [ 'false' ],
+            [ 'FALSE' ],
+            [ 'off' ],
+            [ 'Off' ],
+            [ 'n' ],
+            [ 'no' ],
+        ];
+    }
+}
+
+/**
+ * @internal
+ */
+class InvokableFixture implements InvokableInterface
+{
+    public function __invoke()
+    {
+    }
+}
+
+/**
+ * @internal
+ */
+class StringableFixture implements StringableInterface
+{
+    use ToString;
+
+    public function __toString() : string
+    {
+        return 'foobar';
     }
 }

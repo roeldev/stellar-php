@@ -71,8 +71,8 @@ class StringUtilTests extends TestCase
      */
     public function test_unprefix()
     {
-        $this->assertEquals('some=query&value', StringUtil::unPrefix('?some=query&value', '?'));
-        $this->assertEquals('bar0', StringUtil::unPrefix('foo-bar0', 'foo-'));
+        $this->assertEquals('some=query&value', StringUtil::unprefix('?some=query&value', '?'));
+        $this->assertEquals('bar0', StringUtil::unprefix('foo-bar0', 'foo-'));
     }
 
     /**
@@ -80,9 +80,9 @@ class StringUtilTests extends TestCase
      */
     public function test_unable_to_unprefix()
     {
-        $this->assertEquals('foo-bar', StringUtil::unPrefix('foo-bar', ''));
-        $this->assertEquals('foo-bar', StringUtil::unPrefix('foo-bar', '-'));
-        $this->assertEquals('some=query&value', StringUtil::unPrefix('some=query&value', '?'));
+        $this->assertEquals('foo-bar', StringUtil::unprefix('foo-bar', ''));
+        $this->assertEquals('foo-bar', StringUtil::unprefix('foo-bar', '-'));
+        $this->assertEquals('some=query&value', StringUtil::unprefix('some=query&value', '?'));
     }
 
     /**
@@ -113,8 +113,8 @@ class StringUtilTests extends TestCase
      */
     public function test_unsuffix()
     {
-        $this->assertEquals('localhost', StringUtil::unSuffix('localhost:81', ':81'));
-        $this->assertEquals('foo-', StringUtil::unSuffix('foo-bar0', 'bar0'));
+        $this->assertEquals('localhost', StringUtil::unsuffix('localhost:81', ':81'));
+        $this->assertEquals('foo-', StringUtil::unsuffix('foo-bar0', 'bar0'));
     }
 
     /**
@@ -122,7 +122,7 @@ class StringUtilTests extends TestCase
      */
     public function test_unable_to_unsuffix()
     {
-        $this->assertEquals('foo-bar', StringUtil::unSuffix('foo-bar', ''));
-        $this->assertEquals('foo-bar', StringUtil::unSuffix('foo-bar', '-'));
+        $this->assertEquals('foo-bar', StringUtil::unsuffix('foo-bar', ''));
+        $this->assertEquals('foo-bar', StringUtil::unsuffix('foo-bar', '-'));
     }
 }

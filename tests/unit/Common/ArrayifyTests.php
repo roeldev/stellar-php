@@ -12,14 +12,69 @@ use Stellar\Common\Dummy;
  */
 class ArrayifyTests extends TestCase
 {
-    public static function castToArray() : array
-    {
-        $data = [
-            'foo'        => 'foo value',
-            'bar'        => 'bar value',
-            'anotherFoo' => 'foo value',
-        ];
+    use ArrayifyTestsDataProvider;
 
+    /**
+     * @covers ::any()
+     * @dataProvider anyProvider()
+     */
+    public function test_any($expected, $var)
+    {
+        $this->assertSame($expected, Arrayify::any($var));
+    }
+
+    /**
+     * @covers ::traversable()
+     * @dataProvider traversablesProvider()
+     */
+    public function test_traversable($expected, $var)
+    {
+        $this->assertInstanceOf(\Traversable::class, $var);
+        $this->assertSame($expected, Arrayify::traversable($var));
+    }
+
+    /**
+     * @covers ::iterable()
+     * @dataProvider iterablesProvider()
+     */
+    public function test_iterable($expected, $var)
+    {
+        $this->assertIsIterable($var);
+        $this->assertSame($expected, Arrayify::iterable($var));
+    }
+}
+
+/**
+ * @internal
+ */
+trait ArrayifyTestsDataProvider
+{
+    private static $_testData = [
+        'foo' => 'foo value',
+        'bar' => 'bar value',
+        'anotherFoo' => 'foo value',
+    ];
+
+    public static function traversablesProvider() : array
+    {
+        return [
+            [ [], new \ArrayObject() ],
+            [ self::$_testData, new \ArrayObject(self::$_testData) ],
+            [ [], new \ArrayIterator() ],
+            [ self::$_testData, new \ArrayIterator(self::$_testData) ],
+        ];
+    }
+
+    public static function iterablesProvider() : array
+    {
+        return array_merge(self::traversablesProvider(), [
+            [ [], [] ],
+            [ self::$_testData, self::$_testData ],
+        ]);
+    }
+
+    public static function anyProvider() : array
+    {
         $anonClass = new class()
         {
             private $_ignore = 'this property should not be converted';
@@ -31,28 +86,13 @@ class ArrayifyTests extends TestCase
             public $anotherFoo = 'foo value';
         };
 
-        return [
-            [ [], [] ],
-            [ $data, $data ],
-            [ $data, new ArrayableFixture() ],
-            [ [], new \ArrayObject() ],
-            [ $data, new \ArrayObject($data) ],
-            [ [], new \ArrayIterator() ],
-            [ $data, new \ArrayIterator($data) ],
+        return \array_merge(self::iterablesProvider(), [
+            [ self::$_testData, new ArrayableFixture() ],
             [ [], Dummy::anonymousObject() ],
-            [ $data, $anonClass ],
+            [ self::$_testData, $anonClass ],
             [ null, false ],
             [ null, 'array' ],
-        ];
-    }
-
-    /**
-     * @covers ::toArray()
-     * @dataProvider castToArray()
-     */
-    public function test_toArray($expected, $var)
-    {
-        $this->assertSame($expected, Arrayify::any($var));
+        ]);
     }
 }
 
@@ -61,14 +101,10 @@ class ArrayifyTests extends TestCase
  */
 class ArrayableFixture implements ArrayableInterface
 {
-    public $foo = 'foo value';
-
-    public $bar = 'bar value';
-
-    public $anotherFoo = 'foo value';
+    use ArrayifyTestsDataProvider;
 
     public function toArray() : array
     {
-        return (array) $this;
+        return self::$_testData;
     }
 }

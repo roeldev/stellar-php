@@ -3,6 +3,7 @@
 namespace UnitTests\Common\Testing;
 
 use PHPUnit\Framework\TestCase;
+use Stellar\Common\Testing\CaptureMethodCalls;
 
 class CaptureCallStackTests extends TestCase
 {
@@ -26,4 +27,12 @@ class CaptureCallStackTests extends TestCase
         $this->assertNull($callTrace->get('someCapturedMethodCall'));
         $this->assertSame([], $callTrace->toArray());
     }
+}
+
+/**
+ * @internal
+ */
+final class CallTraceFixture
+{
+    use CaptureMethodCalls;
 }

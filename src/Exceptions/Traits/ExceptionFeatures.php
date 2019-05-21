@@ -2,7 +2,6 @@
 
 namespace Stellar\Exceptions\Traits;
 
-use Stellar\Common\ArrayUtil;
 use Stellar\Common\Traits\ToString;
 use Stellar\Exceptions\Severity;
 
@@ -63,14 +62,15 @@ trait ExceptionFeatures
     {
         $result = [
             'exception' => static::class,
-            'message'   => $this->getMessage(),
-            'code'      => $this->getCode(),
-            'file'      => $this->getFile(),
-            'line'      => $this->getLine(),
+            'message' => $this->getMessage(),
+            'code' => $this->getCode(),
+            'file' => $this->getFile(),
+            'line' => $this->getLine(),
         ];
 
         if ($this instanceof ErrorInterface) {
-            $result['severity'] = ArrayUtil::withKeys($this->getSeverity()->toArray(), 'name', 'value');
+            $severity = $this->getSeverity();
+            $result['severity'] = [ 'name' => $severity->getName(), 'value' => $severity->getValue() ];
             $result['arguments'] = $this->getArguments();
         }
 

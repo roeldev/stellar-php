@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 use Stellar\Enum\Enum;
 use Stellar\Enum\Exceptions\InvalidType;
 use Stellar\Exceptions\Error;
-use Stellar\Exceptions\Severity;
 use Stellar\Exceptions\Testing\AssertException;
 
 /**
@@ -32,13 +31,6 @@ class EnumTests extends TestCase
         $this->assertFalse((new \ReflectionMethod(EnumFixture::class, '__construct'))->isPublic());
     }
 
-    public function test_get_an_instance_from_the_enum_class()
-    {
-        $actual = Enum::instance(EnumFixture::class . '::FOO');
-        $this->_assertEnumInstance($actual, EnumFixture::class, 'FOO', 'foo');
-        $this->assertSame(EnumFixture::FOO(), $actual);
-    }
-
     public function test_fail_to_get_an_instance_from_the_enum_class()
     {
         $this->expectException(Error::class);
@@ -48,18 +40,6 @@ class EnumTests extends TestCase
             Enum::instance('EnumFixture::FOO');
         });
     }
-
-    public function test_get_an_instance_from_a_constant_value()
-    {
-        $target = EnumFixture::instance(EnumFixture::BAZ);
-        $this->_assertEnumInstance($target, EnumFixture::class, 'BAZ', 'baz');
-    }
-
-    // public function test_fail_to_get_an_instance_from_a_constant_value()
-    // {
-    //     $this->expectException(InvalidType::class);
-    //     EnumFixture::instance('invalid!');
-    // }
 
     public function test_get_an_instance_using_callStatic_magic()
     {
@@ -71,10 +51,10 @@ class EnumTests extends TestCase
     // {
     //     $this->expectException(InvalidType::class);
     //     $this->expectExceptionSeverity(Severity::WARNING());
-    //     $this->expectExceptionArguments([ 'class' => EnumFixture::class, 'type' => 'BURP' ]);
+    //     $this->expectExceptionArguments([ 'class' => EnumFixture::class, 'type' => 'WHOOPS' ]);
     //
     //     $this->assertException(function () {
-    //         EnumFixture::BURP();
+    //         EnumFixture::WHOOPS();
     //     });
     // }
 

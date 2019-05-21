@@ -8,7 +8,7 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         stopOnFailure="false">
+         stopOnFailure="true">
   <testsuites>
     <testsuite name="Unit">
       <directory suffix="Tests.php">./tests/unit/</directory>
@@ -19,8 +19,7 @@
       <directory suffix="Tests.php">./tests/unit/Enum/</directory>
       <directory suffix="Tests.php">./tests/unit/Exceptions/</directory>
       <directory suffix="Tests.php">./tests/unit/Limitations/</directory>
-      <directory suffix="Tests.php">./tests/unit/Support/</directory>
-      <directory suffix="PrototypingTests.php">./tests/unit/</directory>
+<!--      <directory suffix="PrototypingTests.php">./tests/unit/</directory>-->
     </testsuite>
   </testsuites>
 

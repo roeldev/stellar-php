@@ -71,7 +71,7 @@ final class ExceptionFactory
             $this->_message = [];
         }
 
-        $this->_message[] = StringUtil::unSuffix($message, '.');
+        $this->_message[] = StringUtil::unsuffix($message, '.');
 
         return $this;
     }

@@ -41,6 +41,8 @@
     }
   },
   "scripts": {
+    "setup-stable": "composer update --prefer-dist --no-interaction --prefer-stable",
+    "setup-lowest": "composer update --prefer-dist --no-interaction --prefer-lowest --prefer-stable",
     "test": "php ./vendor/bin/phpunit",
     "test-dist": "php ./vendor/bin/phpunit -c phpunit.xml.dist",
     "analyse": "phpstan analyse --level=7 --no-progress ./src/ ./tests/",

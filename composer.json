@@ -41,7 +41,8 @@
     }
   },
   "scripts": {
-    "test": "php ./vendor/bin/phpunit --bootstrap ./tests/autoload.php",
+    "test": "php ./vendor/bin/phpunit",
+    "test-dist": "php ./vendor/bin/phpunit -c phpunit.xml.dist",
     "analyse": "phpstan analyse --level=7 --no-progress ./src/ ./tests/",
     "analyze": "composer run analyse",
     "checkstyle": "phpcs -s --standard=./vendor/roeldev/phpcs-ruleset/phpcs-ruleset.xml --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 ./src/",

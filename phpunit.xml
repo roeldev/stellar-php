@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false"
-         backupStaticAttributes="false"
          bootstrap="tests/autoload.php"
          printerClass="Codedungeon\PHPUnitPrettyResultPrinter\Printer"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="true">
+         failOnRisky="true"
+         failOnWarning="true"
+         stopOnFailure="false">
   <testsuites>
     <testsuite name="Unit">
       <directory suffix="Tests.php">./tests/unit/</directory>

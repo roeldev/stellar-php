@@ -3,12 +3,10 @@
 namespace Stellar\Curl\Request;
 
 use Stellar\Common\Identify;
-use Stellar\Curl\Contracts\CurlResourceInterface;
+use Stellar\Curl\Contracts\CurlRequestInterface;
 
-class Multi implements CurlResourceInterface
+class MultiRequest implements CurlRequestInterface
 {
-    use EventDispatchable;
-
     /** @var resource */
     protected $_resource;
 
@@ -82,7 +80,7 @@ class Multi implements CurlResourceInterface
     /**
      * Add a Request object that should be executed.
      *
-     * @return static
+     * @return $this
      */
     public function addRequest(Request $request) : self
     {
@@ -101,7 +99,7 @@ class Multi implements CurlResourceInterface
     /**
      * Closure(Request $request, ?int $index) : ?bool
      *
-     * @return static
+     * @return $this
      */
     public function forEach(\Closure $func) : self
     {
@@ -189,9 +187,7 @@ class Multi implements CurlResourceInterface
         return $this;
     }
 
-    /**
-     * Closure(array $status) : void
-     */
+    /** {@inheritdoc} */
     public function execute() : self
     {
         $this->init();

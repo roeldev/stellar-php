@@ -4,7 +4,7 @@ namespace Stellar\Curl;
 
 use Stellar\Common\StaticClass;
 use Stellar\Curl\Options\Options;
-use Stellar\Curl\Request\Multi;
+use Stellar\Curl\Request\MultiRequest;
 use Stellar\Curl\Request\Request;
 
 /**
@@ -25,9 +25,14 @@ class Curl extends StaticClass
 
     public const METHOD_PATCH = 'PATCH';
 
-    public static function multi(Request ... $request) : Multi
+    public static function factory() : Factory
     {
-        return new Multi($request);
+        return Factory::instance();
+    }
+
+    public static function multi(RequestInterface ... $request) : MultiRequest
+    {
+        return new MultiRequest($request);
     }
 
     public static function request(string $method, string $url, array $options = []) : Request

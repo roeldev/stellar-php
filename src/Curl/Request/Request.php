@@ -6,7 +6,7 @@ use Stellar\Common\Contracts\StringableInterface;
 use Stellar\Common\Traits\ToString;
 use Stellar\Common\ArrayUtil;
 use Stellar\Common\Type;
-use Stellar\Curl\Contracts\CurlResourceInterface;
+use Stellar\Curl\Contracts\CurlRequestInterface;
 use Stellar\Curl\Contracts\OptionableInterface;
 use Stellar\Curl\Contracts\OptionsInterface;
 use Stellar\Curl\Curl;
@@ -18,7 +18,7 @@ use Stellar\Exceptions\Common\InvalidType;
 use Stellar\Factory\Factory;
 use Stellar\Http\Headers\HeaderLines;
 
-class Request implements CurlResourceInterface, OptionableInterface, StringableInterface
+class Request implements CurlRequestInterface, OptionableInterface, StringableInterface
 {
     use ToString;
 

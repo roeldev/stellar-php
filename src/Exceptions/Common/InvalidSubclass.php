@@ -9,20 +9,20 @@ use Stellar\Exceptions\Logic\InvalidArgumentException;
 class InvalidSubclass extends InvalidArgumentException
 {
     /**
-     * @param object|string $expectedClass
+     * @param object|string $subclass
      * @param object|string $actualClass
      */
-    public static function factory($expectedClass, $actualClass, ?string $argument = null) : ExceptionFactory
+    public static function factory($subclass, $actualClass, ?string $argument = null) : ExceptionFactory
     {
-        $expectedClass = Stringify::objectClass($expectedClass);
+        $subclass = Stringify::objectClass($subclass);
         $actualClass = Stringify::objectClass($actualClass);
 
         return ExceptionFactory::init(self::class)
             ->withMessage(\implode([
                 'Invalid class `{actualClass}`',
                 $argument ? ' for `${argument}`' : '',
-                ', expected subclass of `{expectedClass}`',
+                ', expected class to extend/implement/use `{subclass}`',
             ]))
-            ->withArguments(\compact('expectedClass', 'actualClass', 'argument'));
+            ->withArguments(\compact('subclass', 'actualClass', 'argument'));
     }
 }

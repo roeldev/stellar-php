@@ -3,7 +3,7 @@
 namespace UnitTests\Factory;
 
 use PHPUnit\Framework\TestCase;
-use Stellar\Factory\Exceptions\ConstructionFailure;
+use Stellar\Factory\Exceptions\CreateFailure;
 use Stellar\Factory\Factory;
 
 /**
@@ -12,53 +12,53 @@ use Stellar\Factory\Factory;
 class FactoryTests extends TestCase
 {
     /**
-     * @covers ::construct()
+     * @covers ::create()
      */
-    public function test_construct_native_class_with_params()
+    public function test_create_native_class_with_params()
     {
         /** @var \ArrayObject $target */
         $input = [ 1, 2, 3 ];
-        $target = Factory::construct(\ArrayObject::class, [ $input ], false);
+        $target = Factory::create(\ArrayObject::class, [ $input ], false);
 
         $this->assertInstanceOf(\ArrayObject::class, $target);
         $this->assertSame($input, $target->getArrayCopy());
     }
 
     /**
-     * @covers ::construct()
+     * @covers ::create()
      */
-    public function test_construct_with_autoload()
+    public function test_create_with_autoload()
     {
         $this->assertFalse(\class_exists(ToAutoloadFixture::class, false));
-        $this->assertInstanceOf(ToAutoloadFixture::class, Factory::construct(ToAutoloadFixture::class));
+        $this->assertInstanceOf(ToAutoloadFixture::class, Factory::create(ToAutoloadFixture::class));
     }
 
     /**
-     * @covers ::construct()
+     * @covers ::create()
      */
-    public function test_construct_without_autoload()
+    public function test_create_without_autoload()
     {
         $this->assertFalse(\class_exists(NotToAutoloadFixture::class, false));
-        $this->expectException(ConstructionFailure::class);
+        $this->expectException(CreateFailure::class);
 
-        Factory::construct(NotToAutoloadFixture::class, [], false);
+        Factory::create(NotToAutoloadFixture::class, [], false);
     }
 
     /**
-     * @covers ::construct()
+     * @covers ::create()
      */
-    public function test_cannot_construct_empty_string()
+    public function test_cannot_create_empty_string()
     {
-        $this->expectException(ConstructionFailure::class);
-        Factory::construct('');
+        $this->expectException(CreateFailure::class);
+        Factory::create('');
     }
 
     /**
-     * @covers ::construct()
+     * @covers ::create()
      */
-    public function test_cannot_construct_unknown_class()
+    public function test_cannot_create_unknown_class()
     {
-        $this->expectException(ConstructionFailure::class);
-        Factory::construct('\Path\To\UnexistingClass');
+        $this->expectException(CreateFailure::class);
+        Factory::create('\Path\To\UnexistingClass');
     }
 }

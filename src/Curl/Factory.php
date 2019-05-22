@@ -4,7 +4,10 @@ namespace Stellar\Curl;
 
 use Psr\Http\Message\UriInterface;
 use Stellar\Container\AbstractFactory;
+use Stellar\Curl\Contracts\RequestInterface;
+use Stellar\Curl\Contracts\ResponseInterface;
 use Stellar\Curl\Request\Request;
+use Stellar\Curl\Response\Response;
 use Stellar\Exceptions\Common\InvalidClass;
 use Stellar\Exceptions\Common\InvalidType;
 use Stellar\Common\Type;
@@ -14,36 +17,55 @@ use Stellar\Common\Type;
  */
 final class Factory extends AbstractFactory
 {
+    public const DEFAULT_OPTONS = [
+        \CURLOPT_URL => null,
+        \CURLOPT_FOLLOWLOCATION => false,
+        \CURLOPT_TIMEOUT => 30,
+        \CURLOPT_HEADER => false,
+
+        // default options that should not be changed
+        \CURLOPT_RETURNTRANSFER => true,
+        \CURLOPT_FAILONERROR => false,
+    ];
+
+    // create maakt het daadwerkelijke object en returned deze
+    // build maakt een builder met daarin een create method
+    public function buildRequest(string $class) : Builder
+    {
+        return Factory::build($class)
+            ->subclassOf(RequestInterface::class);
+    }
+
+    public function buildResponse(string $class) : Builder
+    {
+        return Factory::build($class)
+            ->subclassOf(ResponseInterface::class);
+    }
+
     /**
-     * {@inheritdoc}
+     * Create a new request.
      *
-     * @throws InvalidClass
-     * @throws InvalidType
+     * @param string $method The HTTP method associated with the request.
+     * @param UriInterface|string $uri The URI associated with the request. If
+     *     the value is a string, the factory MUST create a UriInterface
+     *     instance based on it.
+     *
+     * @return RequestInterface
      */
     public function createRequest(string $method, $uri) : Request
     {
-        if (\is_object($uri) && !($uri instanceof UriInterface)) {
-            throw InvalidClass::factory(UriInterface::class, $uri, 'uri')->create();
-        }
-        elseif (!\is_string($uri)) {
-            throw InvalidType::factory('string', Type::get($uri), 'uri')->create();
-        }
+        /** @var Request $request */
+        $request = $this->buildRequest(Request::class)
+            ->create();
 
-        $options = [
-            \CURLOPT_URL => null,
-            \CURLOPT_FOLLOWLOCATION => false,
-            \CURLOPT_TIMEOUT => 30,
-            \CURLOPT_HEADER => false,
-
-            // default options that should not be changed
-            \CURLOPT_RETURNTRANSFER => true,
-            \CURLOPT_FAILONERROR => false,
-        ];
-
-        $request = new Request($options);
         $request->withMethod($method);
-        $request->withUrl((string) $uri);
+        $request->withUri($uri);
 
         return $request;
+    }
+
+    public function createResponse() : Response
+    {
+        return $this->buildResponse()->create();
     }
 }

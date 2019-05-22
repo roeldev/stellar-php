@@ -9,13 +9,13 @@ use Stellar\Common\Type;
 use Stellar\Curl\Contracts\CurlRequestInterface;
 use Stellar\Curl\Contracts\OptionableInterface;
 use Stellar\Curl\Contracts\OptionsInterface;
-use Stellar\Curl\Curl;
 use Stellar\Curl\Exceptions\RequestFailure;
 use Stellar\Curl\Response\Response;
+use Stellar\Curl\Curl;
+use Stellar\Curl\Factory;
 use Stellar\Curl\Support\Utils;
 use Stellar\Exceptions\Common\InvalidClass;
 use Stellar\Exceptions\Common\InvalidType;
-use Stellar\Factory\Factory;
 use Stellar\Http\Headers\HeaderLines;
 
 class Request implements CurlRequestInterface, OptionableInterface, StringableInterface
@@ -512,14 +512,9 @@ class Request implements CurlRequestInterface, OptionableInterface, StringableIn
         }
 
         if (null === $this->_response) {
-            $responseClass = $responseClass ?? $this->_responseClass;
-            if (!\is_a($responseClass, Response::class, true)) {
-                throw InvalidClass::factory(Response::class, $responseClass)->create();
-            }
-
-            $this->_response = Factory::construct($responseClass, [
-                $this->_resource, $this->_options, $this->_rawResponse,
-            ]);
+            $this->_response = Factory::buildResponse($responseClass ?? $this->_responseClass)
+                ->withArguments($this->_resource, $this->_options, $this->_rawResponse)
+                ->create();
         }
 
         return $this->_response;

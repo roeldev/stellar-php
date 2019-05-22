@@ -4,31 +4,30 @@ namespace Stellar\Factory;
 
 use Stellar\Common\ClassUtil;
 use Stellar\Common\StaticClass;
-use Stellar\Factory\Exceptions\ConstructionFailure;
+use Stellar\Factory\Exceptions\CreateFailure;
 
 /**
  * @see:unit-test \UnitTests\Factory\FactoryTests
  */
 final class Factory extends StaticClass
 {
-    /**
-     * Construct a class and pass the given parameters to the constructor method, or return `null`
-     * on failure.
-     *
-     * @return object
-     * @throws ConstructionFailure
-     */
-    public static function construct(string $class, array $params = [], $autoload = true)
+    public static function build(string $class) : Builder
     {
-        if (!ClassUtil::exists($class, $autoload)) {
-            throw ConstructionFailure::factory($class)->create();
-        }
-
-        return new $class(...$params);
+        return new Builder($class);
     }
 
-    public static function constructOf(string $ofType, string $class, array $params = [], $autoload = true)
+    /**
+     * Create an instance of the class and pass the given parameters to the constructor method.
+     *
+     * @return object
+     * @throws CreateFailure
+     */
+    public static function create(string $class, array $args = [], $autoload = true)
     {
+        if (!ClassUtil::exists($class, $autoload)) {
+            throw CreateFailure::factory($class)->create();
+        }
 
+        return new $class(...$args);
     }
 }

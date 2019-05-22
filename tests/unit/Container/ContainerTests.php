@@ -6,7 +6,6 @@ use Stellar\Container\Container;
 use Stellar\Container\Exceptions\SingletonAlreadyExists;
 use Stellar\Container\ServiceRequest;
 use Stellar\Exceptions\Common\InvalidClass;
-use Stellar\Factory\Factory;
 use Stellar\Limitations\Testing\AssertProhibitCloning;
 
 /**
@@ -17,9 +16,12 @@ class ContainerTests extends BasicContainerTests
 {
     use AssertProhibitCloning;
 
-    protected static function _instance(...$params)
+    /**
+     * @return Container
+     */
+    public static function factory(...$params)
     {
-        return Factory::construct(Container::class, $params);
+        return new Container(...$params);
     }
 
     /**
@@ -46,7 +48,7 @@ class ContainerTests extends BasicContainerTests
     public function test_request_existing_service()
     {
         /** @var Container $container */
-        $container = static::_instance();
+        $container = static::factory();
 
         $alias = 'foobar';
         $count = 0;
@@ -71,7 +73,7 @@ class ContainerTests extends BasicContainerTests
         $this->expectException(InvalidClass::class);
         $this->assertException(function () {
             /** @var Container $container */
-            $container = static::_instance();
+            $container = static::factory();
             $container->request('alias', function () {
                 return new \ArrayObject();
             });
@@ -85,7 +87,7 @@ class ContainerTests extends BasicContainerTests
     public function test_request_singleton_service()
     {
         /** @var Container $container */
-        $container = static::_instance();
+        $container = static::factory();
         $service = $container->request('foo', function () {
             return ServiceRequest::with(\ArrayObject::class)->asSingleton();
         });
@@ -100,7 +102,7 @@ class ContainerTests extends BasicContainerTests
     public function test_exception_when_overwriting_singleton_service()
     {
         /** @var Container $container */
-        $container = static::_instance();
+        $container = static::factory();
 
         $alias = 'foo';
         $container->request($alias, function () {

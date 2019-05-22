@@ -24,7 +24,7 @@ class InvalidClass extends InvalidArgumentException
             ->withMessage(\implode([
                 'Invalid class `{actualClass}`',
                 $argument ? ' for `${argument}`' : '',
-                ', expected instance or subclass of `{expectedClass}`',
+                ', expected instance or implementation of `{expectedClass}`',
             ]))
             ->withArguments(\compact('expectedClass', 'actualClass', 'argument'));
     }

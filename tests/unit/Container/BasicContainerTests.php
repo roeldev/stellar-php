@@ -8,7 +8,6 @@ use Stellar\Container\Container;
 use Stellar\Container\Exceptions\NotFound;
 use Stellar\Exceptions\Common\InvalidType;
 use Stellar\Exceptions\Testing\AssertException;
-use Stellar\Factory\Factory;
 
 /**
  * @coversDefaultClass \Stellar\Container\BasicContainer
@@ -17,9 +16,12 @@ class BasicContainerTests extends TestCase
 {
     use AssertException;
 
-    protected static function _instance(...$params)
+    /**
+     * @return BasicContainer
+     */
+    public static function factory(...$params)
     {
-        return Factory::construct(BasicContainer::class, $params);
+        return new BasicContainer($params);
     }
 
     /**
@@ -30,7 +32,7 @@ class BasicContainerTests extends TestCase
     public function test_set_has_get_service()
     {
         /** @var BasicContainer $container */
-        $container = static::_instance();
+        $container = static::factory();
         $service = $container->set('foo', new \ArrayObject());
 
         $this->assertTrue($container->has('foo'));
@@ -45,7 +47,7 @@ class BasicContainerTests extends TestCase
         $this->expectException(InvalidType::class);
 
         /** @var BasicContainer $container */
-        $container = static::_instance();
+        $container = static::factory();
         $container->set('bar', []);
     }
 
@@ -57,7 +59,7 @@ class BasicContainerTests extends TestCase
     public function test_overwrite_existing_service()
     {
         /** @var BasicContainer $container */
-        $container = static::_instance();
+        $container = static::factory();
         $service1 = $container->set('foo', new \ArrayObject([ 'foo' ]));
         $service2 = $container->set('foo', new \ArrayObject([ 'bar' ]));
 
@@ -74,7 +76,7 @@ class BasicContainerTests extends TestCase
     public function test_check_if_alias_exists()
     {
         /** @var BasicContainer $container */
-        $container = static::_instance();
+        $container = static::factory();
         $container->set('foo', new \ArrayObject());
 
         $this->assertTrue($container->has('foo'));
@@ -87,7 +89,7 @@ class BasicContainerTests extends TestCase
     public function test_check_if_service_exists()
     {
         /** @var BasicContainer $container */
-        $container = static::_instance();
+        $container = static::factory();
         $service = $container->set('foo', new \ArrayObject());
 
         $this->assertTrue($container->has($service));
@@ -100,7 +102,7 @@ class BasicContainerTests extends TestCase
     public function test_get_the_right_object()
     {
         /** @var BasicContainer $container */
-        $container = static::_instance();
+        $container = static::factory();
 
         $values = [ 'foo', 'bar', 'baz' ];
         $expected = $container->set('foo', new \ArrayObject($values));
@@ -115,7 +117,7 @@ class BasicContainerTests extends TestCase
     public function test_get_alias_of_service()
     {
         /** @var BasicContainer $container */
-        $container = static::_instance();
+        $container = static::factory();
 
         $alias = 'fizzbuzz';
         $service = $container->set($alias, new \ArrayObject([ 'fizz', 'buzz' ]));
@@ -130,7 +132,7 @@ class BasicContainerTests extends TestCase
     public function test_get_aliases()
     {
         /** @var BasicContainer $container */
-        $container = static::_instance();
+        $container = static::factory();
 
         $container->set('foo', new \ArrayObject());
         $container->set('bar', new \ArrayObject());
@@ -147,7 +149,7 @@ class BasicContainerTests extends TestCase
     {
         $this->expectException(NotFound::class);
         $this->assertException(function () {
-            static::_instance()->get('foo');
+            static::factory()->get('foo');
         });
     }
 
@@ -159,7 +161,7 @@ class BasicContainerTests extends TestCase
         $alias = 'foobar';
 
         /** @var BasicContainer $container */
-        $container = static::_instance();
+        $container = static::factory();
         $container->set($alias, new \ArrayObject());
 
         $this->assertSame(1, $container->count());
@@ -175,7 +177,7 @@ class BasicContainerTests extends TestCase
         $alias = 'foobar';
 
         /** @var BasicContainer $container */
-        $container = static::_instance();
+        $container = static::factory();
         $service = $container->set($alias, new \ArrayObject());
 
         $this->assertSame(1, $container->count());
@@ -189,7 +191,7 @@ class BasicContainerTests extends TestCase
     public function test_count_added_objects()
     {
         /** @var BasicContainer $container */
-        $container = static::_instance();
+        $container = static::factory();
 
         $this->assertSame(0, $container->count());
 

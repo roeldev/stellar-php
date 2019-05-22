@@ -14,7 +14,7 @@ class ServiceRequest
 {
     public static function with(string $class, array $params = []) : self
     {
-        return new static(Factory::construct($class, $params));
+        return new static(Factory::create($class, $params));
     }
 
     /** @var object */

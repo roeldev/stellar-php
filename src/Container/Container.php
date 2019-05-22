@@ -3,10 +3,8 @@
 namespace Stellar\Container;
 
 use Stellar\Common\Type;
-use Stellar\Container\Exceptions\BuildFailure;
 use Stellar\Container\Exceptions\SingletonAlreadyExists;
 use Stellar\Exceptions\Common\InvalidClass;
-use Stellar\Exceptions\Common\InvalidType;
 use Stellar\Limitations\ProhibitCloning;
 
 /**

@@ -11,7 +11,7 @@ use Stellar\Curl\Request\Request;
  * @see https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
  * @see https://restfulapi.net/http-methods/
  */
-class Curl extends StaticClass
+final class Curl extends StaticClass
 {
     public const METHOD_GET = 'GET';
 
@@ -38,7 +38,8 @@ class Curl extends StaticClass
     public static function request(string $method, string $url, array $options = []) : Request
     {
         /** @var Request $request */
-        $request = Factory::instance()->createRequest($method, $url);
+        $request = self::factory()->createRequest($method, $url);
+
         if (!empty($options)) {
             $request->with(new Options($options));
         }
@@ -52,11 +53,8 @@ class Curl extends StaticClass
      */
     public static function get(string $url, array $queryParams = []) : Request
     {
-        /** @var Request $request */
-        $request = Factory::instance()->createRequest(self::METHOD_GET, $url);
-        $request->withQueryParams($queryParams);
-
-        return $request;
+        return self::request(self::METHOD_GET, $url)
+            ->withQueryParams($queryParams);
     }
 
     /**
@@ -66,11 +64,8 @@ class Curl extends StaticClass
      */
     public static function head(string $url, array $queryParams = []) : Request
     {
-        /** @var Request $request */
-        $request = Factory::instance()->createRequest(self::METHOD_HEAD, $url);
-        $request->withQueryParams($queryParams);
-
-        return $request;
+        return self::request(self::METHOD_HEAD, $url)
+            ->withQueryParams($queryParams);
     }
 
     /**
@@ -79,11 +74,8 @@ class Curl extends StaticClass
      */
     public static function post(string $url, array $postFields) : Request
     {
-        /** @var Request $request */
-        $request = Factory::instance()->createRequest(self::METHOD_POST, $url);
-        $request->withPostFields($postFields);
-
-        return $request;
+        return self::request(self::METHOD_POST, $url)
+            ->withPostFields($postFields);
     }
 
     /**
@@ -93,11 +85,8 @@ class Curl extends StaticClass
      */
     public static function put(string $url, array $postFields) : Request
     {
-        /** @var Request $request */
-        $request = Factory::instance()->createRequest(self::METHOD_PUT, $url);
-        $request->withPostFields($postFields);
-
-        return $request;
+        return self::request(self::METHOD_PUT, $url)
+            ->withPostFields($postFields);
     }
 
     /**
@@ -105,7 +94,7 @@ class Curl extends StaticClass
      */
     public static function delete(string $url) : Request
     {
-        return Factory::instance()->createRequest(self::METHOD_DELETE, $url);
+        return self::request(self::METHOD_DELETE, $url);
     }
 
     /**
@@ -113,6 +102,6 @@ class Curl extends StaticClass
      */
     public static function patch(string $url) : Request
     {
-        return Factory::instance()->createRequest(self::METHOD_PATCH, $url);
+        return self::request(self::METHOD_PATCH, $url);
     }
 }

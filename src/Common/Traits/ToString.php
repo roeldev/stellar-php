@@ -6,7 +6,7 @@ namespace Stellar\Common\Traits;
  * Gives an object some basic functionality so it can be cast to a string. As a default the FQCN of the object is
  * returned. Change the `__toString()` method to allow for a different string output.
  *
- * @see \UnitTests\Common\Traits\ToStringTests
+ * @see:unit-test \UnitTests\Common\Traits\ToStringTests
  */
 trait ToString
 {

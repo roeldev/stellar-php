@@ -3,7 +3,7 @@
 namespace Stellar\Common;
 
 /**
- * @see \UnitTests\Common\AssertTests
+ * @see:unit-test \UnitTests\Common\AssertTests
  */
 final class Assert extends StaticClass
 {
@@ -110,7 +110,8 @@ final class Assert extends StaticClass
     }
 
     /**
-     * Checks if the object implements the InvokableInterface interface or has an `__invoke()` method.
+     * Checks if the object implements the InvokableInterface interface or has an `__invoke()`
+     * method.
      *
      * @param object $obj
      */

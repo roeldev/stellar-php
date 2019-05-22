@@ -8,7 +8,7 @@ interface OptionableInterface
      * Add the options to the current chain or request.
      *
      * @param OptionsInterface $options
-     * @return static
+     * @return $this
      */
     public function with(OptionsInterface $options);
 }

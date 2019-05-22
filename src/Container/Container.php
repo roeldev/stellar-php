@@ -14,7 +14,7 @@ use Stellar\Limitations\ProhibitCloning;
  * singleton = eigenschap van item in container, item kan niet worden overschreven, eenmaal toegevoegd blijft het
  * hetzelfde
  *
- * @see \UnitTests\Container\ContainerTests
+ * @see:unit-test \UnitTests\Container\ContainerTests
  */
 class Container extends BasicContainer
 {
@@ -84,8 +84,7 @@ class Container extends BasicContainer
     /**
      * Request a service by looking for an existing service with the same alias, or by creating a
      * new service with the provided callback. This new service will be registered with the
-     * given alias. The callback should return an instance of ServiceRequest or else a
-     * BuildFailure is thrown.
+     * given alias.
      *
      * @see ServiceRequest
      * @throws InvalidClass When callback does not return an instance of ServiceRequest.

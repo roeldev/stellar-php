@@ -3,7 +3,7 @@
 namespace Stellar\Common;
 
 /**
- * @see \UnitTests\Common\TypeTests
+ * @see:unit-test \UnitTests\Common\TypeTests
  */
 final class Type extends StaticClass
 {

@@ -3,7 +3,7 @@
 namespace Stellar\Common\Testing;
 
 /**
- * @see \UnitTests\Common\Testing\AssertSingletonTests
+ * @see:unit-test \UnitTests\Common\Testing\AssertSingletonTests
  */
 trait AssertSingleton
 {

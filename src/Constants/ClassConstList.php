@@ -8,7 +8,7 @@ use Stellar\Exceptions\Common\UndeclaredClass;
 use Stellar\Exceptions\Severity;
 
 /**
- * @see \UnitTests\Constants\ClassConstListTests
+ * @see:unit-test \UnitTests\Constants\ClassConstListTests
  */
 class ClassConstList implements ArrayableInterface, \Countable
 {

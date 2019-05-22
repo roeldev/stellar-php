@@ -3,7 +3,7 @@
 namespace Stellar\Common\Testing;
 
 /**
- * @see \UnitTests\Common\Testing\AssertStaticClassTests
+ * @see:unit-test \UnitTests\Common\Testing\AssertStaticClassTests
  */
 trait AssertStaticClass
 {

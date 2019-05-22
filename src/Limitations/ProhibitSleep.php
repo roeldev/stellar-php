@@ -5,7 +5,7 @@ namespace Stellar\Limitations;
 use Stellar\Limitations\Exceptions\SerializationProhibited;
 
 /**
- * @see \UnitTests\Limitations\ProhibitSleepTests
+ * @see:unit-test \UnitTests\Limitations\ProhibitSleepTests
  */
 trait ProhibitSleep
 {

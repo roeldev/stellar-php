@@ -7,7 +7,7 @@ use Stellar\Common\StaticClass;
 use Stellar\Factory\Exceptions\ConstructionFailure;
 
 /**
- * @see \UnitTests\Factory\FactoryTests
+ * @see:unit-test \UnitTests\Factory\FactoryTests
  */
 final class Factory extends StaticClass
 {

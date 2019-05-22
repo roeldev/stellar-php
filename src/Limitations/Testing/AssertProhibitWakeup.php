@@ -7,7 +7,7 @@ use Stellar\Limitations\Exceptions\UnserializationProhibited;
 /**
  * PHPUnit assertion for variables that should not be allowed to be wakeup.
  *
- * @see \UnitTests\Limitations\Testing\AssertProhibitWakeupTests
+ * @see:unit-test \UnitTests\Limitations\Testing\AssertProhibitWakeupTests
  */
 trait AssertProhibitWakeup
 {

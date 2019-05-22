@@ -5,7 +5,7 @@ namespace Stellar\Limitations;
 use Stellar\Limitations\Exceptions\CloningProhibited;
 
 /**
- * @see \UnitTests\Limitations\ProhibitCloningTests
+ * @see:unit-test \UnitTests\Limitations\ProhibitCloningTests
  */
 trait ProhibitCloning
 {

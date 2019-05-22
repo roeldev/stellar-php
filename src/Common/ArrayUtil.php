@@ -3,7 +3,7 @@
 namespace Stellar\Common;
 
 /**
- * @see \UnitTests\Common\ArrayUtilTests
+ * @see:unit-test \UnitTests\Common\ArrayUtilTests
  */
 final class ArrayUtil extends StaticClass
 {

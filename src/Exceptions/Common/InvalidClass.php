@@ -6,6 +6,9 @@ use Stellar\Common\Stringify;
 use Stellar\Exceptions\ExceptionFactory;
 use Stellar\Exceptions\Logic\InvalidArgumentException;
 
+/**
+ * @method InvalidClass create($expectedClass, $actualClass, ?string $argument = null)
+ */
 class InvalidClass extends InvalidArgumentException
 {
     /**

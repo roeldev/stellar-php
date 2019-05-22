@@ -10,7 +10,7 @@ use Stellar\Exceptions\Common\UndefinedClassConstant;
 use Stellar\Exceptions\Common\UnknownStaticMethod;
 
 /**
- * @see \UnitTests\Enum\EnumTests
+ * @see:unit-test \UnitTests\Enum\EnumTests
  */
 abstract class Enum implements EnumInterface
 {

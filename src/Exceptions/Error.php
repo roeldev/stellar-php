@@ -9,9 +9,9 @@ use Stellar\Common\Traits\ToString;
  * used for conditions that can be safely handled at runtime where another action can be taken and execution can
  * continue."
  *
- * @link https://trowski.com/2015/06/24/throwable-exceptions-and-errors-in-php7/
  * @method Exception getPrevious()
- * @see \UnitTests\Exceptions\ErrorTests
+ * @link https://trowski.com/2015/06/24/throwable-exceptions-and-errors-in-php7/
+ * @see:unit-test \UnitTests\Exceptions\ErrorTests
  */
 final class Error extends \Error implements ThrowableInterface
 {

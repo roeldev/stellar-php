@@ -8,7 +8,7 @@ use Stellar\Encoding\Base32\Base32Variant;
 use Stellar\Encoding\Exceptions\IllegalCharacter;
 
 /**
- * @see \UnitTests\Encoding\Base32Tests
+ * @see:unit-test \UnitTests\Encoding\Base32Tests
  */
 class Base32 extends StaticClass
 {

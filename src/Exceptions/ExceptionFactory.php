@@ -7,7 +7,7 @@ use Stellar\Common\StringUtil;
 use Stellar\Common\Type;
 
 /**
- * @see \UnitTests\Exceptions\ExceptionFactoryTests
+ * @see:unit-test \UnitTests\Exceptions\ExceptionFactoryTests
  */
 final class ExceptionFactory
 {

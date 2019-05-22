@@ -5,7 +5,7 @@ namespace Stellar\Constants;
 use Stellar\Common\StaticClass;
 
 /**
- * @see \UnitTests\Constants\ConstListTests
+ * @see:unit-test \UnitTests\Constants\ConstListTests
  */
 class ConstList extends StaticClass
 {

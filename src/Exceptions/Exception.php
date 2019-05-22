@@ -10,7 +10,7 @@ use Stellar\Exceptions\Traits\ExceptionFeatures;
 // Voor module/class specifieke fouten, een eigen exception throwen.
 
 /**
- * @see \UnitTests\Exceptions\ExceptionTests
+ * @see:unit-test \UnitTests\Exceptions\ExceptionTests
  */
 class Exception extends \Exception implements ExceptionInterface
 {

@@ -5,7 +5,7 @@ namespace Stellar\Common;
 /**
  * Get the string value of any type.
  *
- * @see \UnitTests\Support\IdentifyTests
+ * @see:unit-test \UnitTests\Support\IdentifyTests
  */
 final class Stringify extends StaticClass
 {

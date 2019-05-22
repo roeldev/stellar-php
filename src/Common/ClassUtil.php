@@ -3,7 +3,7 @@
 namespace Stellar\Common;
 
 /**
- * @see \UnitTests\Common\ClassUtilTests
+ * @see:unit-test \UnitTests\Common\ClassUtilTests
  */
 final class ClassUtil extends StaticClass
 {

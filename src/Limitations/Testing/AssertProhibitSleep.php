@@ -7,7 +7,7 @@ use Stellar\Limitations\Exceptions\SerializationProhibited;
 /**
  * PHPUnit assertion for variables that should not be allowed to be serialized.
  *
- * @see \UnitTests\Limitations\Testing\AssertProhibitSleepTests
+ * @see:unit-test \UnitTests\Limitations\Testing\AssertProhibitSleepTests
  */
 trait AssertProhibitSleep
 {

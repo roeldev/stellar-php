@@ -6,7 +6,7 @@ namespace Stellar\Common;
  * Simple helper class which returns some empty dummy types. Useful for unit tests or when needing
  * (empty) default values.
  *
- * @see \UnitTests\Common\DummyTests
+ * @see:unit-test \UnitTests\Common\DummyTests
  * @codeCoverageIgnore
  */
 final class Dummy extends StaticClass

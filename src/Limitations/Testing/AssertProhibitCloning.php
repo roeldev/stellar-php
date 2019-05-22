@@ -7,7 +7,7 @@ use Stellar\Limitations\Exceptions\CloningProhibited;
 /**
  * PHPUnit assertion for variables that should not be allowed to be cloned.
  *
- * @see \UnitTests\Limitations\Testing\AssertProhibitCloningTests
+ * @see:unit-test \UnitTests\Limitations\Testing\AssertProhibitCloningTests
  */
 trait AssertProhibitCloning
 {

@@ -6,7 +6,7 @@ use Stellar\Common\StaticClass;
 use Stellar\Common\StringUtil;
 
 /**
- * @see \UnitTests\Constants\ConstUtilTests
+ * @see:unit-test \UnitTests\Constants\ConstUtilTests
  */
 class ConstUtil extends StaticClass
 {

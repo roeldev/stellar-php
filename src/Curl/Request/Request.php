@@ -40,6 +40,7 @@ class Request implements CurlResourceInterface, OptionableInterface, StringableI
     /** @var bool */
     protected $_prepOptions = false;
 
+    /** @var bool */
     protected $_throwExceptionOnFailure = false;
 
     /** @var ?resource */
@@ -148,6 +149,9 @@ class Request implements CurlResourceInterface, OptionableInterface, StringableI
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function withMethod(string $method) : self
     {
         $this->_method = $method;
@@ -195,6 +199,9 @@ class Request implements CurlResourceInterface, OptionableInterface, StringableI
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function withUrl(string $url) : self
     {
         $this->_url = $url;
@@ -203,6 +210,9 @@ class Request implements CurlResourceInterface, OptionableInterface, StringableI
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function withHeaders(array $headers) : self
     {
         $this->_headers = $headers;
@@ -213,6 +223,8 @@ class Request implements CurlResourceInterface, OptionableInterface, StringableI
 
     /**
      * Add a header to the request.
+     *
+     * @return $this
      */
     public function withHeader(string $name, string $value) : self
     {
@@ -222,6 +234,9 @@ class Request implements CurlResourceInterface, OptionableInterface, StringableI
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function withReferer(string $referer) : self
     {
         $this->_options[ \CURLOPT_REFERER ] = $referer;
@@ -233,6 +248,7 @@ class Request implements CurlResourceInterface, OptionableInterface, StringableI
      * Set the GET query parameters of the request URL.
      *
      * @param array<string,string> $queryParams
+     * @return $this
      */
     public function withQueryParams(array $queryParams) : self
     {
@@ -244,6 +260,7 @@ class Request implements CurlResourceInterface, OptionableInterface, StringableI
 
     /**
      * Add a GET query parameter to the request URL.
+     * @return $this
      */
     public function withQueryParam(string $name, string $value) : self
     {
@@ -255,6 +272,7 @@ class Request implements CurlResourceInterface, OptionableInterface, StringableI
 
     /**
      * @param array<string,string> $postFields
+     * @return $this
      */
     public function withPostFields(array $postFields) : self
     {
@@ -263,6 +281,9 @@ class Request implements CurlResourceInterface, OptionableInterface, StringableI
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function withPostField(string $name, string $value) : self
     {
         $this->_options[ \CURLOPT_POSTFIELDS ][ $name ] = $value;
@@ -270,6 +291,9 @@ class Request implements CurlResourceInterface, OptionableInterface, StringableI
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function withTimeout(float $timeout = 30) : self
     {
         $this->_options[ \CURLOPT_TIMEOUT_MS ] = $timeout * 1000;
@@ -278,8 +302,9 @@ class Request implements CurlResourceInterface, OptionableInterface, StringableI
     }
 
     /**
-     * @return static
      * @see getSendHeaders()
+     *
+     * @return $this
      */
     public function withRequestHeaders(bool $bool = true) : self
     {
@@ -288,6 +313,9 @@ class Request implements CurlResourceInterface, OptionableInterface, StringableI
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function withResponseHeaders(bool $bool = true) : self
     {
         $this->_options[ \CURLOPT_HEADER ] = $bool;
@@ -296,7 +324,7 @@ class Request implements CurlResourceInterface, OptionableInterface, StringableI
     }
 
     /**
-     * @return static
+     * @return $this
      */
     public function withResponseAs(string $responseClass) : self
     {
@@ -305,6 +333,9 @@ class Request implements CurlResourceInterface, OptionableInterface, StringableI
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function allowRedirect(bool $allowRedirect = true) : self
     {
         $this->_options[ \CURLOPT_FOLLOWLOCATION ] = $allowRedirect;
@@ -312,6 +343,9 @@ class Request implements CurlResourceInterface, OptionableInterface, StringableI
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function resumeFrom(int $offset) : self
     {
         $this->_options[ \CURLOPT_RESUME_FROM ] = $offset;
@@ -319,6 +353,9 @@ class Request implements CurlResourceInterface, OptionableInterface, StringableI
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function throwExceptionOnFailure(bool $bool = true) : self
     {
         $this->_throwExceptionOnFailure = $bool;
@@ -370,8 +407,9 @@ class Request implements CurlResourceInterface, OptionableInterface, StringableI
      * Get the headers sent by the request, but only if the request is executed and the
      * `\CURLINFO_HEADER_OUT` option is configured.
      *
+     * @see withRequestHeaders()
+     *
      * @return ?string[]
-     * @see    withRequestHeaders()
      */
     public function getSendHeaders() : ?array
     {
@@ -444,7 +482,7 @@ class Request implements CurlResourceInterface, OptionableInterface, StringableI
 
     /**
      * @param resource $multiResource
-     * @return static
+     * @return $this
      */
     public function processMultiResponse($multiResource, int $errorCode = 0) : self
     {

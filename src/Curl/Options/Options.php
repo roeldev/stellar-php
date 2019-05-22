@@ -16,6 +16,7 @@ class Options extends AbstractOptions
 
     /**
      * @param array<int,mixed> $options
+     * @return $this
      */
     public function withOptions(array $options) : self
     {
@@ -28,6 +29,7 @@ class Options extends AbstractOptions
     /**
      * @param int|string $option
      * @param mixed      $value
+     * @return $this
      */
     public function withOption($option, $value) : self
     {

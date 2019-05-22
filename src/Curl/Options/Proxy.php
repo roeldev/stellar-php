@@ -15,18 +15,29 @@ class Proxy extends AbstractOptions
         }
     }
 
-    public function withHost(string $host)
+    /**
+     * @return $this
+     */
+    public function withHost(string $host) : self
     {
         $this->_options[ \CURLOPT_PROXY ] = $host;
+
+        return $this;
     }
 
-    public function withPort(int $port)
+    /**
+     * @return $this
+     */
+    public function withPort(int $port) : self
     {
         $this->_options[ \CURLOPT_PROXYPORT ] = $port;
 
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function withType($type) : self
     {
         // ConstList::proxyTypes()
@@ -39,7 +50,10 @@ class Proxy extends AbstractOptions
         return $this;
     }
 
-    public function withUserPassword(string $username, string $password)
+    /**
+     * @return $this
+     */
+    public function withUserPassword(string $username, string $password) : self
     {
         $this->_options[ \CURLOPT_PROXYUSERPWD ] = $username . ':' . $password;
 

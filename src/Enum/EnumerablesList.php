@@ -12,7 +12,7 @@ use Stellar\Limitations\ProhibitUnserialization;
 use Stellar\Limitations\ProhibitWakeup;
 
 /**
- * @see \UnitTests\Enum\EnumerablesListTests
+ * @see:unit-test \UnitTests\Enum\EnumerablesListTests
  */
 final class EnumerablesList extends ClassConstList
 {

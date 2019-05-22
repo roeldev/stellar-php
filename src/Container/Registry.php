@@ -6,7 +6,7 @@ use Stellar\Common\Contracts\SingletonInterface;
 use Stellar\Common\StaticClass;
 
 /**
- * @see \UnitTests\Container\RegistryTests
+ * @see:unit-test \UnitTests\Container\RegistryTests
  */
 final class Registry extends StaticClass implements SingletonInterface
 {

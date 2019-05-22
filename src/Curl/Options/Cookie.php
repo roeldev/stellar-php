@@ -8,6 +8,7 @@ class Cookie extends AbstractOptions
 {
     /**
      * @param array<string,string> $cookies
+     * @return $this
      */
     public function withCookies(array $cookies) : self
     {
@@ -16,6 +17,9 @@ class Cookie extends AbstractOptions
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function withCookieFile(string $cookieFile) : self
     {
         $this->_options[ \CURLOPT_COOKIEFILE ] = $cookieFile;
@@ -23,6 +27,9 @@ class Cookie extends AbstractOptions
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function withCookieJar(string $cookieJar) : self
     {
         $this->_options[ \CURLOPT_COOKIEJAR ] = $cookieJar;

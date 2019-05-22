@@ -22,6 +22,7 @@ abstract class AbstractOptions implements OptionsInterface
         return $this;
     }
 
+    /** {@inheritdoc} */
     public function toArray() : array
     {
         return $this->_options;

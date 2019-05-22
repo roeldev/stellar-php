@@ -5,7 +5,7 @@ namespace Stellar\Limitations;
 use Stellar\Limitations\Exceptions\SerializationProhibited;
 
 /**
- * @see \UnitTests\Limitations\ProhibitSerializationTests
+ * @see:unit-test \UnitTests\Limitations\ProhibitSerializationTests
  */
 trait ProhibitSerialization
 {

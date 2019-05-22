@@ -2,10 +2,8 @@
 
 namespace Stellar\Common;
 
-use Stellar\Common\StaticClass;
-
 /**
- * @see \UnitTests\Common\StringFnTests
+ * @see:unit-test \UnitTests\Common\StringFnTests
  */
 final class StringUtil extends StaticClass
 {

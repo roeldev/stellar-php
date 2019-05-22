@@ -5,7 +5,7 @@ namespace Stellar\Common;
 /**
  * Create id's for the given types.
  *
- * @see \UnitTests\Common\IdentifyTests
+ * @see:unit-test \UnitTests\Common\IdentifyTests
  */
 final class Identify extends StaticClass
 {

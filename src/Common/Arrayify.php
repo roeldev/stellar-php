@@ -3,7 +3,7 @@
 namespace Stellar\Common;
 
 /**
- * @see \UnitTests\Common\ArrayifyTests
+ * @see:unit-test \UnitTests\Common\ArrayifyTests
  */
 final class Arrayify extends StaticClass
 {
@@ -12,11 +12,11 @@ final class Arrayify extends StaticClass
         if (\is_array($var)) {
             return $var;
         }
-        elseif (Assert::isArrayable($var)) {
+        if (Assert::isArrayable($var)) {
             /** @var \Stellar\Common\Contracts\ArrayableInterface $var */
             return $var->toArray();
         }
-        elseif (\is_object($var)) {
+        if (\is_object($var)) {
             return $var instanceof \Traversable
                 ? self::traversable($var)
                 : \get_object_vars($var);

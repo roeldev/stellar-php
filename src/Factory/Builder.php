@@ -2,6 +2,7 @@
 
 namespace Stellar\Factory;
 
+use Stellar\Exceptions\Common\InvalidClass;
 use Stellar\Exceptions\Common\InvalidSubclass;
 
 /**
@@ -39,7 +40,8 @@ class Builder
     public function subclassOf(string $subclass) : self
     {
         if (!\is_subclass_of($this->_class, $subclass, true)) {
-            throw InvalidSubclass::create($subclass, $this->_class);
+            throw InvalidClass::factory($subclass, $this->_class)->create();
+            // throw InvalidSubclass::create($subclass, $this->_class);
         }
 
         return $this;
@@ -53,6 +55,6 @@ class Builder
      */
     public function create()
     {
-        return Factory::create($this->_class, $this->_args);
+        return Factory::create($this->_class, $this->_args ?? []);
     }
 }

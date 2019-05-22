@@ -2,11 +2,12 @@
 
 namespace Stellar\Curl\Response;
 
+use Stellar\Curl\Contracts\ResponseInterface;
 use Stellar\Exceptions\Common\InvalidType;
 use Stellar\Http\Headers\HeaderLines;
 use Stellar\Common\Type;
 
-class Response
+class Response implements ResponseInterface
 {
     /** @var int */
     protected $_httpCode;

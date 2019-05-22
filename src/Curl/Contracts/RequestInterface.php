@@ -2,7 +2,7 @@
 
 namespace Stellar\Curl\Contracts;
 
-interface CurlRequestInterface
+interface RequestInterface
 {
     /**
      * The magic `__destruct()` method should call the `close()` method so the resources are
@@ -53,7 +53,7 @@ interface CurlRequestInterface
      *
      * @return $this
      */
-    public function init() : self;
+    public function init();
 
     /**
      * Execute the request and process the response. When the `init()` method is not yet called
@@ -61,7 +61,7 @@ interface CurlRequestInterface
      *
      * @return $this
      */
-    public function execute() : self;
+    public function execute();
 
     /**
      * Close the resource(s) and free memory.

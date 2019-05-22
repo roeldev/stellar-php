@@ -8,16 +8,15 @@ use Stellar\Curl\Contracts\RequestInterface;
 use Stellar\Curl\Contracts\ResponseInterface;
 use Stellar\Curl\Request\Request;
 use Stellar\Curl\Response\Response;
-use Stellar\Exceptions\Common\InvalidClass;
-use Stellar\Exceptions\Common\InvalidType;
-use Stellar\Common\Type;
+use Stellar\Factory\Builder;
+use Stellar\Factory\Factory as Factorio;
 
 /**
  * todo: make psr7 + psr17 compatible
  */
 final class Factory extends AbstractFactory
 {
-    public const DEFAULT_OPTONS = [
+    public const DEFAULT_OPTIONS = [
         \CURLOPT_URL => null,
         \CURLOPT_FOLLOWLOCATION => false,
         \CURLOPT_TIMEOUT => 30,
@@ -32,13 +31,14 @@ final class Factory extends AbstractFactory
     // build maakt een builder met daarin een create method
     public function buildRequest(string $class) : Builder
     {
-        return Factory::build($class)
-            ->subclassOf(RequestInterface::class);
+        return Factorio::build($class)
+            ->subclassOf(RequestInterface::class)
+            ->withArguments(self::DEFAULT_OPTIONS);
     }
 
     public function buildResponse(string $class) : Builder
     {
-        return Factory::build($class)
+        return Factorio::build($class)
             ->subclassOf(ResponseInterface::class);
     }
 
@@ -59,7 +59,7 @@ final class Factory extends AbstractFactory
             ->create();
 
         $request->withMethod($method);
-        $request->withUri($uri);
+        $request->withUrl($uri);
 
         return $request;
     }

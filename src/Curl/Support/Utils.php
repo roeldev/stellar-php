@@ -4,8 +4,7 @@ namespace Stellar\Curl\Support;
 
 use Stellar\Common\ArrayUtil;
 use Stellar\Common\StaticClass;
-use Stellar\Curl\Curl;
-use Stellar\Common\Arr;
+use Stellar\Curl\ConstList;
 
 final class Utils extends StaticClass
 {
@@ -16,12 +15,12 @@ final class Utils extends StaticClass
 
     public static function isValidInt($option) : bool
     {
-        return \is_int($option) && \in_array($option, Curl::optionConstants(), true);
+        return \is_int($option) && \in_array($option, ConstList::optionConstants(), true);
     }
 
     public static function isValidStr($option) : bool
     {
-        return \is_string($option) && \array_key_exists($option, Curl::optionConstants());
+        return \is_string($option) && \array_key_exists($option, ConstList::optionConstants());
     }
 
     /**
@@ -30,7 +29,7 @@ final class Utils extends StaticClass
      */
     public static function constantNamesKeys(array $options) : array
     {
-        $constants = \array_flip(Curl::optionConstants());
+        $constants = \array_flip(ConstList::optionConstants());
 
         $result = [];
         foreach ($options as $option => $value) {

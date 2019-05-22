@@ -3,9 +3,9 @@
 namespace Stellar\Curl\Request;
 
 use Stellar\Common\Identify;
-use Stellar\Curl\Contracts\CurlRequestInterface;
+use Stellar\Curl\Contracts\RequestInterface;
 
-class MultiRequest implements CurlRequestInterface
+class MultiRequest implements RequestInterface
 {
     /** @var resource */
     protected $_resource;

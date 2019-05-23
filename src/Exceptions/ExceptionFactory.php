@@ -3,8 +3,8 @@
 namespace Stellar\Exceptions;
 
 use Stellar\Exceptions\Common\InvalidClass;
+use Stellar\Common\Stringify;
 use Stellar\Common\StringUtil;
-use Stellar\Common\Type;
 
 /**
  * @see:unit-test \UnitTests\Exceptions\ExceptionFactoryTests
@@ -116,26 +116,18 @@ final class ExceptionFactory
 
     public function getMessage() : string
     {
-        $result = '';
-        if (!empty($this->_message)) {
-            $arguments = $this->_arguments;
-            foreach ($arguments as $i => $value) {
-                if (!\is_string($value)) {
-                    $arguments[ $i ] = Type::details($value);
-                }
-            }
-
-            $arguments = \array_merge($arguments, [
-                'exception.class' => $this->_class,
-                'exception.code'  => $this->_code,
-                'severity'        => $this->getSeverity()->getName(),
-            ]);
-
-            $message = implode('. ', $this->_message);
-            $result = StringUtil::replaceVars($message, $arguments);
+        if (empty($this->_message)) {
+            return '';
         }
 
-        return $result;
+        $arguments = \array_map([ Stringify::class, 'any' ], $this->_arguments);
+        $arguments = \array_merge($arguments, [
+            'exception.class' => $this->_class,
+            'exception.code' => $this->_code,
+            'severity' => $this->getSeverity()->getName(),
+        ]);
+
+        return StringUtil::replaceVars(implode('. ', $this->_message), $arguments);
     }
 
     public function getSeverity() : Severity

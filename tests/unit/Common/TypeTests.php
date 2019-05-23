@@ -23,7 +23,7 @@ class TypeTests extends TestCase
     }
 
     /**
-     * @covers ::getDetailed()
+     * @covers ::details()
      * @dataProvider detailedTypesProvider()
      */
     public function test_details(string $type, ... $params)
@@ -68,8 +68,8 @@ trait TypeTestsDataProvider
             [ 'float (1234.546)', 1234.546 ],
             [ 'array', [] ],
             [ 'array/callable', [ new \ArrayObject(), 'append' ] ],
+            [ 'object (anonymous)', Dummy::anonymousObject() ],
             [ 'object/iterable (ArrayObject)', new \ArrayObject() ],
-            [ 'object/anonymous', Dummy::anonymousObject() ],
             [ 'object/callable (Closure)', Dummy::closure() ],
             [ 'resource (xml)', $resource ],
         ];

@@ -7,94 +7,97 @@ namespace Stellar\Common;
  */
 final class Type extends StaticClass
 {
-    public const BOOL     = 'bool';
+    public const BOOL = 'bool';
 
-    public const INT      = 'int';
+    public const INT = 'int';
 
-    public const FLOAT    = 'float';
+    public const FLOAT = 'float';
 
-    public const STRING   = 'string';
+    public const STRING = 'string';
 
-    public const ARRAY    = 'array';
+    public const ARRAY = 'array';
 
-    public const OBJECT   = 'object';
+    public const OBJECT = 'object';
 
     public const RESOURCE = 'resource';
 
-    public const NULL     = 'null';
+    public const NULL = 'null';
 
+    /**
+     * List of aliases of variable types.
+     */
+    public const ALIASES = [
+        'boolean' => self::BOOL,
+        'double' => self::FLOAT,
+        'integer' => self::INT,
+        'resource (closed)' => self::RESOURCE,
+    ];
+
+    /**
+     * Get the type of the variable.
+     */
     public static function get($var) : string
     {
         $result = \strtolower(\gettype($var));
-        switch ($result) {
-            case 'boolean':
-                $result = self::BOOL;
-                break;
+        $aliases = self::ALIASES;
 
-            case 'double':
-                $result = self::FLOAT;
-                break;
-
-            case 'integer':
-                $result = self::INT;
-                break;
-
-            // as of PHP 7.2.0
-            case 'resource (closed)':
-                $result = self::RESOURCE;
-                break;
-
-            case 'unknown type':
-                if (StringUtil::startsWith((string) $var, 'Resource id')) {
-                    $result = self::RESOURCE;
-                }
-                break;
+        if (isset($aliases[ $result ])) {
+            return $aliases[ $result ];
+        }
+        if ($result == 'unknown type' && StringUtil::startsWith((string) $var, 'Resource id')) {
+            $result = self::RESOURCE;
         }
 
         return $result;
     }
 
+    /**
+     * Get a detailed version of the type of the variable. This includes if the type is a callable,
+     * iterable or an anonymous class.
+     */
     public static function details($var) : string
     {
         $result = self::get($var);
+        $format = '%s';
+        $args = [ $result ];
+
         switch ($result) {
             case self::BOOL:
             case self::FLOAT:
             case self::INT:
-                $result .= ' (' . Stringify::scalar($var) . ')';
+                $format = '%s (%s)';
+                $args[] = Stringify::scalar($var);
                 break;
 
             case self::ARRAY:
                 if (\is_callable($var)) {
-                    $result .= '/callable';
+                    $format = '%s/%s';
+                    $args[] = 'callable';
                 }
                 break;
 
             case self::OBJECT:
+                $format = '%s (%s)';
+                $args[] = Assert::isAnonymous($var) ? 'anonymous' : \get_class($var);
+
                 if ($var instanceof \Closure) {
-                    $result .= '/callable';
+                    $args[0] .= '/callable';
                 }
                 elseif (\is_iterable($var)) {
-                    $result .= '/iterable';
-                }
-
-                if (Assert::isAnonymous($var)) {
-                    $result .= '/anonymous';
-                }
-                else {
-                    $result .= ' (' . \get_class($var) . ')';
+                    $args[0] .= '/iterable';
                 }
                 break;
 
             case self::RESOURCE:
-                if (!\is_resource($var) || 'resource (closed)' === \strtolower(\gettype($var))) {
-                    $result .= '/closed';
-                }
+                $format = '%s (%s)';
+                $args[] = \strtolower(\get_resource_type($var));
 
-                $result .= ' (' . \strtolower(\get_resource_type($var)) . ')';
+                if (!\is_resource($var) || 0 === \strcasecmp(\gettype($var), 'resource (closed)')) {
+                    $args[0] .= '/closed';
+                }
                 break;
         }
 
-        return $result;
+        return \vsprintf($format, $args);
     }
 }

@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Stellar\Constants\ConstUtil;
 
 /**
- * @coversDefaultClass \Stellar\Constants\ClassConst
+ * @coversDefaultClass \Stellar\Constants\ConstUtil
  */
 class ConstUtilTests extends TestCase
 {
@@ -25,9 +25,9 @@ class ConstUtilTests extends TestCase
     }
 
     /**
-     * @covers ::getCategoryList()
+     * @covers ::getList()
      */
-    public function test_get_category_list()
+    public function test_get_list_of_category()
     {
         $list = ConstUtil::getList('user');
         $this->assertArrayHasKey(self::$_constFoo, $list);
@@ -37,7 +37,7 @@ class ConstUtilTests extends TestCase
     }
 
     /**
-     * @covers ::getCategoryList()
+     * @covers ::getList()
      */
     public function test_get_category_list_strtolower_fallback()
     {
@@ -48,7 +48,7 @@ class ConstUtilTests extends TestCase
     }
 
     /**
-     * @covers ::getCategoryList()
+     * @covers ::getList()
      */
     public function test_get_category_list_ucfirst_fallback()
     {

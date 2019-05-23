@@ -12,7 +12,9 @@
   ],
   "keywords": [
     "stellar",
-    "library"
+    "library",
+    "php",
+    "components"
   ],
   "require": {
     "php": ">=7.1.0",
@@ -25,9 +27,9 @@
   "require-dev": {
     "codedungeon/phpunit-result-printer": "^0.19",
     "fzaninotto/faker": "^1.8",
-    "monolog/monolog": "^1.23",
     "nunomaduro/collision": "^2",
     "phpunit/phpunit": "^7.3",
+    "phpunit/php-code-coverage": "^6.1",
     "roeldev/phpcs-ruleset": "^1.0.1"
   },
   "autoload": {

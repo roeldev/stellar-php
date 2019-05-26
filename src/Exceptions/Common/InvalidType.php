@@ -16,8 +16,8 @@ class InvalidType extends InvalidArgumentException
         string $actualType,
         ?string $argument = null) : ExceptionFactory
     {
-        $expectedType = StringUtil::unPrefix($expectedType, '`');
-        $expectedType = StringUtil::unSuffix($expectedType, '`');
+        $expectedType = StringUtil::unprefix($expectedType, '`');
+        $expectedType = StringUtil::unsuffix($expectedType, '`');
 
         return ExceptionFactory::init(self::class)
             ->withMessage(\implode([

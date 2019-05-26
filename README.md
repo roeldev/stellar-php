@@ -5,7 +5,7 @@ Stellar
 [![Build status][build-status-img]][build-status-url]
 [![Code coverage][coverage-img]][coverage-url]
 [![Code maintainability][maintainability-img]][maintainability-url]
-[![Supported PHP versions][php-support-img]]
+![Supported PHP versions][php-support-img]
 
 [latest-release-img]: https://img.shields.io/packagist/v/stellar/stellar.svg?label=latest
 [latest-release-url]: https://github.com/stellar-php/stellar/releases
@@ -15,6 +15,7 @@ Stellar
 [coverage-url]: https://codeclimate.com/github/stellar-php/stellar
 [maintainability-img]: https://img.shields.io/codeclimate/maintainability-percentage/stellar-php/stellar.svg
 [maintainability-url]: https://codeclimate.com/github/stellar-php/stellar
+[php-support-img]: https://img.shields.io/packagist/php-v/stellar/stellar.svg
 
 
 Stellar provides a range of useful PHP components. The goal is to provide intuitive and easy to use code that is stable and future proof.

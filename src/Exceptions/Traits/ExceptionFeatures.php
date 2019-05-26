@@ -4,6 +4,7 @@ namespace Stellar\Exceptions\Traits;
 
 use Stellar\Common\Traits\ToString;
 use Stellar\Exceptions\Severity;
+use Stellar\Exceptions\ThrowableInterface;
 
 trait ExceptionFeatures
 {
@@ -68,7 +69,7 @@ trait ExceptionFeatures
             'line' => $this->getLine(),
         ];
 
-        if ($this instanceof ErrorInterface) {
+        if ($this instanceof ThrowableInterface) {
             $severity = $this->getSeverity();
             $result['severity'] = [ 'name' => $severity->getName(), 'value' => $severity->getValue() ];
             $result['arguments'] = $this->getArguments();
@@ -84,7 +85,7 @@ trait ExceptionFeatures
     {
         $result = [ static::class ];
 
-        if ($this instanceof ErrorInterface) {
+        if ($this instanceof ThrowableInterface) {
             $result[] = '[' . $this->getSeverity()->getName() . ']';
         }
 

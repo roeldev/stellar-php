@@ -13,21 +13,21 @@ class IdentifyTests extends TestCase
 {
     public function test_object()
     {
-        $str = Identify::object(new \ArrayObject());
+        $str = (string) Identify::object(new \ArrayObject());
         $this->assertStringMatchesFormat('ArrayObject_%x', $str);
         $this->assertSame(44, \strlen($str));
     }
 
     public function test_object_array()
     {
-        $str = Identify::object((object) []);
+        $str = (string) Identify::object((object) []);
         $this->assertStringMatchesFormat('stdClass_%x', $str);
         $this->assertSame(41, \strlen($str));
     }
 
     public function test_object_anonymous()
     {
-        $str = Identify::object(Dummy::anonymousObject());
+        $str = (string) Identify::object(Dummy::anonymousObject());
         $this->assertStringMatchesFormat('class@anonymous%s.php0x%x', $str);
     }
 
@@ -38,20 +38,20 @@ class IdentifyTests extends TestCase
 
     public function test_callable_closure()
     {
-        $str = Identify::callable(Dummy::closure());
+        $str = (string) Identify::callable(Dummy::closure());
         $this->assertStringMatchesFormat('Closure_%x', $str);
         $this->assertSame(40, \strlen($str));
     }
 
     public function test_callable_object_and_method()
     {
-        $str = Identify::callable([ new \ArrayObject(), 'count' ]);
+        $str = (string) Identify::callable([ new \ArrayObject(), 'count' ]);
         $this->assertStringMatchesFormat('ArrayObject_%x->count', $str);
     }
 
     public function test_callable_static_class_method()
     {
-        $str = Identify::callable([ \Closure::class, 'bind' ]);
+        $str = (string) Identify::callable([ \Closure::class, 'bind' ]);
         $this->assertStringMatchesFormat('Closure::bind', $str);
     }
 
@@ -72,20 +72,20 @@ class IdentifyTests extends TestCase
             }
         };
 
-        $str = Identify::callable([ $obj, 'callback' ]);
+        $str = (string) Identify::callable([ $obj, 'callback' ]);
         $this->assertStringStartsWith('class@anonymous', $str);
         $this->assertStringMatchesFormat('class@anonymous%s.php0x%x->callback', $str);
     }
 
     public function test_callable_invokable_object()
     {
-        $str = Identify::callable(new InvokableFixture());
+        $str = (string) Identify::callable(new InvokableFixture());
         $this->assertStringMatchesFormat('%s\InvokableFixture_%x', $str);
     }
 
     public function test_callable_anonymous_invokable_object()
     {
-        $str = Identify::callable(new class
+        $str = (string) Identify::callable(new class
         {
             public function __invoke()
             {

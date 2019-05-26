@@ -93,8 +93,6 @@ final class Assert extends StaticClass
 
     /**
      * Checks if the object implements the ArrayableInterface interface or has a `toArray()` method.
-     *
-     * @param object $obj
      */
     public static function isArrayable($obj) : bool
     {
@@ -112,8 +110,6 @@ final class Assert extends StaticClass
     /**
      * Checks if the object implements the InvokableInterface interface or has an `__invoke()`
      * method.
-     *
-     * @param object $obj
      */
     public static function isInvokable($obj) : bool
     {
@@ -122,8 +118,6 @@ final class Assert extends StaticClass
 
     /**
      * Checks if the object is a Closure or an invokable object.
-     *
-     * @param object $obj
      */
     public static function isCallable($obj) : bool
     {
@@ -132,8 +126,6 @@ final class Assert extends StaticClass
 
     /**
      * Determine if the variable can be safely cast to a string.
-     *
-     * @param mixed $var
      */
     public static function isStringable($var) : bool
     {

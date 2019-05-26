@@ -9,7 +9,11 @@ namespace Stellar\Common;
  */
 final class Identify extends StaticClass
 {
-    public static function any($var) : ?string {
+    /**
+     * Create an identifier for the given variable type.
+     */
+    public static function any($var) : ?string
+    {
         if (\is_callable($var)) {
             return self::callable($var);
         }
@@ -18,7 +22,7 @@ final class Identify extends StaticClass
     }
 
     /**
-     * @param object $obj
+     * Create an identifier for the given object.
      */
     public static function object($obj) : ?string
     {
@@ -33,6 +37,9 @@ final class Identify extends StaticClass
             : $class . '_' . \md5(\spl_object_hash($obj));
     }
 
+    /**
+     * Create an identifier for the given callable.
+     */
     public static function callable(callable $callable) : ?string
     {
         $result = null;
@@ -64,6 +71,8 @@ final class Identify extends StaticClass
     }
 
     /**
+     * Create an identifier for the given resource.
+     *
      * @param resource $resource
      */
     public static function resource($resource) : ?string

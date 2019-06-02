@@ -43,7 +43,7 @@ class ServiceRequestTests extends TestCase
      */
     public function test_service_construction_with_factory()
     {
-        $serviceRequest = ServiceRequest::with(\ArrayObject::class, [ [ 'foo', 'bar', 'test' ] ]);
+        $serviceRequest = ServiceRequest::with(new \ArrayObject([ 'foo', 'bar', 'test' ]));
         $this->assertInstanceOf(\ArrayObject::class, $serviceRequest->getService());
     }
 

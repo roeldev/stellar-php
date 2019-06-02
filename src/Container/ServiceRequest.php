@@ -5,16 +5,20 @@ namespace Stellar\Container;
 use Stellar\Common\Type;
 use Stellar\Exceptions\Common\InvalidArgument;
 use Stellar\Exceptions\Common\InvalidType;
-use Stellar\Factory\Factory;
 
 /**
  * @see:unit-test \UnitTests\Container\ServiceRequestTests
  */
 class ServiceRequest
 {
-    public static function with(string $class, array $params = []) : self
+    /**
+     * @see __construct
+     * @param object $service
+     * @return ServiceRequest
+     */
+    public static function with($service) : self
     {
-        return new static(Factory::create($class, $params));
+        return new static($service);
     }
 
     /** @var object */

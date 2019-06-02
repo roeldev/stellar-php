@@ -39,7 +39,7 @@ abstract class Enum implements EnumInterface
         return Registry::container($class)->request($name, function () use ($class, $name) {
             $service = new $class($class, $name);
 
-            return (new ServiceRequest($service))->asSingleton();
+            return ServiceRequest::with($service)->asSingleton();
         });
     }
 

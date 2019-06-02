@@ -89,7 +89,7 @@ class ContainerTests extends BasicContainerTests
         /** @var Container $container */
         $container = static::factory();
         $service = $container->request('foo', function () {
-            return ServiceRequest::with(\ArrayObject::class)->asSingleton();
+            return ServiceRequest::with(new \ArrayObject())->asSingleton();
         });
 
         $this->assertTrue($container->hasSingleton('foo'));
@@ -106,7 +106,7 @@ class ContainerTests extends BasicContainerTests
 
         $alias = 'foo';
         $container->request($alias, function () {
-            return ServiceRequest::with(\ArrayObject::class)->asSingleton();
+            return ServiceRequest::with(new \ArrayObject())->asSingleton();
         });
 
         $this->assertCount(1, $container);

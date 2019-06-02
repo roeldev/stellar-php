@@ -27,8 +27,9 @@ final class EnumerablesList extends ClassConstList
     {
         return Registry::container(self::class)
             ->request($ownerClass, function () use ($ownerClass, $customValues) {
-                return ServiceRequest::with(static::class, [ $ownerClass, $customValues ])
-                    ->asSingleton();
+                $service = new self($ownerClass, $customValues);
+
+                return ServiceRequest::with($service)->asSingleton();
             });
     }
 

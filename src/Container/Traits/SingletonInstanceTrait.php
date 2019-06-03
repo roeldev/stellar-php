@@ -1,10 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Stellar\Container;
+namespace Stellar\Container\Traits;
 
-use Stellar\Common\Contracts\SingletonInterface;
+use Stellar\Container\AbstractFactory;
+use Stellar\Container\Registry;
 
-abstract class AbstractFactory implements SingletonInterface
+trait SingletonInstanceTrait
 {
     /**
      * @return static

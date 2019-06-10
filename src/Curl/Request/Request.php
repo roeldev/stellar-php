@@ -6,9 +6,11 @@ use Stellar\Common\Contracts\StringableInterface;
 use Stellar\Common\Traits\ToString;
 use Stellar\Common\ArrayUtil;
 use Stellar\Common\Type;
+use Stellar\Curl\ConstList;
 use Stellar\Curl\Contracts\RequestInterface;
 use Stellar\Curl\Contracts\OptionableInterface;
 use Stellar\Curl\Contracts\OptionsInterface;
+use Stellar\Curl\Contracts\ResponseInterface;
 use Stellar\Curl\Exceptions\RequestFailure;
 use Stellar\Curl\Response\Response;
 use Stellar\Curl\Curl;
@@ -260,6 +262,7 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
 
     /**
      * Add a GET query parameter to the request URL.
+     *
      * @return $this
      */
     public function withQueryParam(string $name, string $value) : self
@@ -302,9 +305,8 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
     }
 
     /**
-     * @see getSendHeaders()
-     *
      * @return $this
+     * @see getSendHeaders()
      */
     public function withRequestHeaders(bool $bool = true) : self
     {
@@ -387,6 +389,13 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
         return $this->_options;
     }
 
+    public function getUrl() : ?string
+    {
+        $this->_prepOptions();
+
+        return $this->_options[ \CURLOPT_URL ] ?? $this->_url ?? null;
+    }
+
     /** {@inheritdoc} */
     public function getResource()
     {
@@ -407,9 +416,8 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
      * Get the headers sent by the request, but only if the request is executed and the
      * `\CURLINFO_HEADER_OUT` option is configured.
      *
-     * @see withRequestHeaders()
-     *
      * @return ?string[]
+     * @see    withRequestHeaders()
      */
     public function getSendHeaders() : ?array
     {
@@ -491,7 +499,7 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
                 ->create();
         }
 
-        if (!\in_array($errorCode, Curl::errorConstants(), true)) {
+        if (!\in_array($errorCode, ConstList::errorConstants(), true)) {
             // todo: invalid error code
         }
 
@@ -505,7 +513,7 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
      * {@inheritdoc}
      * @throws InvalidClass
      */
-    public function response(?string $responseClass = null) : Response
+    public function response(?string $responseClass = null) : ResponseInterface
     {
         if (null === $this->_rawResponse) {
             $this->execute();
@@ -513,7 +521,7 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
 
         if (null === $this->_response) {
             $this->_response = Factory::buildResponse($responseClass ?? $this->_responseClass)
-                ->withArguments($this->_resource, $this->_options, $this->_rawResponse)
+                ->withArguments($this, $this->_rawResponse)
                 ->create();
         }
 

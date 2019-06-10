@@ -70,7 +70,7 @@ class MultiRequest implements RequestInterface
     /**
      * @param Request[] $requests
      */
-    public function __construct(array $requests = [])
+    public function __construct(Request ...$requests)
     {
         if (!empty($requests)) {
             $this->_requests = $requests;

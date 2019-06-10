@@ -2,6 +2,7 @@
 
 namespace Stellar\Curl\Response;
 
+use Stellar\Curl\Contracts\RequestInterface;
 use Stellar\Curl\Contracts\ResponseInterface;
 use Stellar\Exceptions\Common\InvalidType;
 use Stellar\Http\Headers\HeaderLines;
@@ -18,20 +19,22 @@ class Response implements ResponseInterface
     /** @var ?string */
     protected $_body;
 
-    public function __construct($requestResource, array $usedOptions, string $response)
+    public function __construct(RequestInterface $request, string $response)
     {
-        if (!\is_resource($requestResource)) {
-            throw InvalidType::factory('resource (curl)', Type::details($requestResource))
+        $resource = $request->getResource();
+        if (!\is_resource($resource)) {
+            throw InvalidType::factory('resource (curl)', Type::details($resource))
                 ->create();
         }
 
-        $this->_httpCode = \curl_getinfo($requestResource, \CURLINFO_HTTP_CODE);
+        $this->_httpCode = \curl_getinfo($resource, \CURLINFO_HTTP_CODE);
 
+        $usedOptions = $request->getOptions();
         if ($usedOptions[ \CURLOPT_NOBODY ] ?? false) {
             $this->_headerLines = HeaderLines::parse($response);
         }
         elseif ($usedOptions[ \CURLOPT_HEADER ] ?? false) {
-            $headerSize = \curl_getinfo($requestResource, \CURLINFO_HEADER_SIZE);
+            $headerSize = \curl_getinfo($resource, \CURLINFO_HEADER_SIZE);
             $this->_headerLines = HeaderLines::parse(\substr($response, 0, $headerSize));
             $this->_body = \trim(\substr($response, $headerSize));
         }

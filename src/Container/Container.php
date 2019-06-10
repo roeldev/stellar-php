@@ -25,6 +25,8 @@ class Container extends BasicContainer
      */
     protected $_name;
 
+    protected $_aliases = [];
+
     /**
      * Id's of the registered services that are singletons.
      *
@@ -45,17 +47,17 @@ class Container extends BasicContainer
     /**
      * Indicates if the container has the singleton service.
      *
-     * @param string|object $aliasOrService
+     * @param string|object $idOrService
      */
-    public function hasSingleton($aliasOrService) : bool
+    public function hasSingleton($idOrService) : bool
     {
-        $result = $this->has($aliasOrService);
+        $result = $this->has($idOrService);
         if ($result) {
-            $alias = \is_object($aliasOrService) ?
-                $this->getAlias($aliasOrService) :
-                $aliasOrService;
+            $id = \is_object($idOrService)
+                ? $this->getId($idOrService)
+                : $idOrService;
 
-            $result = (false !== $alias && true === ($this->_singletons[ $alias ] ?? false));
+            $result = (false !== $id && true === ($this->_singletons[ $id ] ?? false));
         }
 
         return $result;
@@ -65,18 +67,18 @@ class Container extends BasicContainer
      * Set a service with the given alias in the container. It will throw an exception when the
      * alias is already registered to a singleton service, or replace any other service.
      *
-     * @param string $alias
+     * @param string $id
      * @param object $service
      * @return object
      * @throws SingletonAlreadyExists
      */
-    public function set(string $alias, $service)
+    public function set(string $id, $service)
     {
-        if ($this->hasSingleton($alias)) {
-            throw SingletonAlreadyExists::factory($alias)->create();
+        if ($this->hasSingleton($id)) {
+            throw SingletonAlreadyExists::factory($id)->create();
         }
 
-        return parent::set($alias, $service);
+        return parent::set($id, $service);
     }
 
     /**
@@ -84,12 +86,12 @@ class Container extends BasicContainer
      * new service with the provided callback. This new service will be registered with the
      * given alias.
      *
-     * @see ServiceRequest
      * @throws InvalidClass When callback does not return an instance of ServiceRequest.
+     * @see ServiceRequest
      */
-    public function request(string $alias, callable $callback, ...$params)
+    public function request(string $id, callable $callback, ...$params)
     {
-        if (!$this->has($alias)) {
+        if (!$this->has($id)) {
             $createdService = $callback(...$params);
 
             if (!($createdService instanceof ServiceRequest)) {
@@ -97,12 +99,25 @@ class Container extends BasicContainer
                     ->create();
             }
 
-            $this->_services[ $alias ] = $createdService->getService();
+            $service = $createdService->getService();
+            $aliases = $createdService->getAliases();
+
+            $this->_services[ $id ] = $service;
+            $this->_aliases[ $id ] = $aliases;
+
+            foreach ($aliases as $alias) {
+                if ($this->hasId($alias)) {
+                    continue;
+                }
+
+                $this->_services[ $alias ] = $service;
+            }
+
             if ($createdService->isSingleton()) {
-                $this->_singletons[ $alias ] = true;
+                $this->_singletons[ $id ] = true;
             }
         }
 
-        return $this->_services[ $alias ];
+        return $this->_services[ $id ];
     }
 }

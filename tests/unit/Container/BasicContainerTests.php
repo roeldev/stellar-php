@@ -112,7 +112,7 @@ class BasicContainerTests extends TestCase
     }
 
     /**
-     * @covers ::getAlias()
+     * @covers ::getId()
      */
     public function test_get_alias_of_service()
     {
@@ -122,12 +122,12 @@ class BasicContainerTests extends TestCase
         $alias = 'fizzbuzz';
         $service = $container->set($alias, new \ArrayObject([ 'fizz', 'buzz' ]));
 
-        $this->assertSame($alias, $container->getAlias($service));
-        $this->assertSame([ $alias ], $container->getAliases());
+        $this->assertSame($alias, $container->getId($service));
+        $this->assertSame([ $alias ], $container->getIds());
     }
 
     /**
-     * @covers ::getAliases()
+     * @covers ::getIds()
      */
     public function test_get_aliases()
     {
@@ -136,10 +136,10 @@ class BasicContainerTests extends TestCase
 
         $container->set('foo', new \ArrayObject());
         $container->set('bar', new \ArrayObject());
-        $this->assertSame([ 'foo', 'bar' ], $container->getAliases());
+        $this->assertSame([ 'foo', 'bar' ], $container->getIds());
 
         $container->set('foo', new Container());
-        $this->assertSame([ 'foo', 'bar' ], $container->getAliases());
+        $this->assertSame([ 'foo', 'bar' ], $container->getIds());
     }
 
     /**

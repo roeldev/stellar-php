@@ -12,9 +12,9 @@ use Stellar\Exceptions\Common\InvalidType;
 class ServiceRequest
 {
     /**
-     * @see __construct
      * @param object $service
      * @return ServiceRequest
+     * @see __construct
      */
     public static function with($service) : self
     {
@@ -23,6 +23,9 @@ class ServiceRequest
 
     /** @var object */
     protected $_service;
+
+    /** @var string[] */
+    protected $_aliases = [];
 
     /** @var bool */
     protected $_singleton = false;
@@ -50,12 +53,24 @@ class ServiceRequest
         return $this;
     }
 
+    public function withAlias(string $alias) : self
+    {
+        $this->_aliases[] = $alias;
+
+        return $this;
+    }
+
     /**
      * @return object
      */
     public function getService()
     {
         return $this->_service;
+    }
+
+    public function getAliases() : array
+    {
+        return $this->_aliases;
     }
 
     /**

@@ -8,11 +8,11 @@ use Stellar\Exceptions\Runtime\RuntimeException;
 
 final class SingletonAlreadyExists extends RuntimeException implements ContainerException
 {
-    public static function factory(string $alias) : ExceptionFactory
+    public static function factory(string $id) : ExceptionFactory
     {
         return ExceptionFactory::init(static::class)
-            ->withMessage('A singleton service with alias `{alias}` already exists.')
-            ->withArguments(\compact('alias'))
+            ->withMessage('A singleton service with id `{id}` already exists.')
+            ->withArguments(\compact('id'))
             ->withSeverity(Severity::WARNING());
     }
 }

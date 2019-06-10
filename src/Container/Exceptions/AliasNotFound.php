@@ -7,13 +7,13 @@ use Stellar\Exceptions\ExceptionFactory;
 use Stellar\Exceptions\Severity;
 use Stellar\Exceptions\Logic\OutOfRangeException;
 
-final class NotFound extends OutOfRangeException implements ContainerException, NotFoundExceptionInterface
+final class AliasNotFound extends OutOfRangeException implements ContainerException, NotFoundExceptionInterface
 {
-    public static function factory(string $id) : ExceptionFactory
+    public static function factory(string $alias) : ExceptionFactory
     {
         return ExceptionFactory::init(self::class)
-            ->withMessage('The service with id or alias `{id}` is not found')
-            ->withArguments(\compact('id'))
+            ->withMessage('The service with alias `{alias}` is not found')
+            ->withArguments(\compact('alias'))
             ->withSeverity(Severity::WARNING());
     }
 }

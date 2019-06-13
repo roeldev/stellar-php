@@ -16,8 +16,7 @@ trait AssertProhibitSleep
      */
     public function assertProhibitSleep($var) : void
     {
-        $this->expectExceptionUpgradedToError(SerializationProhibited::class);
-
+        $this->expectException(SerializationProhibited::class);
         $this->assertException(function () use ($var) {
             \serialize($var);
         });

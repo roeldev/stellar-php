@@ -2,7 +2,7 @@
 
 namespace Stellar\Curl\Options;
 
-use Stellar\Curl\Exceptions\InvalidOption;
+use Stellar\Curl\Exceptions\InvalidOptionException;
 use Stellar\Curl\Support\Utils;
 
 class Options extends AbstractOptions
@@ -37,7 +37,7 @@ class Options extends AbstractOptions
             $option = \constant($option);
         }
         elseif (!Utils::isValidInt($option)) {
-            throw InvalidOption::factory($option, $value)->create();
+            throw new InvalidOptionException((string) $option, $value);
         }
 
         $this->_options[ $option ] = $value;

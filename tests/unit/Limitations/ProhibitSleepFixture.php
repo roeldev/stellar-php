@@ -2,9 +2,9 @@
 
 namespace UnitTests\Limitations;
 
-use Stellar\Limitations\ProhibitSleep;
+use Stellar\Limitations\ProhibitSleepTrait;
 
 class ProhibitSleepFixture
 {
-    use ProhibitSleep;
+    use ProhibitSleepTrait;
 }

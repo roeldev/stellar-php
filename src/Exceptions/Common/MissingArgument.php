@@ -2,35 +2,21 @@
 
 namespace Stellar\Exceptions\Common;
 
-use Stellar\Exceptions\ExceptionFactory;
+use Stellar\Common\Stringify;
 use Stellar\Exceptions\Logic\BadMethodCallException;
+use Throwable;
 
 class MissingArgument extends BadMethodCallException
 {
-    /**
-     * (string $class, string $method)
-     * (string $function)
-     * (\Closure $closure)
-     *
-     * @return ExceptionFactory
-     */
-    public static function factory($caller, ?string $method = null) : ExceptionFactory
+    public function __construct(string $function, $classOrObject = null, ?Throwable $previous = null)
     {
-        $factory = ExceptionFactory::init(self::class);
+        $message = (null === $classOrObject)
+            ? 'Missing argument(s) for function `{function}`'
+            : 'Missing argument(s) for method `{method}` of class `{class}`';
 
-        if (null !== $method) {
-            $factory->withMessage('Missing argument(s) for method `{method}` of class `{class}`')
-                ->withArguments([ 'class' => (string) $caller, 'method' => $method ]);
-        }
-        elseif ($caller instanceof \Closure) {
-            $factory->withMessage('Missing argument(s) for closure')
-                ->withArguments([ 'closure' => $caller ]);
-        }
-        else {
-            $factory->withMessage('Missing argument(s) for function `{function}`')
-                ->withArguments([ 'function' => (string) $caller ]);
-        }
-
-        return $factory;
+        parent::__construct($message, 0, $previous, [
+            'function' => $function,
+            'class' => Stringify::objectClass($classOrObject),
+        ]);
     }
 }

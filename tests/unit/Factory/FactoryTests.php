@@ -3,7 +3,7 @@
 namespace UnitTests\Factory;
 
 use PHPUnit\Framework\TestCase;
-use Stellar\Factory\Exceptions\CreateFailure;
+use Stellar\Factory\Exceptions\CreationException;
 use Stellar\Factory\Factory;
 
 /**
@@ -39,7 +39,7 @@ class FactoryTests extends TestCase
     public function test_create_without_autoload()
     {
         $this->assertFalse(\class_exists(NotToAutoloadFixture::class, false));
-        $this->expectException(CreateFailure::class);
+        $this->expectException(CreationException::class);
 
         Factory::create(NotToAutoloadFixture::class, [], false);
     }
@@ -49,7 +49,7 @@ class FactoryTests extends TestCase
      */
     public function test_cannot_create_empty_string()
     {
-        $this->expectException(CreateFailure::class);
+        $this->expectException(CreationException::class);
         Factory::create('');
     }
 
@@ -58,7 +58,7 @@ class FactoryTests extends TestCase
      */
     public function test_cannot_create_unknown_class()
     {
-        $this->expectException(CreateFailure::class);
+        $this->expectException(CreationException::class);
         Factory::create('\Path\To\UnexistingClass');
     }
 }

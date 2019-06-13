@@ -7,7 +7,7 @@ use Stellar\Exceptions\Testing\AssertException;
 use Stellar\Limitations\Testing\AssertProhibitSleep;
 
 /**
- * @coversDefaultClass \Stellar\Limitations\ProhibitSleep
+ * @coversDefaultClass \Stellar\Limitations\ProhibitSleepTrait
  */
 class ProhibitSleepTests extends TestCase
 {

@@ -21,7 +21,7 @@ class AssertProhibitCloningTests extends TestCase
 
         $this->assertSame(
             [ [ CloningProhibited::class ] ],
-            $fixture->getCallStack()->get('expectExceptionUpgradedToError')
+            $fixture->getCallStack()->get('expectException')
         );
     }
 }

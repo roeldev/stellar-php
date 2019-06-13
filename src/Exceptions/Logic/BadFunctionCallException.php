@@ -2,22 +2,29 @@
 
 namespace Stellar\Exceptions\Logic;
 
-use Stellar\Exceptions\ExceptionInterface;
-use Stellar\Exceptions\Traits\ExceptionFeatures;
+use Stellar\Exceptions\Abilities\ExtendExceptionTrait;
+use Stellar\Exceptions\Contracts\ExceptionInterface;
+use Throwable;
 
 /**
  * Exception thrown if a callback refers to an undefined function or if some arguments are missing.
  *
  * @see http://php.net/manual/en/class.badfunctioncallexception.php
  */
-abstract class BadFunctionCallException extends \BadFunctionCallException implements ExceptionInterface
+class BadFunctionCallException extends \BadFunctionCallException implements ExceptionInterface
 {
-    use ExceptionFeatures;
+    use ExtendExceptionTrait;
 
-    /** {@inheritdoc} */
-    public function __construct(... $args)
-    {
-        parent::__construct(... $args);
-        $this->_updateFromTrace();
+    /**
+     * @see \Stellar\Exceptions\Exception::__construct()
+     */
+    public function __construct(
+        string $message,
+        int $code = 0,
+        ?Throwable $previous = null,
+        array $arguments = []
+    ) {
+        parent::__construct($message, $code, $previous);
+        $this->_withArguments($arguments);
     }
 }

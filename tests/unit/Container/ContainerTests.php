@@ -3,7 +3,7 @@
 namespace UnitTests\Container;
 
 use Stellar\Container\Container;
-use Stellar\Container\Exceptions\SingletonAlreadyExists;
+use Stellar\Container\Exceptions\SingletonExistsException;
 use Stellar\Container\ServiceRequest;
 use Stellar\Exceptions\Common\InvalidClass;
 use Stellar\Limitations\Testing\AssertProhibitCloning;
@@ -110,7 +110,7 @@ class ContainerTests extends BasicContainerTests
         });
 
         $this->assertCount(1, $container);
-        $this->expectException(SingletonAlreadyExists::class);
+        $this->expectException(SingletonExistsException::class);
         $this->assertException(function () use ($container, $alias) {
             $container->set($alias, (object) [ 'fizz', 'buzz' ]);
         });

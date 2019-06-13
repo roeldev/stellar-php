@@ -11,13 +11,13 @@ use Stellar\Curl\Contracts\RequestInterface;
 use Stellar\Curl\Contracts\OptionableInterface;
 use Stellar\Curl\Contracts\OptionsInterface;
 use Stellar\Curl\Contracts\ResponseInterface;
-use Stellar\Curl\Exceptions\RequestFailure;
+use Stellar\Curl\Exceptions\RequestExecutionException;
 use Stellar\Curl\Response\Response;
 use Stellar\Curl\Curl;
 use Stellar\Curl\Factory;
 use Stellar\Curl\Support\Utils;
-use Stellar\Exceptions\Common\InvalidClass;
 use Stellar\Exceptions\Common\InvalidType;
+use Stellar\Factory\Exceptions\CreationException;
 use Stellar\Http\Headers\HeaderLines;
 
 class Request implements RequestInterface, OptionableInterface, StringableInterface
@@ -480,8 +480,7 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
         else {
             $this->_errorCode = \curl_errno($this->_resource);
             if ($this->_throwExceptionOnFailure) {
-                throw RequestFailure::factory($this->_errorCode, $this->getErrorMessage())
-                    ->create();
+                throw new RequestExecutionException($this->_errorCode, $this->getErrorMessage());
             }
         }
 
@@ -491,12 +490,12 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
     /**
      * @param resource $multiResource
      * @return $this
+     * @throws InvalidType
      */
     public function processMultiResponse($multiResource, int $errorCode = 0) : self
     {
         if (!\is_resource($multiResource)) {
-            throw InvalidType::factory('resource', Type::details($multiResource))
-                ->create();
+            throw new InvalidType('resource', Type::details($multiResource));
         }
 
         if (!\in_array($errorCode, ConstList::errorConstants(), true)) {
@@ -511,7 +510,8 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
 
     /**
      * {@inheritdoc}
-     * @throws InvalidClass
+     * @throws RequestExecutionException
+     * @throws CreationException
      */
     public function response(?string $responseClass = null) : ResponseInterface
     {
@@ -541,6 +541,7 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
      * Execute the request, close the resource, and return the raw response as a string.
      *
      * @return string
+     * @throws RequestExecutionException
      */
     public function __toString() : string
     {

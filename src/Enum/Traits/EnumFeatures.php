@@ -3,11 +3,11 @@
 namespace Stellar\Enum\Traits;
 
 use Stellar\Enum\EnumerablesList;
-use Stellar\Limitations\ProhibitCloning;
+use Stellar\Limitations\ProhibitCloningTrait;
 
 trait EnumFeatures
 {
-    use ProhibitCloning;
+    use ProhibitCloningTrait;
 
     public static function enum() : EnumerablesList
     {

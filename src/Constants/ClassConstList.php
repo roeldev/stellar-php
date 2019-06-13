@@ -39,19 +39,16 @@ class ClassConstList implements ArrayableInterface, \Countable
     public function __construct(string $class)
     {
         try {
-            $this->_class = $class;
             $this->_list = (new \ReflectionClass($class))->getConstants();
-            $this->_names = \array_keys($this->_list);
-
-            foreach ($this->_names as $i => $const) {
-                $this->_names[ $i ] = $class . '::' . $const;
-            }
         }
         catch (\ReflectionException $previous) {
-            throw UndeclaredClass::factory($class)
-                ->withPrevious($previous)
-                ->withSeverity(Severity::WARNING())
-                ->create();
+            throw new UndeclaredClass($class, $previous);
+        }
+
+        $this->_class = $class;
+        $this->_names = \array_keys($this->_list);
+        foreach ($this->_names as $i => $const) {
+            $this->_names[ $i ] = $class . '::' . $const;
         }
     }
 
@@ -133,7 +130,7 @@ class ClassConstList implements ArrayableInterface, \Countable
         if (\is_string($var)) {
             [ $class, $var ] = ConstUtil::split($var) ?? [ null, null ];
             if ($class !== $this->_class) {
-                throw InvalidClass::factory($this->_class, $class ?? $var)->create();
+                throw new InvalidClass($this->_class, $class ?? $var);
             }
         }
 

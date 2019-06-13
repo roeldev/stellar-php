@@ -7,7 +7,7 @@ use Stellar\Exceptions\Testing\AssertException;
 use Stellar\Limitations\Testing\AssertProhibitCloning;
 
 /**
- * @coversDefaultClass \Stellar\Limitations\ProhibitCloning
+ * @coversDefaultClass \Stellar\Limitations\ProhibitCloningTrait
  */
 class ProhibitCloningTests extends TestCase
 {

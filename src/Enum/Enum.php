@@ -6,7 +6,8 @@ use Stellar\Common\Traits\ToString;
 use Stellar\Container\Registry;
 use Stellar\Container\ServiceRequest;
 use Stellar\Enum\Traits\EnumFeatures;
-use Stellar\Exceptions\Common\UndefinedClassConstant;
+use Stellar\Exceptions\Common\InvalidClass;
+use Stellar\Exceptions\Common\UndefinedConstant;
 use Stellar\Exceptions\Common\UnknownStaticMethod;
 
 /**
@@ -17,30 +18,38 @@ abstract class Enum implements EnumInterface
     use EnumFeatures;
     use ToString;
 
+    private static function _requestService($class, $name) : ServiceRequest
+    {
+        return ServiceRequest::with(new $class($class, $name))
+            ->asSingleton();
+    }
+
     /**
      * @param string $name
      * @param array  $arguments
      *
      * @return static
-     * @throws UndefinedClassConstant
+     * @throws InvalidClass
+     * @throws UndefinedConstant
      * @throws UnknownStaticMethod
      */
     public static function __callStatic($name, $arguments)
     {
         $class = static::class;
         if ($class === __CLASS__ || \strtoupper($name) !== $name) {
-            throw UnknownStaticMethod::factory($class, $name)->create();
+            throw new UnknownStaticMethod($class, $name);
         }
         if (!static::enum()->hasName($name)) {
-            throw UndefinedClassConstant::factory($class, $name)->create();
+            throw new UndefinedConstant($name, $class);
         }
 
         // the instance has to be created inside Enum because it's constructor is protected
-        return Registry::container($class)->request($name, function () use ($class, $name) {
-            $service = new $class($class, $name);
-
-            return ServiceRequest::with($service)->asSingleton();
-        });
+        return Registry::container($class)->request(
+            $name,
+            \Closure::fromCallable([ static::class, '_requestService' ]),
+            $class,
+            $name
+        );
     }
 
     final protected function __construct(string $class, string $name)

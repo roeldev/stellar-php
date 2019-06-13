@@ -19,12 +19,14 @@ class Response implements ResponseInterface
     /** @var ?string */
     protected $_body;
 
+    /**
+     * @throws InvalidType
+     */
     public function __construct(RequestInterface $request, string $response)
     {
         $resource = $request->getResource();
         if (!\is_resource($resource)) {
-            throw InvalidType::factory('resource (curl)', Type::details($resource))
-                ->create();
+            throw new InvalidType('resource (curl)', Type::details($resource));
         }
 
         $this->_httpCode = \curl_getinfo($resource, \CURLINFO_HTTP_CODE);

@@ -3,29 +3,25 @@
 namespace Stellar\Exceptions\Common;
 
 use Stellar\Common\Stringify;
-use Stellar\Exceptions\ExceptionFactory;
 use Stellar\Exceptions\Logic\InvalidArgumentException;
+use Throwable;
 
-/**
- * @method InvalidClass create($expectedClass, $actualClass, ?string $argument = null)
- */
 class InvalidClass extends InvalidArgumentException
 {
     /**
-     * @param object|string $expectedClass
-     * @param object|string $actualClass
+     * @param object|string $expected
+     * @param object|string $actual
      */
-    public static function factory($expectedClass, $actualClass, ?string $argument = null) : ExceptionFactory
+    public function __construct($expected, $actual, ?Throwable $previous = null)
     {
-        $expectedClass = Stringify::objectClass($expectedClass);
-        $actualClass = Stringify::objectClass($actualClass);
+        $expected = Stringify::objectClass($expected);
+        $actual = Stringify::objectClass($actual);
 
-        return ExceptionFactory::init(self::class)
-            ->withMessage(\implode([
-                'Invalid class `{actualClass}`',
-                $argument ? ' for `${argument}`' : '',
-                ', expected instance or implementation of `{expectedClass}`',
-            ]))
-            ->withArguments(\compact('expectedClass', 'actualClass', 'argument'));
+        parent::__construct(
+            'Class `{actual} should be of `{expected}`',
+            0,
+            $previous,
+            \compact('expected', 'actual')
+        );
     }
 }

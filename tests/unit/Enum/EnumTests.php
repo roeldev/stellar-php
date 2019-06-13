@@ -5,7 +5,7 @@ namespace UnitTests\Enum;
 use PHPUnit\Framework\TestCase;
 use Stellar\Enum\Enum;
 use Stellar\Enum\Exceptions\InvalidType;
-use Stellar\Exceptions\Error;
+use Stellar\Exceptions\Common\UnknownStaticMethod;
 use Stellar\Exceptions\Testing\AssertException;
 
 /**
@@ -33,7 +33,7 @@ class EnumTests extends TestCase
 
     public function test_fail_to_get_an_instance_from_the_enum_class()
     {
-        $this->expectException(Error::class);
+        $this->expectException(UnknownStaticMethod::class);
 
         $this->assertException(function () {
             // class does not exist, it's missing the correct namespace
@@ -69,15 +69,6 @@ class EnumTests extends TestCase
 
         $this->assertEquals($expected, EnumFixture::list());
         $this->assertEquals($expected, CustomValuesFixture::list());
-    }
-
-    public function test_exception_when_no_types_are_set()
-    {
-        $this->expectException(Error::class);
-
-        $this->assertException(function () {
-            EmptyEnumFixture::list();
-        });
     }
 
     // public function test_get_the_type_of_an_existing_value()

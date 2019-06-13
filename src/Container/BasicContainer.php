@@ -4,13 +4,14 @@ namespace Stellar\Container;
 
 use Psr\Container\ContainerInterface;
 use Stellar\Common\Type;
-use Stellar\Container\Exceptions\NotFound;
-use Stellar\Exceptions\Common\InvalidType;
+use Stellar\Container\Exceptions\NotFoundException;
+use Stellar\Exceptions\Common\InvalidArgument;
+use Countable;
 
 /**
  * @see:unit-test \UnitTests\Container\BasicContainerTests
  */
-class BasicContainer implements ContainerInterface, \Countable
+class BasicContainer implements ContainerInterface, Countable
 {
     /**
      * An array with registered services with the given alias as key.
@@ -23,7 +24,7 @@ class BasicContainer implements ContainerInterface, \Countable
      * @param string $id
      *
      * @return object
-     * @throws NotFound
+     * @throws NotFoundException
      */
     public function get($id)
     {
@@ -31,11 +32,11 @@ class BasicContainer implements ContainerInterface, \Countable
             return $this->_services[ $id ];
         }
 
-        throw NotFound::factory($id)->create();
+        throw new NotFoundException($id);
     }
 
     /**
-     * Get the alias of a registered service, or `false` when not found.
+     * Get the id of a registered service, or `false` when not found.
      *
      * @param object $service
      * @return string|false
@@ -48,7 +49,7 @@ class BasicContainer implements ContainerInterface, \Countable
     }
 
     /**
-     * Get an array with all used aliases.
+     * Get an array with all used ids.
      *
      * @return string[]
      */
@@ -85,17 +86,15 @@ class BasicContainer implements ContainerInterface, \Countable
     }
 
     /**
-     * Set a service with the given alias in the container. It will replace any existing service
-     * already registered with the same alias.
-     *
      * @param string $id
      * @param object $service
      * @return object
+     * @throws InvalidArgument
      */
     public function set(string $id, $service)
     {
         if (!\is_object($service)) {
-            throw InvalidType::factory('object', Type::get($service), 'service')->create();
+            throw new InvalidArgument('service', 'object', Type::get($service));
         }
 
         $this->_services[ $id ] = $service;

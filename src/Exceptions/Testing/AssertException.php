@@ -2,12 +2,8 @@
 
 namespace Stellar\Exceptions\Testing;
 
+use Stellar\Exceptions\Contracts\ExceptionInterface;
 use Stellar\Exceptions\Error;
-use Stellar\Exceptions\ExceptionInterface;
-use Stellar\Exceptions\ExceptionType;
-use Stellar\Exceptions\Severity;
-use Stellar\Exceptions\Testing\Constraints\SameExceptionType;
-use Stellar\Exceptions\Testing\Constraints\SameSeverity;
 
 // todo: ombouwen adhv. constraint class
 
@@ -16,9 +12,6 @@ use Stellar\Exceptions\Testing\Constraints\SameSeverity;
  */
 trait AssertException
 {
-    /** @var Severity */
-    protected $_expectExceptionSeverity;
-
     /** @var array */
     protected $_expectExceptionArguments;
 
@@ -27,10 +20,6 @@ trait AssertException
 
     protected function _assertException(ExceptionInterface $exception) : void
     {
-        if ($this->_expectExceptionSeverity) {
-            static::assertThat($exception->getSeverity(), new SameSeverity($this->_expectExceptionSeverity));
-        }
-
         if ($this->_expectExceptionArguments) {
             self::assertEquals(
                 $this->_expectExceptionArguments,
@@ -42,14 +31,8 @@ trait AssertException
 
     public function resetExpectingException() : void
     {
-        $this->_expectExceptionSeverity = null;
         $this->_expectExceptionArguments = null;
         $this->_expectExceptionUpgradedToError = null;
-    }
-
-    public function expectExceptionSeverity(Severity $severity) : void
-    {
-        $this->_expectExceptionSeverity = $severity;
     }
 
     public function expectExceptionArguments(array $arguments) : void
@@ -86,7 +69,7 @@ trait AssertException
             throw $exception;
         }
         catch (\Throwable $exception) {
-            var_dump($exception->getMessage());
+            var_dump([ get_class($exception), $exception->getMessage() ]);
         }
     }
 }

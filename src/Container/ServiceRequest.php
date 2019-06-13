@@ -4,7 +4,6 @@ namespace Stellar\Container;
 
 use Stellar\Common\Type;
 use Stellar\Exceptions\Common\InvalidArgument;
-use Stellar\Exceptions\Common\InvalidType;
 
 /**
  * @see:unit-test \UnitTests\Container\ServiceRequestTests
@@ -14,6 +13,7 @@ class ServiceRequest
     /**
      * @param object $service
      * @return ServiceRequest
+     * @throws InvalidArgument
      * @see __construct
      */
     public static function with($service) : self
@@ -32,12 +32,12 @@ class ServiceRequest
 
     /**
      * @param object $service
-     * @throws InvalidType
+     * @throws InvalidArgument
      */
     public function __construct($service)
     {
         if (!\is_object($service)) {
-            throw InvalidType::factory('object', Type::get($service), 'service')->create();
+            throw new InvalidArgument('service', 'object', Type::get($service));
         }
 
         $this->_service = $service;

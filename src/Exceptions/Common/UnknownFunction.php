@@ -2,17 +2,18 @@
 
 namespace Stellar\Exceptions\Common;
 
-use Stellar\Exceptions\ExceptionFactory;
-use Stellar\Exceptions\Severity;
 use Stellar\Exceptions\Logic\BadFunctionCallException;
+use Throwable;
 
 class UnknownFunction extends BadFunctionCallException
 {
-    public static function factory(string $function) : ExceptionFactory
+    public function __construct(string $function, ?Throwable $previous = null)
     {
-        return ExceptionFactory::init(self::class)
-            ->withMessage('Function `{function}` does not exist')
-            ->withArguments(\compact('function'))
-            ->withSeverity(Severity::ERROR());
+        parent::__construct(
+            'Function `{function}` does not exist',
+            0,
+            $previous,
+            \compact('function')
+        );
     }
 }

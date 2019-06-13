@@ -5,7 +5,6 @@ namespace UnitTests\Container;
 use PHPUnit\Framework\TestCase;
 use Stellar\Container\ServiceRequest;
 use Stellar\Exceptions\Common\InvalidArgument;
-use Stellar\Exceptions\Common\InvalidType;
 use Stellar\Exceptions\Testing\AssertException;
 
 /**
@@ -20,7 +19,7 @@ class ServiceRequestTests extends TestCase
      */
     public function test_invalid_argument()
     {
-        $this->expectException(InvalidType::class);
+        $this->expectException(InvalidArgument::class);
         $this->assertException(function () {
             new ServiceRequest(false);
         });

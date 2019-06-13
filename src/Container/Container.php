@@ -3,12 +3,13 @@
 namespace Stellar\Container;
 
 use Stellar\Common\Type;
-use Stellar\Container\Exceptions\SingletonAlreadyExists;
+use Stellar\Container\Exceptions\SingletonExistsException;
+use Stellar\Exceptions\Common\InvalidArgument;
 use Stellar\Exceptions\Common\InvalidClass;
-use Stellar\Limitations\ProhibitCloning;
+use Stellar\Limitations\ProhibitCloningTrait;
 
 /**
- * immutable = eigenschap van container, items kunnen niet worden toegevoegd, gewijzigd of worden verwijdert
+ * immutable = eigenschap van container, items kunnen niet worden toegevoegd, gewijzigd of worden verwijderd
  * singleton = eigenschap van item in container, item kan niet worden overschreven, eenmaal toegevoegd blijft het
  * hetzelfde
  *
@@ -16,7 +17,7 @@ use Stellar\Limitations\ProhibitCloning;
  */
 class Container extends BasicContainer
 {
-    use ProhibitCloning;
+    use ProhibitCloningTrait;
 
     /**
      * Name of the container.
@@ -70,12 +71,13 @@ class Container extends BasicContainer
      * @param string $id
      * @param object $service
      * @return object
-     * @throws SingletonAlreadyExists
+     * @throws SingletonExistsException
+     * @throws InvalidArgument
      */
     public function set(string $id, $service)
     {
         if ($this->hasSingleton($id)) {
-            throw SingletonAlreadyExists::factory($id)->create();
+            throw new SingletonExistsException($id);
         }
 
         return parent::set($id, $service);
@@ -95,8 +97,7 @@ class Container extends BasicContainer
             $createdService = $callback(...$params);
 
             if (!($createdService instanceof ServiceRequest)) {
-                throw InvalidClass::factory(ServiceRequest::class, Type::details($createdService))
-                    ->create();
+                throw new InvalidClass(ServiceRequest::class, Type::details($createdService));
             }
 
             $service = $createdService->getService();

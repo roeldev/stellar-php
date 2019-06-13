@@ -21,7 +21,7 @@ class AssertProhibitUnserializationTests extends TestCase
 
         $this->assertSame(
             [ [ UnserializationProhibited::class ] ],
-            $fixture->getCallStack()->get('expectExceptionUpgradedToError')
+            $fixture->getCallStack()->get('expectException')
         );
     }
 }

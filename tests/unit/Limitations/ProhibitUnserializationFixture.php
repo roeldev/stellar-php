@@ -2,9 +2,9 @@
 
 namespace UnitTests\Limitations;
 
-use Stellar\Limitations\ProhibitUnserialization;
+use Stellar\Limitations\ProhibitUnserializationTrait;
 
 class ProhibitUnserializationFixture
 {
-    use ProhibitUnserialization;
+    use ProhibitUnserializationTrait;
 }

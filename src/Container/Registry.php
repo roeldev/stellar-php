@@ -30,6 +30,7 @@ final class Registry extends StaticClass implements SingletonInterface
      * Create and/or get a Container singleton instance for the specified owner class or object.
      *
      * @param string $class
+     * @throws \Stellar\Exceptions\Common\InvalidClass
      */
     public static function container(string $class) : Container
     {
@@ -41,14 +42,15 @@ final class Registry extends StaticClass implements SingletonInterface
     /**
      * Request a singleton instance of the specified class, or create one and register it as the
      * singleton instance.
+     *
+     * @throws \Stellar\Exceptions\Common\InvalidClass
      */
     public static function singleton(string $class, array $params = [])
     {
         return self::instance()
             ->request($class, function () use ($class, $params) {
-                $service = Factory::create($class, $params);
-
-                return ServiceRequest::with($service)->asSingleton();
+                return ServiceRequest::with(Factory::create($class, $params))
+                    ->asSingleton();
             });
     }
 }

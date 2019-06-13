@@ -2,8 +2,9 @@
 
 namespace Stellar\Exceptions\Logic;
 
-use Stellar\Exceptions\ExceptionInterface;
-use Stellar\Exceptions\Traits\ExceptionFeatures;
+use Stellar\Exceptions\Abilities\ExtendExceptionTrait;
+use Stellar\Exceptions\Contracts\ExceptionInterface;
+use Throwable;
 
 /**
  * Exception thrown when an illegal index was requested. This represents errors that should be detected at compile time.
@@ -17,14 +18,20 @@ use Stellar\Exceptions\Traits\ExceptionFeatures;
  *
  * http://php.net/manual/en/class.outofrangeexception.php
  */
-abstract class OutOfRangeException extends \OutOfRangeException implements ExceptionInterface
+class OutOfRangeException extends \OutOfRangeException implements ExceptionInterface
 {
-    use ExceptionFeatures;
+    use ExtendExceptionTrait;
 
-    /** {@inheritdoc} */
-    public function __construct(... $args)
-    {
-        parent::__construct(... $args);
-        $this->_updateFromTrace();
+    /**
+     * @see \Stellar\Exceptions\Exception::__construct()
+     */
+    public function __construct(
+        string $message,
+        int $code = 0,
+        ?Throwable $previous = null,
+        array $arguments = []
+    ) {
+        parent::__construct($message, $code, $previous);
+        $this->_withArguments($arguments);
     }
 }

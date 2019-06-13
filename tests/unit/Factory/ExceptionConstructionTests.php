@@ -4,7 +4,7 @@ namespace UnitTests\Factory;
 
 use PHPUnit\Framework\TestCase;
 use Stellar\Exceptions\Testing\AssertExceptionConstruction;
-use Stellar\Factory\Exceptions\CreateFailure;
+use Stellar\Factory\Exceptions\CreationException;
 
 class ExceptionConstructionTests extends TestCase
 {
@@ -13,7 +13,7 @@ class ExceptionConstructionTests extends TestCase
     public function provideClasses() : array
     {
         return [
-            [ CreateFailure::class, 'class' ],
+            [ CreationException::class, 'class' ],
         ];
     }
 

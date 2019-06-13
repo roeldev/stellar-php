@@ -4,7 +4,7 @@ namespace Stellar\Curl;
 
 use Psr\Http\Message\UriInterface;
 use Stellar\Common\Contracts\SingletonInterface;
-use Stellar\Container\Traits\SingletonInstanceTrait;
+use Stellar\Container\Abilities\SingletonInstanceTrait;
 use Stellar\Curl\Contracts\RequestInterface;
 use Stellar\Curl\Contracts\ResponseInterface;
 use Stellar\Curl\Request\Request;

@@ -7,7 +7,7 @@ use Stellar\Limitations\Exceptions\UnserializationProhibited;
 /**
  * @see:unit-test \UnitTests\Limitations\ProhibitUnserializationTests
  */
-trait ProhibitUnserialization
+trait ProhibitUnserializationTrait
 {
     /**
      * Do not allow unserialization through the Serializable interface.
@@ -17,6 +17,6 @@ trait ProhibitUnserialization
      */
     final public function unserialize(string $serialized)
     {
-        throw UnserializationProhibited::factory(static::class)->create();
+        throw new UnserializationProhibited(static::class);
     }
 }

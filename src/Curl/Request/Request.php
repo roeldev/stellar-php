@@ -3,7 +3,7 @@
 namespace Stellar\Curl\Request;
 
 use Stellar\Common\Contracts\StringableInterface;
-use Stellar\Common\Traits\ToString;
+use Stellar\Common\Abilities\StringableTrait;
 use Stellar\Common\ArrayUtil;
 use Stellar\Common\Type;
 use Stellar\Curl\ConstList;
@@ -22,7 +22,7 @@ use Stellar\Http\Headers\HeaderLines;
 
 class Request implements RequestInterface, OptionableInterface, StringableInterface
 {
-    use ToString;
+    use StringableTrait;
 
     /** @var string */
     protected $_method = Curl::METHOD_GET;

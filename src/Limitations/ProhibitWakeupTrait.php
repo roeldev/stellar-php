@@ -7,7 +7,7 @@ use Stellar\Limitations\Exceptions\UnserializationProhibited;
 /**
  * @see:unit-test \UnitTests\Limitations\ProhibitWakeupTests
  */
-trait ProhibitWakeup
+trait ProhibitWakeupTrait
 {
     /**
      * Do not allow 'waking up' the object when unserializing it.
@@ -17,6 +17,6 @@ trait ProhibitWakeup
      */
     final public function __wakeup()
     {
-        throw UnserializationProhibited::factory(static::class)->create();
+        throw new UnserializationProhibited(static::class);
     }
 }

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Stellar\Enum\Traits;
+namespace Stellar\Enum\Abilities;
 
 use Stellar\Enum\EnumerablesList;
 use Stellar\Limitations\ProhibitCloningTrait;

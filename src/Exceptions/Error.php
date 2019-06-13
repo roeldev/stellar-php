@@ -2,7 +2,7 @@
 
 namespace Stellar\Exceptions;
 
-use Stellar\Common\Traits\ToString;
+use Stellar\Common\Abilities\StringableTrait;
 use Stellar\Exceptions\Contracts\ThrowableInterface;
 
 /**
@@ -15,7 +15,7 @@ use Stellar\Exceptions\Contracts\ThrowableInterface;
  */
 final class Error extends \Error implements ThrowableInterface
 {
-    use ToString;
+    use StringableTrait;
 
     /**
      * The Exception that's upgraded to an error

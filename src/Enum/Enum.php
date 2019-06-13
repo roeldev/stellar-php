@@ -2,10 +2,10 @@
 
 namespace Stellar\Enum;
 
-use Stellar\Common\Traits\ToString;
+use Stellar\Common\Abilities\StringableTrait;
 use Stellar\Container\Registry;
 use Stellar\Container\ServiceRequest;
-use Stellar\Enum\Traits\EnumFeatures;
+use Stellar\Enum\Abilities\EnumFeatures;
 use Stellar\Exceptions\Common\InvalidClass;
 use Stellar\Exceptions\Common\UndefinedConstant;
 use Stellar\Exceptions\Common\UnknownStaticMethod;
@@ -16,7 +16,7 @@ use Stellar\Exceptions\Common\UnknownStaticMethod;
 abstract class Enum implements EnumInterface
 {
     use EnumFeatures;
-    use ToString;
+    use StringableTrait;
 
     private static function _requestService($class, $name) : ServiceRequest
     {

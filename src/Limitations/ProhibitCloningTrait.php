@@ -7,7 +7,7 @@ use Stellar\Limitations\Exceptions\CloningProhibited;
 /**
  * @see:unit-test \UnitTests\Limitations\ProhibitCloningTests
  */
-trait ProhibitCloning
+trait ProhibitCloningTrait
 {
     /**
      * @see http://php.net/manual/en/language.oop5.cloning.php#object.clone
@@ -15,6 +15,6 @@ trait ProhibitCloning
      */
     final public function __clone()
     {
-        throw CloningProhibited::factory(static::class)->create();
+        throw new CloningProhibited(static::class);
     }
 }

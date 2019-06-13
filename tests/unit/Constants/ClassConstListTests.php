@@ -43,9 +43,9 @@ class ClassConstListTests extends TestCase
     public function test_getList()
     {
         $expected = [
-            'FOO'  => 'f00',
-            'BAR'  => 'b4r',
-            'BAZ'  => 8,
+            'FOO' => 'f00',
+            'BAR' => 'b4r',
+            'BAZ' => 8,
             'NULL' => 0,
         ];
 
@@ -147,9 +147,9 @@ class ClassConstListTests extends TestCase
     public function test_toArray()
     {
         $expected = [
-            ConstantsFixture::class . '::FOO'  => 'f00',
-            ConstantsFixture::class . '::BAR'  => 'b4r',
-            ConstantsFixture::class . '::BAZ'  => 8,
+            ConstantsFixture::class . '::FOO' => 'f00',
+            ConstantsFixture::class . '::BAR' => 'b4r',
+            ConstantsFixture::class . '::BAZ' => 8,
             ConstantsFixture::class . '::NULL' => 0,
         ];
 

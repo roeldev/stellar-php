@@ -7,7 +7,7 @@ use Stellar\Limitations\Exceptions\SerializationProhibited;
 /**
  * @see:unit-test \UnitTests\Limitations\ProhibitSerializationTests
  */
-trait ProhibitSerialization
+trait ProhibitSerializationTrait
 {
     /**
      * Do not allow serialization through the Serializable interface.
@@ -17,6 +17,6 @@ trait ProhibitSerialization
      */
     final public function serialize()
     {
-        throw SerializationProhibited::factory(static::class)->create();
+        throw new SerializationProhibited(static::class);
     }
 }

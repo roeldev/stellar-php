@@ -7,7 +7,7 @@ use Stellar\Limitations\Exceptions\SerializationProhibited;
 /**
  * @see:unit-test \UnitTests\Limitations\ProhibitSleepTests
  */
-trait ProhibitSleep
+trait ProhibitSleepTrait
 {
     /**
      * Do not allow an object to 'sleep' by serializing it.
@@ -17,6 +17,6 @@ trait ProhibitSleep
      */
     final public function __sleep()
     {
-        throw SerializationProhibited::factory(static::class)->create();
+        throw new SerializationProhibited(static::class);
     }
 }

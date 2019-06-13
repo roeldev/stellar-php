@@ -1,26 +1,26 @@
 <?php declare(strict_types=1);
 
-namespace UnitTests\Common\Traits;
+namespace UnitTests\Common\Abilities;
 
 use PHPUnit\Framework\TestCase;
-use Stellar\Common\Traits\ToString;
+use Stellar\Common\Abilities\StringableTrait;
 
-class ToStringTests extends TestCase
+class StringableTraitTests extends TestCase
 {
     public function test()
     {
         $expected = 'foo bar baz';
-        $this->assertSame($expected, (new ToStringFixture($expected))->toString());
-        $this->assertSame($expected, (string) new ToStringFixture($expected));
+        $this->assertSame($expected, (new StringableTraitFixture($expected))->toString());
+        $this->assertSame($expected, (string) new StringableTraitFixture($expected));
     }
 }
 
 /**
  * @internal
  */
-final class ToStringFixture
+final class StringableTraitFixture
 {
-    use ToString;
+    use StringableTrait;
 
     /** @var string */
     protected $_testString;

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Stellar\Common\Traits;
+namespace Stellar\Common\Abilities;
 
 /**
  * Gives an object some basic functionality so it can be cast to a string. As a default the FQCN of the object is
@@ -8,7 +8,7 @@ namespace Stellar\Common\Traits;
  *
  * @see:unit-test \UnitTests\Common\Traits\ToStringTests
  */
-trait ToString
+trait StringableTrait
 {
     abstract public function __toString() : string;
 

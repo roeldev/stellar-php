@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Stellar\Container\Traits;
+namespace Stellar\Container\Abilities;
 
 use Stellar\Container\AbstractFactory;
 use Stellar\Container\Registry;

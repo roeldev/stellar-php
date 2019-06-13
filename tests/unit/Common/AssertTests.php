@@ -3,12 +3,12 @@
 namespace UnitTests\Common;
 
 use PHPUnit\Framework\TestCase;
+use Stellar\Common\Abilities\StringableTrait;
 use Stellar\Common\Contracts\ArrayableInterface;
 use Stellar\Common\Contracts\InvokableInterface;
 use Stellar\Common\Contracts\StringableInterface;
 use Stellar\Common\Assert;
 use Stellar\Common\Dummy;
-use Stellar\Common\Traits\ToString;
 
 /**
  * @coversDefaultClass \Stellar\Common\Assert
@@ -302,7 +302,7 @@ class InvokableFixture implements InvokableInterface
  */
 class StringableFixture implements StringableInterface
 {
-    use ToString;
+    use StringableTrait;
 
     public function __toString() : string
     {

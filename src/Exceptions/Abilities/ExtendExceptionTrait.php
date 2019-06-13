@@ -2,12 +2,13 @@
 
 namespace Stellar\Exceptions\Abilities;
 
+use Stellar\Common\Abilities\StringableTrait;
 use Stellar\Common\Stringify;
 use Stellar\Common\StringUtil;
+use Stellar\Exceptions\Contracts\ThrowableInterface;
 
 trait ExtendExceptionTrait
 {
-    use ArrayableTrait;
     use SetCodeTrait;
     use StringableTrait;
 
@@ -43,5 +44,40 @@ trait ExtendExceptionTrait
     public function getArguments() : array
     {
         return $this->_arguments;
+    }
+
+    /**
+     * Transform the Exception to an array.
+     */
+    public function toArray() : array
+    {
+        $result = [
+            'exception' => static::class,
+            'message' => $this->getMessage(),
+            'code' => $this->getCode(),
+            'file' => $this->getFile(),
+            'line' => $this->getLine(),
+        ];
+
+        if ($this instanceof ThrowableInterface) {
+            $result['arguments'] = $this->getArguments();
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get a string representation of the exception.
+     */
+    public function __toString() : string
+    {
+        $result = [ static::class, $this->getMessage() ];
+
+        $code = $this->getCode();
+        if (!empty($code)) {
+            $result[] = '(' . $code . ')';
+        }
+
+        return \implode(' ', $result);
     }
 }

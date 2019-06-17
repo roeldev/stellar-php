@@ -15,10 +15,10 @@ use Stellar\Curl\Exceptions\RequestExecutionException;
 use Stellar\Curl\Response\Response;
 use Stellar\Curl\Curl;
 use Stellar\Curl\Factory;
+use Stellar\Curl\Support\Parse;
 use Stellar\Curl\Support\Utils;
 use Stellar\Exceptions\Common\InvalidType;
 use Stellar\Factory\Exceptions\CreationException;
-use Stellar\Http\Headers\HeaderLines;
 
 class Request implements RequestInterface, OptionableInterface, StringableInterface
 {
@@ -57,7 +57,7 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
     /** @var ?string */
     protected $_rawResponse;
 
-    /** @var ?Response */
+    /** @var ?ResponseInterface */
     protected $_response;
 
     /** @var string */
@@ -113,7 +113,8 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
         if (true === $this->getOption(\CURLINFO_HEADER_OUT)) {
             $headers = \curl_getinfo($this->_resource, \CURLINFO_HEADER_OUT);
             if (false !== $headers) {
-                $this->_sendHeaders = HeaderLines::parse($headers);
+
+                $this->_sendHeaders = Parse::headerLines($headers);
             }
         }
 
@@ -432,10 +433,15 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
         return $this->_rawResponse;
     }
 
+    public function isInitialized() : bool
+    {
+        return null !== $this->_resource;
+    }
+
     /** {@inheritdoc} */
     public function isExecuted() : bool
     {
-        return null !== $this->_response;
+        return null !== $this->_rawResponse;
     }
 
     /** {@inheritdoc} */
@@ -455,7 +461,7 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
     /** {@inheritdoc} */
     public function init() : self
     {
-        if (null === $this->_resource) {
+        if (!$this->isInitialized()) {
             $this->_resource = \curl_init();
             \curl_setopt_array($this->_resource, $this->getOptions());
         }
@@ -515,12 +521,13 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
      */
     public function response(?string $responseClass = null) : ResponseInterface
     {
-        if (null === $this->_rawResponse) {
+        if (!$this->isExecuted()) {
             $this->execute();
         }
 
         if (null === $this->_response) {
-            $this->_response = Factory::buildResponse($responseClass ?? $this->_responseClass)
+            $this->_response = Factory::instance()
+                ->buildResponse($responseClass ?? $this->_responseClass)
                 ->withArguments($this, $this->_rawResponse)
                 ->create();
         }

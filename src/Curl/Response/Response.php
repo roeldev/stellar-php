@@ -4,8 +4,8 @@ namespace Stellar\Curl\Response;
 
 use Stellar\Curl\Contracts\RequestInterface;
 use Stellar\Curl\Contracts\ResponseInterface;
+use Stellar\Curl\Support\Parse;
 use Stellar\Exceptions\Common\InvalidType;
-use Stellar\Http\Headers\HeaderLines;
 use Stellar\Common\Type;
 
 class Response implements ResponseInterface
@@ -33,11 +33,11 @@ class Response implements ResponseInterface
 
         $usedOptions = $request->getOptions();
         if ($usedOptions[ \CURLOPT_NOBODY ] ?? false) {
-            $this->_headerLines = HeaderLines::parse($response);
+            $this->_headerLines = Parse::headerLines($response);
         }
         elseif ($usedOptions[ \CURLOPT_HEADER ] ?? false) {
             $headerSize = \curl_getinfo($resource, \CURLINFO_HEADER_SIZE);
-            $this->_headerLines = HeaderLines::parse(\substr($response, 0, $headerSize));
+            $this->_headerLines = Parse::headerLines(\substr($response, 0, $headerSize));
             $this->_body = \trim(\substr($response, $headerSize));
         }
         else {

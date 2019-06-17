@@ -18,7 +18,7 @@ class InvalidClass extends InvalidArgumentException
         $actual = Stringify::objectClass($actual);
 
         parent::__construct(
-            'Class `{actual} should be of `{expected}`',
+            'Class `{actual}` should be of `{expected}`',
             0,
             $previous,
             \compact('expected', 'actual')

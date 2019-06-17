@@ -2,20 +2,21 @@
 
 namespace Stellar\Exceptions\Common;
 
-use Stellar\Exceptions\ExceptionFactory;
-use Stellar\Exceptions\Severity;
 use Stellar\Exceptions\Logic\BadMethodCallException;
+use Throwable;
 
 /**
  * Use when a call to `__callStatic()` is invalid.
  */
 class UnknownStaticMethod extends BadMethodCallException
 {
-    public static function factory(string $class, string $method) : ExceptionFactory
+    public function __construct(string $class, string $method, ?Throwable $previous = null)
     {
-        return ExceptionFactory::init(self::class)
-            ->withMessage('Static method `{method}` does not exist for class `{class}`')
-            ->withArguments(\compact('class', 'method'))
-            ->withSeverity(Severity::ERROR());
+        parent::__construct(
+            'Static method `{method}` does not exist in class `{class}`',
+            0,
+            $previous,
+            \compact('class', 'method')
+        );
     }
 }

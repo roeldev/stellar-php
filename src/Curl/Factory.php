@@ -3,7 +3,8 @@
 namespace Stellar\Curl;
 
 use Psr\Http\Message\UriInterface;
-use Stellar\Container\AbstractFactory;
+use Stellar\Common\Contracts\SingletonInterface;
+use Stellar\Container\Abilities\SingletonInstanceTrait;
 use Stellar\Curl\Contracts\RequestInterface;
 use Stellar\Curl\Contracts\ResponseInterface;
 use Stellar\Curl\Request\Request;
@@ -14,8 +15,10 @@ use Stellar\Factory\Factory as Factorio;
 /**
  * todo: make psr7 + psr17 compatible
  */
-final class Factory extends AbstractFactory
+final class Factory implements SingletonInterface
 {
+    use SingletonInstanceTrait;
+
     public const DEFAULT_OPTIONS = [
         \CURLOPT_URL => null,
         \CURLOPT_FOLLOWLOCATION => false,

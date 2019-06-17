@@ -3,15 +3,12 @@
 namespace UnitTests\Exceptions;
 
 use PHPUnit\Framework\TestCase;
-use Stellar\Common\Dummy;
+use Stellar\Exceptions\Common\InvalidArgument;
 use Stellar\Exceptions\Common\InvalidClass;
-use Stellar\Exceptions\Common\InvalidSubclass;
 use Stellar\Exceptions\Common\InvalidType;
 use Stellar\Exceptions\Common\MissingArgument;
 use Stellar\Exceptions\Common\UndeclaredClass;
-use Stellar\Exceptions\Common\UndefinedClassConstant;
 use Stellar\Exceptions\Common\UndefinedConstant;
-use Stellar\Exceptions\Common\UnknownError;
 use Stellar\Exceptions\Common\UnknownFunction;
 use Stellar\Exceptions\Common\UnknownMethod;
 use Stellar\Exceptions\Common\UnknownStaticMethod;
@@ -24,16 +21,12 @@ class ExceptionConstructionTests extends TestCase
     public function provideClasses() : array
     {
         return [
-            [ InvalidClass::class, 'expectedClass', 'actualClass', 'argument' ],
-            [ InvalidSubclass::class, 'expectedClass', 'actualClass', 'argument' ],
-            [ InvalidType::class, 'expectedType', 'actualType', 'argument' ],
-            [ MissingArgument::class, 'class', 'method' ],
-            [ MissingArgument::class, 'function' ],
-            [ MissingArgument::class, Dummy::closure() ],
+            [ InvalidArgument::class, 'argument', 'expected', 'actual' ],
+            [ InvalidClass::class, 'expected', 'actual' ],
+            [ InvalidType::class, 'expected', 'actual' ],
+            [ MissingArgument::class, 'method', 'class' ],
             [ UndeclaredClass::class, 'class' ],
-            [ UndefinedClassConstant::class, 'class', 'const' ],
-            [ UndefinedConstant::class, 'const' ],
-            [ UnknownError::class ],
+            [ UndefinedConstant::class, 'const', 'class' ],
             [ UnknownFunction::class, 'function' ],
             [ UnknownMethod::class, 'class', 'method' ],
             [ UnknownStaticMethod::class, 'class', 'method' ],
@@ -41,17 +34,15 @@ class ExceptionConstructionTests extends TestCase
     }
 
     /**
-     * @covers       \Stellar\Exceptions\Common\InvalidClass::factory()
-     * @covers       \Stellar\Exceptions\Common\InvalidSubclass::factory()
-     * @covers       \Stellar\Exceptions\Common\InvalidType::factory()
-     * @covers       \Stellar\Exceptions\Common\MissingArgument::factory()
-     * @covers       \Stellar\Exceptions\Common\UndeclaredClass::factory()
-     * @covers       \Stellar\Exceptions\Common\UndefinedClassConstant::factory()
-     * @covers       \Stellar\Exceptions\Common\UndefinedConstant::factory()
-     * @covers       \Stellar\Exceptions\Common\UnknownError::factory()
-     * @covers       \Stellar\Exceptions\Common\UnknownFunction::factory()
-     * @covers       \Stellar\Exceptions\Common\UnknownMethod::factory()
-     * @covers       \Stellar\Exceptions\Common\UnknownStaticMethod::factory()
+     * @covers       \Stellar\Exceptions\Common\InvalidArgument::__construct()
+     * @covers       \Stellar\Exceptions\Common\InvalidClass::__construct()
+     * @covers       \Stellar\Exceptions\Common\InvalidType::__construct()
+     * @covers       \Stellar\Exceptions\Common\MissingArgument::__construct()
+     * @covers       \Stellar\Exceptions\Common\UndeclaredClass::__construct()
+     * @covers       \Stellar\Exceptions\Common\UndefinedConstant::__construct()
+     * @covers       \Stellar\Exceptions\Common\UnknownFunction::__construct()
+     * @covers       \Stellar\Exceptions\Common\UnknownMethod::__construct()
+     * @covers       \Stellar\Exceptions\Common\UnknownStaticMethod::__construct()
      * @dataProvider provideClasses
      */
     public function test_exceptions(string $exceptionClass, ...$params)

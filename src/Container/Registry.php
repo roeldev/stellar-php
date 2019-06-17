@@ -4,6 +4,7 @@ namespace Stellar\Container;
 
 use Stellar\Common\Contracts\SingletonInterface;
 use Stellar\Common\StaticClass;
+use Stellar\Factory\Factory;
 
 /**
  * @see:unit-test \UnitTests\Container\RegistryTests
@@ -29,25 +30,27 @@ final class Registry extends StaticClass implements SingletonInterface
      * Create and/or get a Container singleton instance for the specified owner class or object.
      *
      * @param string $class
+     * @throws \Stellar\Exceptions\Common\InvalidClass
      */
     public static function container(string $class) : Container
     {
-        return self::instance()->request(
-            $class . '__container',
-            [ ServiceRequest::class, 'with' ],
-            Container::class
-        );
+        return self::instance()->request($class . '__container', function () {
+            return ServiceRequest::with(new Container());
+        });
     }
 
     /**
      * Request a singleton instance of the specified class, or create one and register it as the
      * singleton instance.
+     *
+     * @throws \Stellar\Exceptions\Common\InvalidClass
      */
     public static function singleton(string $class, array $params = [])
     {
         return self::instance()
             ->request($class, function () use ($class, $params) {
-                return ServiceRequest::with($class, $params)->asSingleton();
+                return ServiceRequest::with(Factory::create($class, $params))
+                    ->asSingleton();
             });
     }
 }

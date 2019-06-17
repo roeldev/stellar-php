@@ -21,7 +21,7 @@ class AssertProhibitSleepTests extends TestCase
 
         $this->assertSame(
             [ [ SerializationProhibited::class ] ],
-            $fixture->getCallStack()->get('expectExceptionUpgradedToError')
+            $fixture->getCallStack()->get('expectException')
         );
     }
 }

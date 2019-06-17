@@ -16,8 +16,7 @@ trait AssertProhibitWakeup
      */
     public function assertProhibitWakeup($var) : void
     {
-        $this->expectExceptionUpgradedToError(UnserializationProhibited::class);
-
+        $this->expectException(UnserializationProhibited::class);
         $this->assertException(function () use ($var) {
             \unserialize(\serialize($var), [ 'allowed_classes' => true ]);
         });

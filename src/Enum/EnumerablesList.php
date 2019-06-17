@@ -6,19 +6,18 @@ use Stellar\Constants\ClassConstList;
 use Stellar\Container\Exceptions\BuildFailure;
 use Stellar\Container\ServiceRequest;
 use Stellar\Container\Registry;
-use Stellar\Enum\Exceptions\MissingConstants;
-use Stellar\Limitations\ProhibitCloning;
-use Stellar\Limitations\ProhibitUnserialization;
-use Stellar\Limitations\ProhibitWakeup;
+use Stellar\Limitations\ProhibitCloningTrait;
+use Stellar\Limitations\ProhibitUnserializationTrait;
+use Stellar\Limitations\ProhibitWakeupTrait;
 
 /**
  * @see:unit-test \UnitTests\Enum\EnumerablesListTests
  */
 final class EnumerablesList extends ClassConstList
 {
-    use ProhibitCloning;
-    use ProhibitUnserialization;
-    use ProhibitWakeup;
+    use ProhibitCloningTrait;
+    use ProhibitUnserializationTrait;
+    use ProhibitWakeupTrait;
 
     /**
      * @throws BuildFailure
@@ -27,8 +26,9 @@ final class EnumerablesList extends ClassConstList
     {
         return Registry::container(self::class)
             ->request($ownerClass, function () use ($ownerClass, $customValues) {
-                return ServiceRequest::with(static::class, [ $ownerClass, $customValues ])
-                    ->asSingleton();
+                $service = new self($ownerClass, $customValues);
+
+                return ServiceRequest::with($service)->asSingleton();
             });
     }
 
@@ -53,16 +53,9 @@ final class EnumerablesList extends ClassConstList
      */
     private $_hasCustomValues;
 
-    /**
-     * @throws MissingConstants
-     */
     public function __construct(string $ownerClass, array $customValues = [])
     {
         parent::__construct($ownerClass);
-
-        if (!$this->_list) {
-            throw MissingConstants::factory($ownerClass)->create();
-        }
 
         $this->_hasCustomValues = !empty($customValues);
         if ($this->_hasCustomValues) {

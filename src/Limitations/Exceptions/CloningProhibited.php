@@ -2,20 +2,16 @@
 
 namespace Stellar\Limitations\Exceptions;
 
-use Stellar\Exceptions\ExceptionFactory;
-use Stellar\Exceptions\Severity;
 use Stellar\Exceptions\Logic\BadMethodCallException;
+use Throwable;
 
 /**
  * Use when a call to `__clone()` is not allowed.
  */
 final class CloningProhibited extends BadMethodCallException implements LimitationException
 {
-    public static function factory(string $class) : ExceptionFactory
+    public function __construct(string $class, ?Throwable $previous = null)
     {
-        return ExceptionFactory::init(self::class)
-            ->withMessage('Cloning of `{class}` is not allowed')
-            ->withArguments(\compact('class'))
-            ->withSeverity(Severity::ERROR());
+        parent::__construct('Cloning of `{class}` is not allowed', 0, $previous, \compact('class'));
     }
 }

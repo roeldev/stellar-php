@@ -3,27 +3,24 @@
 namespace Stellar\Exceptions\Common;
 
 use Stellar\Common\Stringify;
-use Stellar\Exceptions\ExceptionFactory;
-use Stellar\Exceptions\Severity;
 use Stellar\Exceptions\Logic\BadMethodCallException;
+use Throwable;
 
 /**
  * Use when a call to `__call()` is invalid.
  */
 class UnknownMethod extends BadMethodCallException
 {
-    /**
-     * @param string|object $class
-     * @param string        $method
-     * @return ExceptionFactory
-     */
-    public static function factory($class, string $method) : ExceptionFactory
+    public function __construct($classOrObject, string $method, ?Throwable $previous = null)
     {
-        $class = Stringify::objectClass($class);
-
-        return ExceptionFactory::init(self::class)
-            ->withMessage('Method `{method}` does not exist in class `{class}`')
-            ->withArguments(\compact('class', 'method'))
-            ->withSeverity(Severity::ERROR());
+        parent::__construct(
+            'Method `{method}` does not exist in class `{class}`',
+            0,
+            $previous,
+            [
+                'class' => Stringify::objectClass($classOrObject),
+                'method' => $method,
+            ]
+        );
     }
 }

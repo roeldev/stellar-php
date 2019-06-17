@@ -7,7 +7,7 @@ use Stellar\Exceptions\Testing\AssertException;
 use Stellar\Limitations\Testing\AssertProhibitSerialization;
 
 /**
- * @coversDefaultClass \Stellar\Limitations\ProhibitSerialization
+ * @coversDefaultClass \Stellar\Limitations\ProhibitSerializationTrait
  */
 class ProhibitSerializationTests extends TestCase
 {

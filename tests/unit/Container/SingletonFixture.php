@@ -4,18 +4,18 @@ namespace UnitTests\Container;
 
 use Stellar\Common\Contracts\SingletonInterface;
 use Stellar\Common\Contracts\StringableInterface;
-use Stellar\Common\Traits\ToString;
+use Stellar\Common\Abilities\StringableTrait;
 use Stellar\Container\Registry;
-use Stellar\Limitations\ProhibitCloning;
-use Stellar\Limitations\ProhibitUnserialization;
-use Stellar\Limitations\ProhibitWakeup;
+use Stellar\Limitations\ProhibitCloningTrait;
+use Stellar\Limitations\ProhibitUnserializationTrait;
+use Stellar\Limitations\ProhibitWakeupTrait;
 
 class SingletonFixture implements SingletonInterface, StringableInterface
 {
-    use ProhibitCloning;
-    use ProhibitUnserialization;
-    use ProhibitWakeup;
-    use ToString;
+    use ProhibitCloningTrait;
+    use ProhibitUnserializationTrait;
+    use ProhibitWakeupTrait;
+    use StringableTrait;
 
     public static function instance() : self
     {

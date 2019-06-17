@@ -30,9 +30,9 @@ final class Curl extends StaticClass
         return Factory::instance();
     }
 
-    public static function multi(RequestInterface ... $request) : MultiRequest
+    public static function multi(Request ...$request) : MultiRequest
     {
-        return new MultiRequest($request);
+        return new MultiRequest(...$request);
     }
 
     public static function request(string $method, string $url, array $options = []) : Request

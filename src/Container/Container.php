@@ -3,12 +3,13 @@
 namespace Stellar\Container;
 
 use Stellar\Common\Type;
-use Stellar\Container\Exceptions\SingletonAlreadyExists;
+use Stellar\Container\Exceptions\SingletonExistsException;
+use Stellar\Exceptions\Common\InvalidArgument;
 use Stellar\Exceptions\Common\InvalidClass;
-use Stellar\Limitations\ProhibitCloning;
+use Stellar\Limitations\ProhibitCloningTrait;
 
 /**
- * immutable = eigenschap van container, items kunnen niet worden toegevoegd, gewijzigd of worden verwijdert
+ * immutable = eigenschap van container, items kunnen niet worden toegevoegd, gewijzigd of worden verwijderd
  * singleton = eigenschap van item in container, item kan niet worden overschreven, eenmaal toegevoegd blijft het
  * hetzelfde
  *
@@ -16,7 +17,7 @@ use Stellar\Limitations\ProhibitCloning;
  */
 class Container extends BasicContainer
 {
-    use ProhibitCloning;
+    use ProhibitCloningTrait;
 
     /**
      * Name of the container.
@@ -24,6 +25,8 @@ class Container extends BasicContainer
      * @var string|null
      */
     protected $_name;
+
+    protected $_aliases = [];
 
     /**
      * Id's of the registered services that are singletons.
@@ -43,40 +46,41 @@ class Container extends BasicContainer
     }
 
     /**
-     * Indicates if the container has the singleton service.
-     *
-     * @param string|object $aliasOrService
-     */
-    public function hasSingleton($aliasOrService) : bool
-    {
-        $result = $this->has($aliasOrService);
-        if ($result) {
-            $alias = \is_object($aliasOrService) ?
-                $this->getAlias($aliasOrService) :
-                $aliasOrService;
-
-            $result = (false !== $alias && true === ($this->_singletons[ $alias ] ?? false));
-        }
-
-        return $result;
-    }
-
-    /**
      * Set a service with the given alias in the container. It will throw an exception when the
      * alias is already registered to a singleton service, or replace any other service.
      *
-     * @param string $alias
+     * @param string $id
      * @param object $service
      * @return object
-     * @throws SingletonAlreadyExists
+     * @throws SingletonExistsException
+     * @throws InvalidArgument
      */
-    public function set(string $alias, $service)
+    public function set(string $id, $service)
     {
-        if ($this->hasSingleton($alias)) {
-            throw SingletonAlreadyExists::factory($alias)->create();
+        if ($this->hasSingleton($id)) {
+            throw new SingletonExistsException($id);
         }
 
-        return parent::set($alias, $service);
+        return parent::set($id, $service);
+    }
+
+    /**
+     * Indicates if the container has the singleton service.
+     *
+     * @param string|object $idOrService
+     */
+    public function hasSingleton($idOrService) : bool
+    {
+        $result = $this->has($idOrService);
+        if ($result) {
+            $id = \is_object($idOrService)
+                ? $this->getId($idOrService)
+                : $idOrService;
+
+            $result = (false !== $id && true === ($this->_singletons[ $id ] ?? false));
+        }
+
+        return $result;
     }
 
     /**
@@ -84,25 +88,37 @@ class Container extends BasicContainer
      * new service with the provided callback. This new service will be registered with the
      * given alias.
      *
-     * @see ServiceRequest
      * @throws InvalidClass When callback does not return an instance of ServiceRequest.
+     * @see ServiceRequest
      */
-    public function request(string $alias, callable $callback, ...$params)
+    public function request(string $id, callable $callback, array $params = [])
     {
-        if (!$this->has($alias)) {
+        if (!$this->has($id)) {
             $createdService = $callback(...$params);
 
             if (!($createdService instanceof ServiceRequest)) {
-                throw InvalidClass::factory(ServiceRequest::class, Type::details($createdService))
-                    ->create();
+                throw new InvalidClass(ServiceRequest::class, Type::details($createdService));
             }
 
-            $this->_services[ $alias ] = $createdService->getService();
+            $service = $createdService->getService();
+            $aliases = $createdService->getAliases();
+
+            $this->_services[ $id ] = $service;
+            $this->_aliases[ $id ] = $aliases;
+
+            foreach ($aliases as $alias) {
+                if ($this->hasId($alias)) {
+                    continue;
+                }
+
+                $this->_services[ $alias ] = $service;
+            }
+
             if ($createdService->isSingleton()) {
-                $this->_singletons[ $alias ] = true;
+                $this->_singletons[ $id ] = true;
             }
         }
 
-        return $this->_services[ $alias ];
+        return $this->_services[ $id ];
     }
 }

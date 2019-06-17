@@ -2,22 +2,29 @@
 
 namespace Stellar\Exceptions\Logic;
 
-use Stellar\Exceptions\ExceptionInterface;
-use Stellar\Exceptions\Traits\ExceptionFeatures;
+use Stellar\Exceptions\Abilities\ExtendExceptionTrait;
+use Stellar\Exceptions\Contracts\ExceptionInterface;
+use Throwable;
 
 /**
  * Exception thrown if a value does not adhere to a defined valid data domain.
  *
  * @see http://php.net/manual/en/class.domainexception.php
  */
-abstract class DomainException extends \DomainException implements ExceptionInterface
+class DomainException extends \DomainException implements ExceptionInterface
 {
-    use ExceptionFeatures;
+    use ExtendExceptionTrait;
 
-    /** {@inheritdoc} */
-    public function __construct(... $args)
-    {
-        parent::__construct(... $args);
-        $this->_updateFromTrace();
+    /**
+     * @see \Stellar\Exceptions\Exception::__construct()
+     */
+    public function __construct(
+        string $message,
+        int $code = 0,
+        ?Throwable $previous = null,
+        array $arguments = []
+    ) {
+        parent::__construct($message, $code, $previous);
+        $this->_withArguments($arguments);
     }
 }

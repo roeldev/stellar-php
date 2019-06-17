@@ -4,33 +4,40 @@ namespace Stellar\Container;
 
 use Stellar\Common\Type;
 use Stellar\Exceptions\Common\InvalidArgument;
-use Stellar\Exceptions\Common\InvalidType;
-use Stellar\Factory\Factory;
 
 /**
  * @see:unit-test \UnitTests\Container\ServiceRequestTests
  */
 class ServiceRequest
 {
-    public static function with(string $class, array $params = []) : self
+    /**
+     * @param object $service
+     * @return ServiceRequest
+     * @throws InvalidArgument
+     * @see __construct
+     */
+    public static function with($service) : self
     {
-        return new static(Factory::create($class, $params));
+        return new static($service);
     }
 
     /** @var object */
     protected $_service;
+
+    /** @var string[] */
+    protected $_aliases = [];
 
     /** @var bool */
     protected $_singleton = false;
 
     /**
      * @param object $service
-     * @throws InvalidType
+     * @throws InvalidArgument
      */
     public function __construct($service)
     {
         if (!\is_object($service)) {
-            throw InvalidType::factory('object', Type::get($service), 'service')->create();
+            throw new InvalidArgument('service', 'object', Type::get($service));
         }
 
         $this->_service = $service;
@@ -46,12 +53,24 @@ class ServiceRequest
         return $this;
     }
 
+    public function withAlias(string $alias) : self
+    {
+        $this->_aliases[] = $alias;
+
+        return $this;
+    }
+
     /**
      * @return object
      */
     public function getService()
     {
         return $this->_service;
+    }
+
+    public function getAliases() : array
+    {
+        return $this->_aliases;
     }
 
     /**

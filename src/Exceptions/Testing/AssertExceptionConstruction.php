@@ -3,18 +3,15 @@
 namespace Stellar\Exceptions\Testing;
 
 use Stellar\Exceptions\Error;
-use Stellar\Exceptions\Exception;
 use Stellar\Exceptions\ExceptionFactory;
+use Stellar\Factory\Factory;
 
 trait AssertExceptionConstruction
 {
     public static function assertExceptionConstruction(string $exceptionClass, array $params = [], ?array $args = null)
     {
         try {
-            $factory = Exception::factory($exceptionClass, $params);
-            self::assertInstanceOf(ExceptionFactory::class, $factory);
-
-            $exception = $factory->create();
+            $exception = Factory::create($exceptionClass, $params);
             if ($exception instanceof Error) {
                 $exception = $exception->getPrevious();
             }

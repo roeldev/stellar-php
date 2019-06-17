@@ -4,7 +4,7 @@ namespace UnitTests\Encoding;
 
 use PHPUnit\Framework\TestCase;
 use Stellar\Encoding\Base32;
-use Stellar\Encoding\Exceptions\IllegalCharacter;
+use Stellar\Encoding\Exceptions\IllegalCharacterException;
 use Stellar\Exceptions\Testing\AssertException;
 
 class Base32Tests extends TestCase
@@ -41,7 +41,7 @@ class Base32Tests extends TestCase
 
     public function test_decode_exception()
     {
-        $this->expectException(IllegalCharacter::class);
+        $this->expectException(IllegalCharacterException::class);
         $this->assertException(function () {
             Base32::decode('a#é$');
         });

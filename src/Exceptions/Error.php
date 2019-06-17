@@ -2,20 +2,20 @@
 
 namespace Stellar\Exceptions;
 
-use Stellar\Common\Traits\ToString;
+use Stellar\Common\Abilities\StringableTrait;
+use Stellar\Exceptions\Contracts\ThrowableInterface;
 
 /**
  * "`Error` should be used to represent coding issues that require the attention of a programmer. `Exception` should be
  * used for conditions that can be safely handled at runtime where another action can be taken and execution can
  * continue."
  *
- * @method Exception getPrevious()
- * @link https://trowski.com/2015/06/24/throwable-exceptions-and-errors-in-php7/
+ * @method ExceptionInterface getPrevious()
  * @see:unit-test \UnitTests\Exceptions\ErrorTests
  */
 final class Error extends \Error implements ThrowableInterface
 {
-    use ToString;
+    use StringableTrait;
 
     /**
      * The Exception that's upgraded to an error
@@ -32,14 +32,6 @@ final class Error extends \Error implements ThrowableInterface
         $this->_exception = $exception;
 
         parent::__construct($exception->getMessage(), $exception->getCode(), $exception);
-    }
-
-    /**
-     * Get the Severity of the Exception that triggered the Error.
-     */
-    public function getSeverity() : Severity
-    {
-        return $this->_exception->getSeverity();
     }
 
     /**

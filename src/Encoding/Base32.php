@@ -5,15 +5,18 @@ namespace Stellar\Encoding;
 use Stellar\Common\Assert;
 use Stellar\Common\StaticClass;
 use Stellar\Encoding\Base32\Base32Variant;
-use Stellar\Encoding\Exceptions\IllegalCharacter;
+use Stellar\Encoding\Exceptions\IllegalCharacterException;
 
 /**
  * @see:unit-test \UnitTests\Encoding\Base32Tests
  */
 class Base32 extends StaticClass
 {
-    public static function encode(string $data, ?Base32Variant $variant = null, ?bool $padding = null) : string
-    {
+    public static function encode(
+        string $data,
+        ?Base32Variant $variant = null,
+        ?bool $padding = null
+    ) : string {
         if (Assert::isEmptyString($data)) {
             return '';
         }
@@ -43,7 +46,7 @@ class Base32 extends StaticClass
     }
 
     /**
-     * @throws \Stellar\Encoding\Exceptions\IllegalCharacter
+     * @throws \Stellar\Encoding\Exceptions\IllegalCharacterException
      */
     public static function decode(string $data, Base32Variant $variant = null) : string
     {
@@ -64,10 +67,7 @@ class Base32 extends StaticClass
 
         foreach ($chars as $i => $char) {
             if (!isset($alphabet[ $char ])) {
-                throw IllegalCharacter::factory($char, $i)
-                    ->withMessage($data)
-                    ->withMessage(\get_class($variant))
-                    ->create();
+                throw new IllegalCharacterException($char, $i, $data);
             }
 
             $binary .= $alphabet[ $char ];

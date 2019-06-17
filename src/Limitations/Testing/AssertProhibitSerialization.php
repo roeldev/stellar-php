@@ -16,8 +16,7 @@ trait AssertProhibitSerialization
      */
     public function assertProhibitSerialization($var) : void
     {
-        $this->expectExceptionUpgradedToError(SerializationProhibited::class);
-
+        $this->expectException(SerializationProhibited::class);
         $this->assertException(function () use ($var) {
             $var->serialize();
         });

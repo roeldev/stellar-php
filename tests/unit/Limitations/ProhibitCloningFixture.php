@@ -2,9 +2,9 @@
 
 namespace UnitTests\Limitations;
 
-use Stellar\Limitations\ProhibitCloning;
+use Stellar\Limitations\ProhibitCloningTrait;
 
 class ProhibitCloningFixture
 {
-    use ProhibitCloning;
+    use ProhibitCloningTrait;
 }

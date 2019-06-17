@@ -2,8 +2,9 @@
 
 namespace Stellar\Exceptions\Runtime;
 
-use Stellar\Exceptions\ExceptionInterface;
-use Stellar\Exceptions\Traits\ExceptionFeatures;
+use Stellar\Exceptions\Abilities\ExtendExceptionTrait;
+use Stellar\Exceptions\Contracts\ExceptionInterface;
+use Throwable;
 
 /**
  * Exception thrown if a value does not match with a set of values. Typically this happens when a function calls
@@ -12,14 +13,20 @@ use Stellar\Exceptions\Traits\ExceptionFeatures;
  *
  * @see http://php.net/manual/en/class.unexpectedvalueexception.php
  */
-abstract class UnexpectedValueException extends \UnexpectedValueException implements ExceptionInterface
+class UnexpectedValueException extends \UnexpectedValueException implements ExceptionInterface
 {
-    use ExceptionFeatures;
+    use ExtendExceptionTrait;
 
-    /** {@inheritdoc} */
-    public function __construct(... $args)
-    {
-        parent::__construct(... $args);
-        $this->_updateFromTrace();
+    /**
+     * @see \Stellar\Exceptions\Exception::__construct()
+     */
+    public function __construct(
+        string $message,
+        int $code = 0,
+        ?Throwable $previous = null,
+        array $arguments = []
+    ) {
+        parent::__construct($message, $code, $previous);
+        $this->_withArguments($arguments);
     }
 }

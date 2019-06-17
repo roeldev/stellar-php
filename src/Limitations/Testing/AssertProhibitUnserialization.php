@@ -16,8 +16,7 @@ trait AssertProhibitUnserialization
      */
     public function assertProhibitUnserialization($var) : void
     {
-        $this->expectExceptionUpgradedToError(UnserializationProhibited::class);
-
+        $this->expectException(UnserializationProhibited::class);
         $this->assertException(function () use ($var) {
             $var->unserialize('');
         });

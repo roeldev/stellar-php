@@ -4,43 +4,44 @@ namespace Stellar\Container;
 
 use Psr\Container\ContainerInterface;
 use Stellar\Common\Type;
-use Stellar\Container\Exceptions\NotFound;
-use Stellar\Exceptions\Common\InvalidType;
+use Stellar\Container\Exceptions\NotFoundException;
+use Stellar\Exceptions\Common\InvalidArgument;
+use Countable;
 
 /**
  * @see:unit-test \UnitTests\Container\BasicContainerTests
  */
-class BasicContainer implements ContainerInterface, \Countable
+class BasicContainer implements ContainerInterface, Countable
 {
     /**
      * An array with registered services with the given alias as key.
      *
-     * @var object[]
+     * @var array<string, object>
      */
     protected $_services = [];
 
     /**
-     * @param string $alias
+     * @param string $id
      *
-     * @throws NotFound
      * @return object
+     * @throws NotFoundException
      */
-    public function get($alias)
+    public function get($id)
     {
-        if (!$this->has($alias)) {
-            throw NotFound::factory($alias)->create();
+        if ($this->hasId($id)) {
+            return $this->_services[ $id ];
         }
 
-        return $this->_services[ $alias ];
+        throw new NotFoundException($id);
     }
 
     /**
-     * Get the alias of a registered service, or `false` when not found.
+     * Get the id of a registered service, or `false` when not found.
      *
      * @param object $service
      * @return string|false
      */
-    public function getAlias($service)
+    public function getId($service)
     {
         $result = \array_search($service, $this->_services, true);
 
@@ -48,11 +49,11 @@ class BasicContainer implements ContainerInterface, \Countable
     }
 
     /**
-     * Get an array with all used aliases.
+     * Get an array with all used ids.
      *
      * @return string[]
      */
-    public function getAliases() : array
+    public function getIds() : array
     {
         return \array_keys($this->_services);
     }
@@ -60,36 +61,43 @@ class BasicContainer implements ContainerInterface, \Countable
     /**
      * Indicates if the container has the service.
      *
-     * @param string|object $aliasOrService
+     * @param string|object $idOrService
      */
-    public function has($aliasOrService) : bool
+    public function has($idOrService) : bool
     {
-        $result = false;
-        if (\is_string($aliasOrService)) {
-            $result = isset($this->_services[ $aliasOrService ]);
+        if (\is_string($idOrService)) {
+            return $this->hasId($idOrService);
         }
-        elseif (\is_object($aliasOrService)) {
-            $result = \in_array($aliasOrService, $this->_services, true);
+        if (\is_object($idOrService)) {
+            return $this->hasService($idOrService);
         }
 
-        return $result;
+        return false;
+    }
+
+    public function hasId(string $id) : bool
+    {
+        return isset($this->_services[ $id ]);
+    }
+
+    public function hasService($service) : bool
+    {
+        return \in_array($service, $this->_services, true);
     }
 
     /**
-     * Set a service with the given alias in the container. It will replace any existing service
-     * already registered with the same alias.
-     *
-     * @param string $alias
+     * @param string $id
      * @param object $service
      * @return object
+     * @throws InvalidArgument
      */
-    public function set(string $alias, $service)
+    public function set(string $id, $service)
     {
         if (!\is_object($service)) {
-            throw InvalidType::factory('object', Type::get($service), 'service')->create();
+            throw new InvalidArgument('service', 'object', Type::get($service));
         }
 
-        $this->_services[ $alias ] = $service;
+        $this->_services[ $id ] = $service;
 
         return $service;
     }
@@ -97,23 +105,23 @@ class BasicContainer implements ContainerInterface, \Countable
     /**
      * Unset multiple aliases or services from the container.
      *
-     * @param mixed $aliasOrService
+     * @param mixed $idOrService
      */
-    public function unset(...$aliasOrService) : array
+    public function unset(...$idOrService) : array
     {
         $result = [];
-        foreach ($aliasOrService as $param) {
-            $alias = false;
+        foreach ($idOrService as $param) {
+            $id = false;
             if (\is_object($param)) {
-                $alias = $this->getAlias($param);
+                $id = $this->getId($param);
             }
             elseif (\is_string($param)) {
-                $alias = $param;
+                $id = $param;
             }
 
-            if ($alias && isset($this->_services[ $alias ])) {
-                $result[] = $alias;
-                unset($this->_services[ $alias ]);
+            if ($id && isset($this->_services[ $id ])) {
+                $result[] = $id;
+                unset($this->_services[ $id ]);
             }
         }
 

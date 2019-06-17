@@ -16,8 +16,7 @@ trait AssertProhibitCloning
      */
     public function assertProhibitCloning($var) : void
     {
-        $this->expectExceptionUpgradedToError(CloningProhibited::class);
-
+        $this->expectException(CloningProhibited::class);
         $this->assertException(function () use ($var) {
             clone $var;
         });

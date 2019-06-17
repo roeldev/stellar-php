@@ -2,7 +2,7 @@
 
 namespace Stellar\Curl\Request;
 
-use Stellar\Common\Identify;
+use Psr\Log\LoggerInterface;
 use Stellar\Curl\Contracts\RequestInterface;
 
 class MultiRequest implements RequestInterface
@@ -25,11 +25,14 @@ class MultiRequest implements RequestInterface
     /** @var int */
     protected $_queueLeft = 0;
 
-    /** @var array<string,array> */
-    protected $_errors = [];
-
     /** @var int */
     protected $_passes = 0;
+
+    /** @var LoggerInterface */
+    protected $_logger;
+
+    /** @var array<string,array> */
+    protected $_errors = [];
 
     /**
      * The interval by which the status of the requests is checked. The default is 300000
@@ -43,10 +46,27 @@ class MultiRequest implements RequestInterface
     /** @var bool */
     protected $_executed = false;
 
-    protected function _handleResult(array $info, int $status) : void
+    protected function _execute() : void
+    {
+        do {
+            $status = \curl_multi_exec($this->_resource, $this->_queueLeft);
+
+            if ($this->_logger) {
+                $this->_logger->debug(sprintf(
+                    'curl_multi_exec: %s [%s/%s]',
+                    $status,
+                    $this->_queueLeft,
+                    $this->_queueTotal
+                ));
+            }
+        }
+        while (\CURLM_CALL_MULTI_PERFORM === $status);
+    }
+
+    protected function _handleResult(array $info) : void
     {
         $error = $info['result'];
-        $requestResourceId = Identify::resource($info['handle']);
+        $requestResourceId = (string) $info['handle'];
 
         /** @var Request $request */
         $request = $this->_queue[ $requestResourceId ];
@@ -70,7 +90,7 @@ class MultiRequest implements RequestInterface
     /**
      * @param Request[] $requests
      */
-    public function __construct(array $requests = [])
+    public function __construct(Request ...$requests)
     {
         if (!empty($requests)) {
             $this->_requests = $requests;
@@ -96,12 +116,19 @@ class MultiRequest implements RequestInterface
         return $this;
     }
 
+    public function withLogger(LoggerInterface $logger) : self
+    {
+        $this->_logger = $logger;
+
+        return $this;
+    }
+
     /**
      * Closure(Request $request, ?int $index) : ?bool
      *
      * @return $this
      */
-    public function forEach(\Closure $func) : self
+    public function forEach(callable $func) : self
     {
         foreach ($this->_requests as $index => $request) {
             $break = $func($request, $index);
@@ -152,6 +179,11 @@ class MultiRequest implements RequestInterface
         return $this->_passes;
     }
 
+    public function getErrors() : array
+    {
+        return $this->_errors;
+    }
+
     /** {@inheritdoc} */
     public function isExecuted() : bool
     {
@@ -179,8 +211,13 @@ class MultiRequest implements RequestInterface
             $this->_resource = \curl_multi_init();
             foreach ($this->_requests as $request) {
                 $requestResource = $request->init()->getResource();
+                $requestResourceId = (string) $requestResource;
                 \curl_multi_add_handle($this->_resource, $requestResource);
-                $this->_queue[ (string) $requestResource ] = $request;
+
+                $this->_queue[ $requestResourceId ] = $request;
+                $this->_logger->notice(
+                    \sprintf('add handle %s: %s', $requestResourceId, $request->getUrl())
+                );
             }
         }
 
@@ -192,21 +229,25 @@ class MultiRequest implements RequestInterface
     {
         $this->init();
         $this->_queueTotal = \count($this->_queue);
-        $this->_queueLeft = $previouslyLeft = $this->_queueTotal;
+        $this->_queueLeft = $this->_queueTotal;
 
-        while ($this->_queueLeft > 0) {
+        $this->_execute();
+
+        while (true) {
             $this->_passes++;
 
-            $status = \curl_multi_exec($this->_resource, $this->_queueLeft);
             \curl_multi_select($this->_resource);
+            $this->_execute();
 
-            if ($this->_queueLeft !== $previouslyLeft) {
-                $previouslyLeft = $this->_queueLeft;
-
-                $info = \curl_multi_info_read($this->_resource);
-                $this->_handleResult($info, $status);
+            while ($info = \curl_multi_info_read($this->_resource)) {
+                $this->_handleResult($info);
             }
 
+            if ($this->_queueLeft === 0) {
+                break;
+            }
+
+            $this->_logger->debug('sleep...');
             \usleep($this->_executeInterval);
         }
 

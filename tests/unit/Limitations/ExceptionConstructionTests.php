@@ -22,9 +22,9 @@ class ExceptionConstructionTests extends TestCase
     }
 
     /**
-     * @covers       \Stellar\Limitations\Exceptions\CloningProhibited::factory()
-     * @covers       \Stellar\Limitations\Exceptions\SerializationProhibited::factory()
-     * @covers       \Stellar\Limitations\Exceptions\UnserializationProhibited::factory()
+     * @covers       \Stellar\Limitations\Exceptions\CloningProhibited::__construct()
+     * @covers       \Stellar\Limitations\Exceptions\SerializationProhibited::__construct()
+     * @covers       \Stellar\Limitations\Exceptions\UnserializationProhibited::__construct()
      * @dataProvider provideClasses
      */
     public function test_exceptions(string $exceptionClass, ...$params)

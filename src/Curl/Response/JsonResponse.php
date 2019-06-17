@@ -3,6 +3,7 @@
 namespace Stellar\Curl\Response;
 
 use Stellar\Common\Contracts\ArrayableInterface;
+use Stellar\Curl\Contracts\RequestInterface;
 
 class JsonResponse extends Response implements ArrayableInterface
 {
@@ -14,12 +15,9 @@ class JsonResponse extends Response implements ArrayableInterface
         return $this->_data[ $name ] ?? null;
     }
 
-    public function __construct(
-        $requestResource,
-        array $usedOptions,
-        string $response
-    ) {
-        parent::__construct($requestResource, $usedOptions, $response);
+    public function __construct(RequestInterface $request, string $response)
+    {
+        parent::__construct($request, $response);
         $this->_data = \json_decode($this->_body, true);
     }
 

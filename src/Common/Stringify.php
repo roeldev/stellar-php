@@ -46,7 +46,7 @@ final class Stringify extends StaticClass
     public static function objectClass($var) : ?string
     {
         if (\is_object($var)) {
-            $var = \get_class($var);
+            return \get_class($var);
         }
 
         return \is_string($var) ? $var : null;

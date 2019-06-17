@@ -3,24 +3,26 @@
 namespace Stellar\Curl\Request;
 
 use Stellar\Common\Contracts\StringableInterface;
-use Stellar\Common\Traits\ToString;
+use Stellar\Common\Abilities\StringableTrait;
 use Stellar\Common\ArrayUtil;
 use Stellar\Common\Type;
+use Stellar\Curl\ConstList;
 use Stellar\Curl\Contracts\RequestInterface;
 use Stellar\Curl\Contracts\OptionableInterface;
 use Stellar\Curl\Contracts\OptionsInterface;
-use Stellar\Curl\Exceptions\RequestFailure;
+use Stellar\Curl\Contracts\ResponseInterface;
+use Stellar\Curl\Exceptions\RequestExecutionException;
 use Stellar\Curl\Response\Response;
 use Stellar\Curl\Curl;
 use Stellar\Curl\Factory;
+use Stellar\Curl\Support\Parse;
 use Stellar\Curl\Support\Utils;
-use Stellar\Exceptions\Common\InvalidClass;
 use Stellar\Exceptions\Common\InvalidType;
-use Stellar\Http\Headers\HeaderLines;
+use Stellar\Factory\Exceptions\CreationException;
 
 class Request implements RequestInterface, OptionableInterface, StringableInterface
 {
-    use ToString;
+    use StringableTrait;
 
     /** @var string */
     protected $_method = Curl::METHOD_GET;
@@ -55,7 +57,7 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
     /** @var ?string */
     protected $_rawResponse;
 
-    /** @var ?Response */
+    /** @var ?ResponseInterface */
     protected $_response;
 
     /** @var string */
@@ -111,7 +113,8 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
         if (true === $this->getOption(\CURLINFO_HEADER_OUT)) {
             $headers = \curl_getinfo($this->_resource, \CURLINFO_HEADER_OUT);
             if (false !== $headers) {
-                $this->_sendHeaders = HeaderLines::parse($headers);
+
+                $this->_sendHeaders = Parse::headerLines($headers);
             }
         }
 
@@ -260,6 +263,7 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
 
     /**
      * Add a GET query parameter to the request URL.
+     *
      * @return $this
      */
     public function withQueryParam(string $name, string $value) : self
@@ -302,9 +306,8 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
     }
 
     /**
-     * @see getSendHeaders()
-     *
      * @return $this
+     * @see getSendHeaders()
      */
     public function withRequestHeaders(bool $bool = true) : self
     {
@@ -387,6 +390,13 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
         return $this->_options;
     }
 
+    public function getUrl() : ?string
+    {
+        $this->_prepOptions();
+
+        return $this->_options[ \CURLOPT_URL ] ?? $this->_url ?? null;
+    }
+
     /** {@inheritdoc} */
     public function getResource()
     {
@@ -407,9 +417,8 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
      * Get the headers sent by the request, but only if the request is executed and the
      * `\CURLINFO_HEADER_OUT` option is configured.
      *
-     * @see withRequestHeaders()
-     *
      * @return ?string[]
+     * @see    withRequestHeaders()
      */
     public function getSendHeaders() : ?array
     {
@@ -424,10 +433,15 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
         return $this->_rawResponse;
     }
 
+    public function isInitialized() : bool
+    {
+        return null !== $this->_resource;
+    }
+
     /** {@inheritdoc} */
     public function isExecuted() : bool
     {
-        return null !== $this->_response;
+        return null !== $this->_rawResponse;
     }
 
     /** {@inheritdoc} */
@@ -447,7 +461,7 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
     /** {@inheritdoc} */
     public function init() : self
     {
-        if (null === $this->_resource) {
+        if (!$this->isInitialized()) {
             $this->_resource = \curl_init();
             \curl_setopt_array($this->_resource, $this->getOptions());
         }
@@ -472,8 +486,7 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
         else {
             $this->_errorCode = \curl_errno($this->_resource);
             if ($this->_throwExceptionOnFailure) {
-                throw RequestFailure::factory($this->_errorCode, $this->getErrorMessage())
-                    ->create();
+                throw new RequestExecutionException($this->_errorCode, $this->getErrorMessage());
             }
         }
 
@@ -483,15 +496,15 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
     /**
      * @param resource $multiResource
      * @return $this
+     * @throws InvalidType
      */
     public function processMultiResponse($multiResource, int $errorCode = 0) : self
     {
         if (!\is_resource($multiResource)) {
-            throw InvalidType::factory('resource', Type::details($multiResource))
-                ->create();
+            throw new InvalidType('resource', Type::details($multiResource));
         }
 
-        if (!\in_array($errorCode, Curl::errorConstants(), true)) {
+        if (!\in_array($errorCode, ConstList::errorConstants(), true)) {
             // todo: invalid error code
         }
 
@@ -503,17 +516,19 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
 
     /**
      * {@inheritdoc}
-     * @throws InvalidClass
+     * @throws RequestExecutionException
+     * @throws CreationException
      */
-    public function response(?string $responseClass = null) : Response
+    public function response(?string $responseClass = null) : ResponseInterface
     {
-        if (null === $this->_rawResponse) {
+        if (!$this->isExecuted()) {
             $this->execute();
         }
 
         if (null === $this->_response) {
-            $this->_response = Factory::buildResponse($responseClass ?? $this->_responseClass)
-                ->withArguments($this->_resource, $this->_options, $this->_rawResponse)
+            $this->_response = Factory::instance()
+                ->buildResponse($responseClass ?? $this->_responseClass)
+                ->withArguments($this, $this->_rawResponse)
                 ->create();
         }
 
@@ -533,6 +548,7 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
      * Execute the request, close the resource, and return the raw response as a string.
      *
      * @return string
+     * @throws RequestExecutionException
      */
     public function __toString() : string
     {

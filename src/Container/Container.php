@@ -46,25 +46,6 @@ class Container extends BasicContainer
     }
 
     /**
-     * Indicates if the container has the singleton service.
-     *
-     * @param string|object $idOrService
-     */
-    public function hasSingleton($idOrService) : bool
-    {
-        $result = $this->has($idOrService);
-        if ($result) {
-            $id = \is_object($idOrService)
-                ? $this->getId($idOrService)
-                : $idOrService;
-
-            $result = (false !== $id && true === ($this->_singletons[ $id ] ?? false));
-        }
-
-        return $result;
-    }
-
-    /**
      * Set a service with the given alias in the container. It will throw an exception when the
      * alias is already registered to a singleton service, or replace any other service.
      *
@@ -84,6 +65,25 @@ class Container extends BasicContainer
     }
 
     /**
+     * Indicates if the container has the singleton service.
+     *
+     * @param string|object $idOrService
+     */
+    public function hasSingleton($idOrService) : bool
+    {
+        $result = $this->has($idOrService);
+        if ($result) {
+            $id = \is_object($idOrService)
+                ? $this->getId($idOrService)
+                : $idOrService;
+
+            $result = (false !== $id && true === ($this->_singletons[ $id ] ?? false));
+        }
+
+        return $result;
+    }
+
+    /**
      * Request a service by looking for an existing service with the same alias, or by creating a
      * new service with the provided callback. This new service will be registered with the
      * given alias.
@@ -91,7 +91,7 @@ class Container extends BasicContainer
      * @throws InvalidClass When callback does not return an instance of ServiceRequest.
      * @see ServiceRequest
      */
-    public function request(string $id, callable $callback, ...$params)
+    public function request(string $id, callable $callback, array $params = [])
     {
         if (!$this->has($id)) {
             $createdService = $callback(...$params);

@@ -39,4 +39,4 @@ Stellar provides a range of useful PHP components. The goal is to provide intuit
 
 
 ## License
-[GPL-2.0+](LICENSE) © 2019 [Roel Schut](https://roelschut.nl)
+[GPL-3.0+](LICENSE) © 2019 [Roel Schut](https://roelschut.nl)

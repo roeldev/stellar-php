@@ -21,6 +21,8 @@ class BasicContainer implements ContainerInterface, Countable
     protected $_services = [];
 
     /**
+     * Finds an object within the container by its identifier and returns it.
+     *
      * @param string $id
      *
      * @return object
@@ -75,20 +77,28 @@ class BasicContainer implements ContainerInterface, Countable
         return false;
     }
 
+    /**
+     * Indicates if a service with the given id exists.
+     */
     public function hasId(string $id) : bool
     {
         return isset($this->_services[ $id ]);
     }
 
+    /**
+     * Indicates if the given object is registered as a service within this container.
+     *
+     * @param object $service A service object.
+     */
     public function hasService($service) : bool
     {
         return \in_array($service, $this->_services, true);
     }
 
     /**
-     * @param string $id
-     * @param object $service
-     * @return object
+     * @param string $id      Id of the service.
+     * @param object $service Service object to set.
+     * @return object The service object that is set.
      * @throws InvalidArgument
      */
     public function set(string $id, $service)

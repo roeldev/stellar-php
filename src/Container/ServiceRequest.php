@@ -24,7 +24,7 @@ class ServiceRequest
     /** @var object */
     protected $_service;
 
-    /** @var string[] */
+    /** @var array<string, string> */
     protected $_aliases = [];
 
     /** @var bool */
@@ -53,9 +53,13 @@ class ServiceRequest
         return $this;
     }
 
-    public function withAlias(string $alias) : self
+    /**
+     * Add an alternative name within a specific group for the service. Multiple aliases can be
+     * added. Groups need to be unique.
+     */
+    public function withAlias(string $id, string $group = 'alias') : self
     {
-        $this->_aliases[] = $alias;
+        $this->_aliases[ $group ] = $id;
 
         return $this;
     }

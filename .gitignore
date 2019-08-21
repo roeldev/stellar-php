@@ -1,6 +1,6 @@
-.composer-cache/
+.docker-volumes/*/*
 .idea/
-results/
+results/*/*
 vendor/
 *.log
 .DS_Store

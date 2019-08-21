@@ -14,10 +14,8 @@ if "%1" == "build" (
 )
 
 set dockerService="php%version%"
-set composerFile="%PROJECT_DIR%\docker\composer-php%version%.json"
-set composerDir="%PROJECT_DIR%\.composer-cache\%version"
+set composerDir="%PROJECT_DIR%\.composer-cache\%version%"
 
-if not exist %composerFile% goto :invalid
 if not exist %composerDir% mkdir %composerDir%
 
 if "%action%" == "build" goto build

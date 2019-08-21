@@ -2,40 +2,29 @@ version: '3.4'
 
 services:
   php7.1:
-    build:
-      context: ./
-      dockerfile: ./docker/Dockerfile
-      args:
-        PHP_VERSION: 7.1
-        COMPOSER_JSON: composer-php7.1.json
-    image: stellar/php:7.1
+    image: roeldev/php-devkit:7.1-experimental
     container_name: stellar-php7.1
     volumes:
-      - ./.composer-cache/7.1/:/root/.composer/
-      - ./:/stellar
+      - ./:/project/
+      - ./.docker-volumes/7.1/composer/:/composer/
 
   php7.2:
-    build:
-      context: ./
-      dockerfile: ./docker/Dockerfile
-      args:
-        PHP_VERSION: 7.2
-        COMPOSER_JSON: composer-php7.2.json
-    image: stellar/php:7.2
+    image: roeldev/php-devkit:7.2-experimental
     container_name: stellar-php7.2
     volumes:
-      - ./.composer-cache/7.2/:/root/.composer/
-      - ./:/stellar
+      - ./:/project/
+      - ./.docker-volumes/7.2/composer/:/composer/
 
   php7.3:
-    build:
-      context: ./
-      dockerfile: ./docker/Dockerfile
-      args:
-        PHP_VERSION: 7.3
-        COMPOSER_JSON: composer-php7.3.json
-    image: stellar/php:7.3
+    image: roeldev/php-devkit:7.3-experimental
     container_name: stellar-php7.3
     volumes:
-      - ./.composer-cache/7.3/:/root/.composer/
-      - ./:/stellar
+      - ./:/project/
+      - ./.docker-volumes/7.3/composer/:/composer/
+
+  php7.4-rc:
+    image: roeldev/php-devkit:7.4-rc-experimental
+    container_name: stellar-php7.4-rc
+    volumes:
+      - ./:/project/
+      - ./.docker-volumes/7.4-rc/composer/:/composer/

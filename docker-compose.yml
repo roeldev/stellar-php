@@ -6,25 +6,25 @@ services:
     container_name: stellar-php7.1
     volumes:
       - ./:/project/
-      - ./.docker-volumes/7.1/composer/:/composer/
+      - ./.docker-volumes/7.1/composer/:/composer/cache/
 
   php7.2:
     image: roeldev/php-devkit:7.2-experimental
     container_name: stellar-php7.2
     volumes:
       - ./:/project/
-      - ./.docker-volumes/7.2/composer/:/composer/
+      - ./.docker-volumes/7.2/composer/:/composer/cache/
 
   php7.3:
     image: roeldev/php-devkit:7.3-experimental
     container_name: stellar-php7.3
     volumes:
       - ./:/project/
-      - ./.docker-volumes/7.3/composer/:/composer/
+      - ./.docker-volumes/7.3/composer/:/composer/cache/
 
   php7.4-rc:
     image: roeldev/php-devkit:7.4-rc-experimental
     container_name: stellar-php7.4-rc
     volumes:
       - ./:/project/
-      - ./.docker-volumes/7.4-rc/composer/:/composer/
+      - ./.docker-volumes/7.4-rc/composer/:/composer/cache/

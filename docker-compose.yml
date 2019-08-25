@@ -6,6 +6,7 @@ services:
     container_name: stellar-php7.1
     volumes:
       - ./:/project/
+      - ./.docker-volumes/7.1/vendor/:/project/vendor/
       - ./.docker-volumes/7.1/composer/:/composer/cache/
 
   php7.2:
@@ -13,6 +14,7 @@ services:
     container_name: stellar-php7.2
     volumes:
       - ./:/project/
+      - ./.docker-volumes/7.2/vendor/:/project/vendor/
       - ./.docker-volumes/7.2/composer/:/composer/cache/
 
   php7.3:
@@ -20,6 +22,7 @@ services:
     container_name: stellar-php7.3
     volumes:
       - ./:/project/
+      - ./.docker-volumes/7.3/vendor/:/project/vendor/
       - ./.docker-volumes/7.3/composer/:/composer/cache/
 
   php7.4-rc:
@@ -27,4 +30,5 @@ services:
     container_name: stellar-php7.4-rc
     volumes:
       - ./:/project/
+      - ./.docker-volumes/7.4-rc/vendor/:/project/vendor/
       - ./.docker-volumes/7.4-rc/composer/:/composer/cache/

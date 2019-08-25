@@ -2,40 +2,48 @@
 set PROJECT_DIR="%~dp0"
 set version=%1
 set action=%2
+set args=%*
+
+if "%version%" == "7.4-rc" (
+    set args=%args:~7%
+) else (
+    set args=%args:~4%
+)
 
 if "%1" == "" goto help
 if "%1" == "help" (
     set action=%1
     set version=%2
 )
-if "%1" == "build" (
-    set action=%1
-    set version=%2
+
+if "%action%" == "pull" goto pull
+if "%action%" == "login" goto login
+if "%action%" == "run" goto run
+
+if "%2" == "--" (
+    set args=%args:~3%
+    goto exec
 )
-
-set dockerService="php%version%"
-set composerFile="%PROJECT_DIR%\docker\composer-php%version%.json"
-set composerDir="%PROJECT_DIR%\.composer-cache\%version"
-
-if not exist %composerFile% goto :invalid
-if not exist %composerDir% mkdir %composerDir%
-
-if "%action%" == "build" goto build
-if "%2" == "--" goto exec
 goto help
 
 :invalid
 echo PHP version `%1` is not available.
 exit /b 1
 
-:build
-docker-compose build %dockerService%
-goto:eof
+:pull
+set args=php -v
+goto exec
+
+:login
+set args=bash
+goto exec
+
+:run
+set args=composer %args%
+goto exec
 
 :exec
-set ARGS=%*
-set ARGS=%ARGS:~7%
-docker-compose run --rm %dockerService% %ARGS%
+docker-compose run --rm php%version% %args%
 goto:eof
 
 :help
@@ -44,6 +52,8 @@ echo   do PHP_VERSION ACTION
 echo   do PHP_VERSION -- COMMAND
 echo.
 echo Actions:
-echo   build    Build Docker image
+echo   pull     Pull devkit container from Docker Hub
+echo   login    Log in to running container with bash
+echo   run      Run a Composer script inside the container
 echo   --       Run the command via the Docker container
 echo.

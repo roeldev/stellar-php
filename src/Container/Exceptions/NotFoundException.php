@@ -11,7 +11,7 @@ class NotFoundException extends OutOfRangeException implements ContainerExceptio
     public function __construct(string $id, ?Throwable $previous = null)
     {
         parent::__construct(
-            'The service with id/alias `{id}` is not found',
+            'The service with id `{id}` is not found',
             0,
             $previous,
             \compact('id')

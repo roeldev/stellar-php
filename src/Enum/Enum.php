@@ -47,8 +47,7 @@ abstract class Enum implements EnumInterface
         return Registry::container($class)->request(
             $name,
             \Closure::fromCallable([ static::class, '_requestService' ]),
-            $class,
-            $name
+            [ $class, $name ]
         );
     }
 

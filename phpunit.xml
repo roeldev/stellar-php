@@ -32,13 +32,4 @@
   <listeners>
     <listener class="NunoMaduro\Collision\Adapters\Phpunit\Listener"/>
   </listeners>
-
-  <logging>
-    <log type="coverage-clover" target="clover.xml"/>
-    <log type="coverage-html"
-         target="results/coverage-html"
-         lowUpperBound="60"
-         highLowerBound="90"
-    />
-  </logging>
 </phpunit>

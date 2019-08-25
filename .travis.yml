@@ -17,6 +17,9 @@ matrix:
     - php: 7.3
     - php: 7.3
       env: SETUP=lowest
+    - php: 7.4snapshot
+    - php: 7.4snapshot
+      env: SETUP=lowest
 
 cache:
   directories:
@@ -35,7 +38,6 @@ install:
   - if [[ $SETUP = 'lowest' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-lowest --prefer-stable --no-suggest; fi
 
 script:
-  - mkdir results
   - composer run test-dist
 
 after_script:

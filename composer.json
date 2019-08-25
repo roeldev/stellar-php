@@ -2,7 +2,7 @@
   "name": "stellar/stellar",
   "type": "library",
   "description": "Stellar PHP library",
-  "license": "GPL-2.0+",
+  "license": "GPL-3.0+",
   "homepage": "https://github.com/stellar-php/stellar",
   "authors": [
     {
@@ -30,7 +30,8 @@
     "nunomaduro/collision": "^2",
     "phpunit/phpunit": "^7.3",
     "phpunit/php-code-coverage": "^6.1",
-    "roeldev/phpcs-ruleset": "^1.0.1"
+    "roeldev/phpcs-ruleset": "^1.0.1",
+    "symfony/var-dumper": "^4.3"
   },
   "autoload": {
     "psr-4": {
@@ -49,9 +50,9 @@
     "test-dist": "php ./vendor/bin/phpunit -c phpunit.xml.dist",
     "analyse": "phpstan analyse --level=7 --no-progress ./src/ ./tests/",
     "analyze": "composer run analyse",
-    "checkstyle": "phpcs -s --standard=./vendor/roeldev/phpcs-ruleset/phpcs-ruleset.xml --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 ./src/",
+    "checkstyle": "phpcs -s --standard=roeldev --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 ./src/",
     "check-style": "composer run checkstyle",
-    "fixstyle": "phpcbf --standard=./vendor/roeldev/phpcs-ruleset/phpcs-ruleset.xml --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 ./src/ ./tests/",
+    "fixstyle": "phpcbf --standard=roeldev --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 ./src/ ./tests/",
     "fix-style": "composer run fixstyle"
   }
 }

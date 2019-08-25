@@ -3,6 +3,8 @@
 namespace Stellar\Container;
 
 use Stellar\Common\Type;
+use Stellar\Container\Exceptions\AliasNotFoundException;
+use Stellar\Container\Exceptions\NotFoundException;
 use Stellar\Container\Exceptions\SingletonExistsException;
 use Stellar\Exceptions\Common\InvalidArgument;
 use Stellar\Exceptions\Common\InvalidClass;
@@ -26,6 +28,9 @@ class Container extends BasicContainer
      */
     protected $_name;
 
+    /**
+     * @var array<string, array<string, string>>
+     */
     protected $_aliases = [];
 
     /**
@@ -45,6 +50,30 @@ class Container extends BasicContainer
         return $this->_name;
     }
 
+    public function getAliases() : array
+    {
+        return $this->_aliases;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @throws AliasNotFoundException
+     * @throws NotFoundException
+     */
+    public function get($id, ?string $aliasGroup = null)
+    {
+        if (null === $aliasGroup) {
+            return parent::get($id);
+        }
+
+        $id = $this->resolveAlias($id, $aliasGroup);
+        if (null !== $id) {
+            return parent::get($id);
+        }
+
+        throw new AliasNotFoundException(\func_get_arg(0), $aliasGroup);
+    }
+
     /**
      * Set a service with the given alias in the container. It will throw an exception when the
      * alias is already registered to a singleton service, or replace any other service.
@@ -62,6 +91,16 @@ class Container extends BasicContainer
         }
 
         return parent::set($id, $service);
+    }
+
+    public function resolveAlias(string $id, string $group = 'alias') : ?string
+    {
+        return $this->_aliases[ $group ][ $id ] ?? null;
+    }
+
+    public function hasAlias(string $id, string $group = 'alias') : bool
+    {
+        return isset($this->_aliases[ $group ][ $id ]);
     }
 
     /**
@@ -104,14 +143,9 @@ class Container extends BasicContainer
             $aliases = $createdService->getAliases();
 
             $this->_services[ $id ] = $service;
-            $this->_aliases[ $id ] = $aliases;
 
-            foreach ($aliases as $alias) {
-                if ($this->hasId($alias)) {
-                    continue;
-                }
-
-                $this->_services[ $alias ] = $service;
+            foreach ($aliases as $aliasGroup => $aliasId) {
+                $this->_aliases[ $aliasGroup ][ $aliasId ] = $id;
             }
 
             if ($createdService->isSingleton()) {

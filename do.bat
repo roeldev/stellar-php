@@ -16,8 +16,10 @@ if "%1" == "help" (
     set version=%2
 )
 
+if "%action%" == "pull" goto pull
 if "%action%" == "login" goto login
 if "%action%" == "run" goto run
+
 if "%2" == "--" (
     set args=%args:~3%
     goto exec
@@ -27,6 +29,10 @@ goto help
 :invalid
 echo PHP version `%1` is not available.
 exit /b 1
+
+:pull
+set args=php -v
+goto exec
 
 :login
 set args=bash
@@ -46,6 +52,7 @@ echo   do PHP_VERSION ACTION
 echo   do PHP_VERSION -- COMMAND
 echo.
 echo Actions:
+echo   pull     Pull devkit container from Docker Hub
 echo   login    Log in to running container with bash
 echo   run      Run a Composer script inside the container
 echo   --       Run the command via the Docker container

@@ -18,7 +18,7 @@ final class Dummy extends StaticClass
      */
     public static function anonymousObject()
     {
-        return new class {
+        return new class() {
         };
     }
 

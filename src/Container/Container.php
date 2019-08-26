@@ -78,7 +78,6 @@ class Container extends BasicContainer
      * Set a service with the given alias in the container. It will throw an exception when the
      * alias is already registered to a singleton service, or replace any other service.
      *
-     * @param string $id
      * @param object $service
      * @return object
      * @throws SingletonExistsException

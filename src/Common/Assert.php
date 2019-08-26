@@ -23,7 +23,7 @@ final class Assert extends StaticClass
     }
 
     /**
-     * @param mixed $var
+     * Indicates if a variable can be parsed as truthy.
      */
     public static function isTruthy($var) : bool
     {
@@ -41,7 +41,7 @@ final class Assert extends StaticClass
     }
 
     /**
-     * @param mixed $var
+     * Indicates if a variable can be parsed as falsy.
      */
     public static function isFalsy($var) : bool
     {

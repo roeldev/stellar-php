@@ -17,15 +17,13 @@ interface RequestInterface
 
     /**
      * Get the value of the configured option or `null` when it doesn't exist.
-     *
-     * @return mixed
      */
     public function getOption(int $option);
 
     /**
      * Get all configured CURL options for this request.
      *
-     * @return array<int,mixed>
+     * @return array<int, mixed>
      */
     public function getOptions() : array;
 

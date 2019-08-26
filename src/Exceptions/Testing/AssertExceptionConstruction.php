@@ -3,7 +3,6 @@
 namespace Stellar\Exceptions\Testing;
 
 use Stellar\Exceptions\Error;
-use Stellar\Exceptions\ExceptionFactory;
 use Stellar\Factory\Factory;
 
 trait AssertExceptionConstruction

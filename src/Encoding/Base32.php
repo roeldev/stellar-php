@@ -25,7 +25,7 @@ class Base32 extends StaticClass
         $alphabet = $variant->getAlphabet();
 
         // convert each character in the data string to it's 8 bit binary value
-        $binary = unpack('C*', $data);
+        $binary = \unpack('C*', $data);
         foreach ($binary as $i => $char) {
             $binary[ $i ] = \sprintf('%08b', $char);
         }

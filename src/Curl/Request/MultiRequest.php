@@ -10,13 +10,13 @@ class MultiRequest implements RequestInterface
     /** @var resource */
     protected $_resource;
 
-    /** @var array<int,mixed> */
+    /** @var array<int, mixed> */
     protected $_options = [];
 
     /** @var Request[] */
     protected $_requests = [];
 
-    /** @var array<string,Request> */
+    /** @var array<string, Request> */
     protected $_queue = [];
 
     /** @var int */
@@ -31,7 +31,7 @@ class MultiRequest implements RequestInterface
     /** @var LoggerInterface */
     protected $_logger;
 
-    /** @var array<string,array> */
+    /** @var array<string, array> */
     protected $_errors = [];
 
     /**

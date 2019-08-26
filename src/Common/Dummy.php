@@ -18,8 +18,7 @@ final class Dummy extends StaticClass
      */
     public static function anonymousObject()
     {
-        return new class
-        {
+        return new class {
         };
     }
 
@@ -28,7 +27,7 @@ final class Dummy extends StaticClass
      */
     public static function closure() : \Closure
     {
-        return function () {
+        return function () : void {
         };
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Stellar\Container\Abilities;
 
-use Stellar\Container\AbstractFactory;
 use Stellar\Container\Registry;
 
 trait SingletonInstanceTrait

@@ -21,8 +21,6 @@ interface ClassConstantInterface
 
     /**
      * Get the value of the constant.
-     *
-     * @return mixed
      */
     public function getValue();
 }

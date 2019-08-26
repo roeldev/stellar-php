@@ -2,7 +2,6 @@
 
 namespace Stellar\Curl\Exceptions;
 
-use Stellar\Exceptions\ExceptionFactory;
 use Stellar\Exceptions\Runtime\RuntimeException;
 use Throwable;
 

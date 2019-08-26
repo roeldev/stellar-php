@@ -19,23 +19,16 @@ interface EnumInterface extends ClassConstantInterface, StringableInterface
 
     /**
      * Get the full name (class and constant) of the value from the enum class.
-     *
-     * @param mixed $value
      */
     public static function constOf($value) : ?string;
 
     /**
      * Get the (constant) name associated with the type value.
-     *
-     * @param mixed $type
      */
     public static function nameOf($type) : ?string;
 
     /**
-     * Get the value associated with the type value. When there
-     *
-     * @param mixed $type
-     * @return mixed
+     * Get the value associated with the type value.
      */
     public static function valueOf($type);
 }

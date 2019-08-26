@@ -547,7 +547,6 @@ class Request implements RequestInterface, OptionableInterface, StringableInterf
     /**
      * Execute the request, close the resource, and return the raw response as a string.
      *
-     * @return string
      * @throws RequestExecutionException
      */
     public function __toString() : string

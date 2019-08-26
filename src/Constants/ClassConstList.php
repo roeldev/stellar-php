@@ -5,7 +5,6 @@ namespace Stellar\Constants;
 use Stellar\Common\Contracts\ArrayableInterface;
 use Stellar\Exceptions\Common\InvalidClass;
 use Stellar\Exceptions\Common\UndeclaredClass;
-use Stellar\Exceptions\Severity;
 
 /**
  * @see:unit-test \UnitTests\Constants\ClassConstListTests
@@ -70,8 +69,6 @@ class ClassConstList implements ArrayableInterface, \Countable
 
     /**
      * Determines if the argument is either a valid name or valid value of one of the constants.
-     *
-     * @param mixed $nameOrValue
      */
     public function has($nameOrValue) : bool
     {
@@ -89,8 +86,6 @@ class ClassConstList implements ArrayableInterface, \Countable
 
     /**
      * Determines if the argument is the exact value of one of the constants.
-     *
-     * @param mixed $value
      */
     public function hasValue($value) : bool
     {
@@ -99,8 +94,6 @@ class ClassConstList implements ArrayableInterface, \Countable
 
     /**
      * Get the name of the const that's associated with the given value.
-     *
-     * @param mixed $value
      */
     public function nameOf($value) : ?string
     {
@@ -109,8 +102,6 @@ class ClassConstList implements ArrayableInterface, \Countable
 
     /**
      * Gets the constant name (including FQCN) if the value is defined.
-     *
-     * @param mixed $value
      */
     public function constOf($value) : ?string
     {
@@ -120,7 +111,6 @@ class ClassConstList implements ArrayableInterface, \Countable
     }
 
     /**
-     * @param mixed $var
      * @return mixed|null
      * @throws InvalidClass
      */

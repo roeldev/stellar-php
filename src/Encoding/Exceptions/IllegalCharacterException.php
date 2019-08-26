@@ -2,7 +2,6 @@
 
 namespace Stellar\Encoding\Exceptions;
 
-use Stellar\Exceptions\ExceptionFactory;
 use Stellar\Exceptions\Runtime\OutOfBoundsException;
 use Throwable;
 

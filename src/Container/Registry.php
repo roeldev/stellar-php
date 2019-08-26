@@ -4,6 +4,7 @@ namespace Stellar\Container;
 
 use Stellar\Common\Contracts\SingletonInterface;
 use Stellar\Common\StaticClass;
+use Stellar\Exceptions\Common\InvalidClass;
 use Stellar\Factory\Factory;
 
 /**
@@ -12,7 +13,7 @@ use Stellar\Factory\Factory;
 final class Registry extends StaticClass implements SingletonInterface
 {
     /** @var Container */
-    static private $_instance;
+    private static $_instance;
 
     /**
      * Get the main Container instance that's used by Registry.
@@ -29,8 +30,7 @@ final class Registry extends StaticClass implements SingletonInterface
     /**
      * Create and/or get a Container singleton instance for the specified owner class or object.
      *
-     * @param string $class
-     * @throws \Stellar\Exceptions\Common\InvalidClass
+     * @throws InvalidClass
      */
     public static function container(string $class) : Container
     {

@@ -26,9 +26,7 @@ final class ArrayUtil extends StaticClass
     /**
      * Joins the keys of an array with their values.
      *
-     * @param string $glue
      * @param iterable<string,string> $iterator
-     * @return array
      */
     public static function join(string $glue, iterable $iterator, bool $exclEmpty = true) : array
     {
@@ -177,8 +175,6 @@ final class ArrayUtil extends StaticClass
 
     /**
      * Wrap a non-array variable in an array.
-     *
-     * @param mixed $var
      */
     public static function wrap($var) : array
     {
@@ -191,9 +187,6 @@ final class ArrayUtil extends StaticClass
 
     /**
      * Unwrap a single value from an array.
-     *
-     * @param mixed $var
-     * @return mixed
      */
     public static function unwrap($var)
     {

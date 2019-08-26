@@ -2,7 +2,9 @@
 
 namespace Stellar\Encoding\Base32;
 
-// https://tools.ietf.org/html/rfc4648
+/**
+ * @link https://tools.ietf.org/html/rfc4648
+ */
 abstract class AbstractBase32Variant implements Base32Variant
 {
     public const ALPHABET = [];

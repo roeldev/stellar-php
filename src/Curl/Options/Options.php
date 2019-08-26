@@ -28,7 +28,6 @@ class Options extends AbstractOptions
 
     /**
      * @param int|string $option
-     * @param mixed      $value
      * @return $this
      */
     public function withOption($option, $value) : self

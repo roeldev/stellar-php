@@ -11,9 +11,6 @@ abstract class Constraint extends PHPUnitConstraint
      */
     protected $value;
 
-    /**
-     * @param mixed $value
-     */
     public function __construct($value)
     {
         parent::__construct();

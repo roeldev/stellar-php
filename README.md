@@ -3,6 +3,7 @@ Stellar
 
 [![Latest release][latest-release-img]][latest-release-url]
 [![Build status][build-status-img]][build-status-url]
+[![StyleCI status][style-status-img]][style-status-url]
 [![Code coverage][coverage-img]][coverage-url]
 [![Code maintainability][maintainability-img]][maintainability-url]
 ![Supported PHP versions][php-support-img]
@@ -11,6 +12,8 @@ Stellar
 [latest-release-url]: https://github.com/stellar-php/stellar/releases
 [build-status-img]: https://img.shields.io/travis/stellar-php/stellar.svg
 [build-status-url]: https://travis-ci.org/stellar-php/stellar
+[style-status-img]: https://github.styleci.io/repos/166875041/shield?style=flat&branch=master
+[style-status-url]: https://github.styleci.io/repos/166875041
 [coverage-img]: https://img.shields.io/codeclimate/coverage/stellar-php/stellar.svg
 [coverage-url]: https://codeclimate.com/github/stellar-php/stellar
 [maintainability-img]: https://img.shields.io/codeclimate/maintainability-percentage/stellar-php/stellar.svg
@@ -20,17 +23,17 @@ Stellar
 
 Stellar provides a range of useful PHP components. The goal is to provide intuitive and easy to use code that is stable and future proof.
 
-> **Note:** This repository contains the code of all combined Stellar components. If you wish to use a single component, please visit the docs for install instructions per component.
+> **Note:** This repository contains the code of all combined Stellar components. Visit the docs for install and usage instructions per component.
 
 
 ## Development status
 [![Build status of develop branch][dev-build-status-img]][dev-build-status-url]
-[![Code coverage of develop branch][dev-coverage-img]][dev-coverage-url]
+[![StyleCI status of develop branch][dev-style-status-img]][dev-style-status-url]
 
 [dev-build-status-img]: https://img.shields.io/travis/stellar-php/stellar/develop.svg?label=develop%20build
 [dev-build-status-url]: https://travis-ci.org/stellar-php/stellar
-[dev-coverage-img]: https://coveralls.io/repos/github/stellar-php/stellar/badge.svg?branch=develop
-[dev-coverage-url]: https://coveralls.io/github/stellar-php/stellar?branch=develop
+[dev-style-status-img]: https://github.styleci.io/repos/166875041/shield?style=flat&branch=develop
+[dev-style-status-url]: https://github.styleci.io/repos/166875041
 
 
 ## Links

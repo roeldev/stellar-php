@@ -1,4 +1,5 @@
 preset: psr2
+risky: false
 
 finder:
   path:
@@ -6,9 +7,11 @@ finder:
   name: "*.php"
 
 disabled:
+  - align_double_arrow
   - braces
 
 enabled:
+  - align_phpdoc
   - blank_line_before_return
   - cast_spaces
   - combine_consecutive_issets

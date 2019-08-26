@@ -52,7 +52,7 @@ class MultiRequest implements RequestInterface
             $status = \curl_multi_exec($this->_resource, $this->_queueLeft);
 
             if ($this->_logger) {
-                $this->_logger->debug(sprintf(
+                $this->_logger->debug(\sprintf(
                     'curl_multi_exec: %s [%s/%s]',
                     $status,
                     $this->_queueLeft,
@@ -243,7 +243,7 @@ class MultiRequest implements RequestInterface
                 $this->_handleResult($info);
             }
 
-            if ($this->_queueLeft === 0) {
+            if (0 === $this->_queueLeft) {
                 break;
             }
 

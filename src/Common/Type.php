@@ -44,7 +44,7 @@ final class Type extends StaticClass
         if (isset($aliases[ $result ])) {
             return $aliases[ $result ];
         }
-        if ($result == 'unknown type' && StringUtil::startsWith((string) $var, 'Resource id')) {
+        if ('unknown type' === $result && StringUtil::startsWith((string) $var, 'Resource id')) {
             $result = self::RESOURCE;
         }
 

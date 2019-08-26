@@ -36,7 +36,7 @@ abstract class Enum implements EnumInterface
     public static function __callStatic($name, $arguments)
     {
         $class = static::class;
-        if ($class === __CLASS__ || \strtoupper($name) !== $name) {
+        if (__CLASS__ === $class || \strtoupper($name) !== $name) {
             throw new UnknownStaticMethod($class, $name);
         }
         if (!static::enum()->hasName($name)) {

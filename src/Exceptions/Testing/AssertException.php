@@ -69,7 +69,7 @@ trait AssertException
             throw $exception;
         }
         catch (\Throwable $exception) {
-            var_dump([ get_class($exception), $exception->getMessage() ]);
+            \var_dump([ get_class($exception), $exception->getMessage() ]);
         }
     }
 }

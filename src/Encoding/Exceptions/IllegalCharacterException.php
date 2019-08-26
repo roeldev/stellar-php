@@ -7,8 +7,12 @@ use Throwable;
 
 class IllegalCharacterException extends OutOfBoundsException implements EncodingException
 {
-    public function __construct(string $char, int $offset, ?string $data = null, ?Throwable $previous = null)
-    {
+    public function __construct(
+        string $char,
+        int $offset,
+        ?string $data = null,
+        ?Throwable $previous = null
+    ) {
         $message = 'Illegal character `{char}` at offset {offset}';
         if (null !== $data) {
             $message .= ' of `{data}`';

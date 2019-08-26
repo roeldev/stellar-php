@@ -41,7 +41,7 @@ class ZBase32 extends AbstractBase32Variant
 
     public function afterEncode(string $result, ?bool $padding = null) : string
     {
-        return ($padding === true) ? self::_padding($result) : $result;
+        return $padding ? self::_padding($result) : $result;
     }
 
     public function beforeDecode(string $data) : string

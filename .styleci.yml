@@ -7,7 +7,6 @@ finder:
   name: "*.php"
 
 disabled:
-  - align_double_arrow
   - braces
 
 enabled:
@@ -61,4 +60,5 @@ enabled:
   - single_blank_line_before_namespace
   - single_quote
   - trailing_comma_in_multiline_array
+  - unalign_double_arrow
   - yoda_style
